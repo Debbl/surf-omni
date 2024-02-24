@@ -14,3 +14,7 @@ export interface IRule {
   isExclusive: boolean;
   source: string;
 }
+export type IRules = IRule[];
+
+export type IPACRule = [string] | string;
+export type IPACRules = IPACRule[];

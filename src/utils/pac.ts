@@ -1,38 +1,37 @@
-import type { IRule } from "@/types";
+import type { IPACRules } from "@/types";
 
 class PAC {
-  proxy: string;
-  rules: IRule[];
-
-  constructor(proxy: string, rules: IRule[]) {
-    this.proxy = proxy;
-    this.rules = rules;
+  getIsExclusive(line: string) {
+    return line.startsWith("@@");
   }
 
-  run(url: string, host: string) {
-    const rule = this.rules.find((rule) => {
-      const regexPattern = new RegExp(rule.condition.pattern);
-      return regexPattern.test(host);
-    });
+  getPattern(line: string): string {
+    if (line.startsWith("\\") && line.endsWith("\\")) return line.slice(1, -1);
 
-    if (rule) {
-      if (!rule.isExclusive) {
-        return `PROXY ${this.proxy}; DIRECT`;
-      } else {
-        return "DIRECT";
-      }
-    }
+    if (line.startsWith("|"))
+      return `^${line.slice(1).replace(/\^/g, "[^\\w\\-\\.%]")}`;
+    if (line.endsWith("|"))
+      return `${line.slice(0, -1).replace(/\^/g, "[^\\w\\-\\.%]")}$`;
 
-    return `DIRECT`;
+    if (line.startsWith("||"))
+      return `^${line.slice(2).replace(/\^/g, "[^\\w\\-\\.%]")}`;
+
+    return "";
+  }
+
+  parse(text: string): IPACRules {
+    return text
+      .split(/\n|\r/)
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0 && line[0] !== "!" && line[0] !== "[")
+      .map((line) => {
+        const isExclusive = this.getIsExclusive(line);
+        const pattern = this.getPattern(isExclusive ? line.slice(2) : line);
+
+        return isExclusive ? [pattern] : pattern;
+      });
   }
 }
 
-function generatePacScript(proxy: string, rules: IRule[]) {
-  return `${PAC.toString()}
-const proxy = new PAC("${proxy}", ${JSON.stringify(rules)});
-function FindProxyForURL(url, host) {
-  return proxy.run(url, host);
-}`;
-}
-
-export { generatePacScript };
+const pac = new PAC();
+export { pac };
