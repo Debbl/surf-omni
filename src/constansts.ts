@@ -1,3 +1,3 @@
-import type { ISchema } from "./types";
+import type { IScheme } from "./types";
 
-export const SCHEMA: ISchema[] = ["http", "https", "quic", "socks4", "socks5"];
+export const SCHEMA: IScheme[] = ["http", "https", "quic", "socks4", "socks5"];
