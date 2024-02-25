@@ -1,113 +1,92 @@
 import { useGlobalStore } from "@/store";
-import {
-  CiSettings,
-  Icon,
-  IonEarth,
-  MingcuteTransferFill,
-  TdesignPoweroff,
-} from "@/icons";
-import type { IMode } from "@/store";
-import type { IIcon } from "@/icons";
+import { CiSettings, Icon } from "@/icons";
+import { getIconByMode } from "@/utils";
+import type { IProfiles } from "@/store";
 
-interface IOption {
-  icon: IIcon;
-  name: string;
-  mode: IMode;
+const BasicProfiles: IProfiles = [
+  {
+    name: "[直接连接]",
+    value: {
+      mode: "direct",
+    },
+  },
+  {
+    name: "[系统代理]",
+    value: {
+      mode: "system",
+    },
+  },
+];
+
+async function handleOpenSetting() {
+  const url = `chrome-extension://${browser.runtime.id}/index.html`;
+  const tabs = await browser.tabs.query({ url });
+
+  if (tabs.length !== 0) {
+    await browser.tabs.update(tabs[0].id, { active: true });
+  } else {
+    browser.tabs.create({
+      url,
+    });
+  }
 }
 
-const BasicOptions: IOption[] = [
-  {
-    icon: MingcuteTransferFill,
-    name: "[直接连接]",
-    mode: "direct",
-  },
-  {
-    icon: TdesignPoweroff,
-    name: "[系统代理]",
-    mode: "system",
-  },
-];
-
-const OtherOptions: IOption[] = [
-  {
-    icon: IonEarth,
-    name: "fixed_servers",
-    mode: "fixed_servers",
-  },
-  {
-    icon: IonEarth,
-    name: "pac_script",
-    mode: "pac_script",
-  },
-  {
-    icon: IonEarth,
-    name: "auto_detect",
-    mode: "auto_detect",
-  },
-];
-
 function App() {
-  const { currentProxy, setMode } = useGlobalStore((state) => ({
-    currentProxy: state.currentProxy,
-    setMode: state.setMode,
-  }));
+  const { currentProfileName, profiles, changeProfile } = useGlobalStore(
+    (state) => ({
+      changeProfile: state.changeProfile,
+      currentProfileName: state.currentProfileName,
+      profiles: state.profiles,
+    }),
+  );
 
-  const currentMode = currentProxy.value.mode;
+  function handleClick(name: string) {
+    const profile = [...BasicProfiles, ...profiles].find(
+      (p) => p.name === name,
+    );
 
-  function handleClick(mode: IMode) {
-    setMode(mode);
+    profile && changeProfile(profile);
     window.close();
-  }
-
-  async function handleOpenSetting() {
-    const url = `chrome-extension://${browser.runtime.id}/index.html`;
-    const tabs = await browser.tabs.query({ url });
-
-    if (tabs.length !== 0) {
-      await browser.tabs.update(tabs[0].id, { active: true });
-    } else {
-      browser.tabs.create({
-        url,
-      });
-    }
   }
 
   return (
     <div>
-      <ul className="w-44 text-sm p-1 flex flex-col items-center">
-        {BasicOptions.map(({ name, mode, icon }) => (
+      <ul className="flex w-44 flex-col items-center p-1 text-sm">
+        {BasicProfiles.map(({ name, value: { mode } }) => (
           <li
-            className={`w-full px-2 py-1.5 ${mode === currentMode ? "bg-blue-100" : "hover:bg-gray-100"}`}
+            className={`w-full px-2 py-1.5 ${name === currentProfileName ? "bg-blue-100" : "hover:bg-gray-100"}`}
             key={name}
           >
             <button
               className="flex items-center gap-x-2"
-              onClick={() => handleClick(mode)}
+              onClick={() => handleClick(name)}
             >
-              <Icon icon={icon} />
+              <Icon icon={getIconByMode(mode)} />
               <span className="text-sm text-[#4678B2]">{name}</span>
             </button>
           </li>
         ))}
 
-        <div className="w-full border-t border-gray-300 my-1 border-solid"></div>
+        {profiles.length ? (
+          <div className="my-1 w-full border-t border-solid border-gray-300"></div>
+        ) : null}
 
-        {OtherOptions.map(({ name, mode, icon }) => (
+        {profiles.map(({ name, value: { mode } }) => (
           <li
-            className={`w-full px-2 py-1.5 ${mode === currentMode ? "bg-blue-100" : "hover:bg-gray-100"}`}
+            className={`w-full px-2 py-1.5 ${name === currentProfileName ? "bg-blue-100" : "hover:bg-gray-100"}`}
             key={name}
           >
             <button
               className="flex items-center gap-x-2"
-              onClick={() => handleClick(mode)}
+              onClick={() => handleClick(name)}
             >
-              <Icon icon={icon} />
+              <Icon icon={getIconByMode(mode)} />
               <span className="text-sm text-[#4678B2]">{name}</span>
             </button>
           </li>
         ))}
 
-        <div className="w-full border-t border-gray-300 my-1 border-solid"></div>
+        <div className="my-1 w-full border-t border-solid border-gray-300"></div>
 
         <li className="w-full px-2 py-1.5 hover:bg-gray-100">
           <button

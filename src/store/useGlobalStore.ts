@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { autoProxy, generatePacScript } from "@/utils";
+import type { IScheme } from "@/types";
 import type { Types } from "wxt/browser";
 
 export type IMode =
@@ -17,17 +18,43 @@ interface SettingGetCallbackDetailsType
   };
 }
 
+export interface IProfileMap {
+  direct: { name: string; value: { mode: "direct" } };
+  system: { name: string; value: { mode: "system" } };
+  auto_detect: { name: string; value: { mode: "auto_detect" } };
+  pac_script: { name: string; value: { mode: "pac_script" } };
+  fixed_servers: {
+    name: string;
+    value: {
+      mode: "fixed_servers";
+      rules: {
+        fallbackProxy: {
+          scheme: IScheme;
+          host: string;
+          port: number;
+        };
+      };
+    };
+  };
+}
+
+export type IProfile = IProfileMap[keyof IProfileMap];
+export type IProfiles = IProfile[];
+
 export interface GlobalStoreState {
   rulesRaw: string;
   currentProxy: SettingGetCallbackDetailsType;
   autoProxy: string;
+  currentProfileName: string;
+  profiles: IProfiles;
 }
 
 export interface GlobalStoreAction {
-  getProxy: () => Promise<SettingGetCallbackDetailsType>;
   setMode: (mode: IMode) => Promise<void>;
   parserAutoProxy: () => Promise<boolean>;
   setAutoProxy: (autoProxy: string) => void;
+  changeProfile: (profile: IProfile) => void;
+  addProfile: (profile: IProfile) => void;
 }
 
 const useGlobalStore = create<GlobalStoreState & GlobalStoreAction>()(
@@ -39,6 +66,22 @@ const useGlobalStore = create<GlobalStoreState & GlobalStoreAction>()(
         levelOfControl: "not_controllable",
       },
       autoProxy: "",
+      currentProfileName: "",
+      profiles: [],
+      addProfile: (profile) => {
+        set(() => ({
+          profiles: [...get().profiles, profile],
+        }));
+      },
+      changeProfile: (profile) => {
+        browser.proxy.settings
+          .set({
+            value: profile.value,
+          })
+          .then(() => {
+            set(() => ({ currentProfileName: profile.name }));
+          });
+      },
       setMode: async (mode: IMode) => {
         switch (mode) {
           case "direct":
@@ -56,7 +99,7 @@ const useGlobalStore = create<GlobalStoreState & GlobalStoreAction>()(
               value: {
                 mode: "fixed_servers",
                 rules: {
-                  singleProxy: {
+                  fallbackProxy: {
                     scheme: "http",
                     host: "127.0.0.1",
                     port: 7890,
@@ -89,7 +132,6 @@ const useGlobalStore = create<GlobalStoreState & GlobalStoreAction>()(
             break;
         }
       },
-      getProxy: async () => await browser.proxy.settings.get({}),
       setAutoProxy: (autoProxy) => {
         set(() => ({ autoProxy }));
       },
