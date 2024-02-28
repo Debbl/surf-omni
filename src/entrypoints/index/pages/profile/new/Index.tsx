@@ -3,7 +3,6 @@ import {
   Icon,
   IonEarth,
   MaterialSymbolsAutorenewOutlineRounded,
-  MdiPlus,
 } from "@/icons";
 
 const tags = [
@@ -24,8 +23,7 @@ export default function New() {
     <div className="flex h-full flex-col items-center">
       <div className="w-full">
         <h2 className="flex items-center py-4 pl-2 text-2xl font-bold">
-          <Icon icon={MdiPlus} />
-          <span>添加情景模式</span>
+          <span>情景模式</span>
         </h2>
       </div>
 

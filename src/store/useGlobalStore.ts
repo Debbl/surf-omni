@@ -33,6 +33,7 @@ export interface IProfileMap {
           host: string;
           port: number;
         };
+        bypassList: string[];
       };
     };
   };
@@ -46,6 +47,7 @@ export interface GlobalStoreState {
   currentProxy: SettingGetCallbackDetailsType;
   autoProxy: string;
   currentProfileName: string;
+  basicProfiles: IProfiles;
   profiles: IProfiles;
 }
 
@@ -57,6 +59,21 @@ export interface GlobalStoreAction {
   addProfile: (profile: IProfile) => void;
 }
 
+const BasicProfiles: IProfiles = [
+  {
+    name: "[直接连接]",
+    value: {
+      mode: "direct",
+    },
+  },
+  {
+    name: "[系统代理]",
+    value: {
+      mode: "system",
+    },
+  },
+];
+
 const useGlobalStore = create<GlobalStoreState & GlobalStoreAction>()(
   persist(
     (set, get) => ({
@@ -67,6 +84,7 @@ const useGlobalStore = create<GlobalStoreState & GlobalStoreAction>()(
       },
       autoProxy: "",
       currentProfileName: "",
+      basicProfiles: BasicProfiles,
       profiles: [],
       addProfile: (profile) => {
         set(() => ({

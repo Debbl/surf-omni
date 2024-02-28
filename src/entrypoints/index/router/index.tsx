@@ -4,7 +4,7 @@ import Profile from "../pages/profile/Index";
 import Proxy from "../pages/profile/new/Proxy";
 import AutoSwitch from "../pages/profile/new/AutoSwitch";
 import New from "../pages/profile/new/Index";
-import Name from "../pages/profile/Name";
+import Name from "../pages/profile/ProfileName";
 
 const router = createHashRouter([
   {
@@ -34,7 +34,7 @@ const router = createHashRouter([
             ],
           },
           {
-            path: "name/:name",
+            path: "name/:profileName",
             element: <Name />,
           },
         ],
