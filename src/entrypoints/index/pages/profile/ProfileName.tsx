@@ -16,5 +16,5 @@ export default function ProfileName() {
   // TODO: other mode
   if (mode !== "fixed_servers") return null;
 
-  return <div>{mode}</div>;
+  return <div>{JSON.stringify(profile)}</div>;
 }

@@ -28,7 +28,7 @@ export interface IProfileMap {
     value: {
       mode: "fixed_servers";
       rules: {
-        fallbackProxy: {
+        singleProxy: {
           scheme: IScheme;
           host: string;
           port: number;
@@ -117,7 +117,7 @@ const useGlobalStore = create<GlobalStoreState & GlobalStoreAction>()(
               value: {
                 mode: "fixed_servers",
                 rules: {
-                  fallbackProxy: {
+                  singleProxy: {
                     scheme: "http",
                     host: "127.0.0.1",
                     port: 7890,

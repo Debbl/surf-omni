@@ -21,7 +21,7 @@ export default function Proxy() {
     value: {
       mode: "fixed_servers",
       rules: {
-        fallbackProxy: {
+        singleProxy: {
           scheme: "http",
           host: "example.com",
           port: 80,
@@ -32,11 +32,11 @@ export default function Proxy() {
   });
 
   const { name } = profile;
-  const { scheme, host, port } = profile.value.rules.fallbackProxy;
+  const { scheme, host, port } = profile.value.rules.singleProxy;
 
-  function setFallbackProxy(
+  function setSingleProxy(
     fallbackProxy: Partial<
-      IProfileMap["fixed_servers"]["value"]["rules"]["fallbackProxy"]
+      IProfileMap["fixed_servers"]["value"]["rules"]["singleProxy"]
     >,
   ) {
     setProfile({
@@ -44,8 +44,8 @@ export default function Proxy() {
       value: {
         mode: profile.value.mode,
         rules: {
-          fallbackProxy: {
-            ...profile.value.rules.fallbackProxy,
+          singleProxy: {
+            ...profile.value.rules.singleProxy,
             ...fallbackProxy,
           },
           bypassList: profile.value.rules.bypassList,
@@ -60,8 +60,8 @@ export default function Proxy() {
       value: {
         mode: profile.value.mode,
         rules: {
-          fallbackProxy: {
-            ...profile.value.rules.fallbackProxy,
+          singleProxy: {
+            ...profile.value.rules.singleProxy,
           },
           bypassList,
         },
@@ -119,7 +119,7 @@ export default function Proxy() {
                   <select
                     value={scheme}
                     onChange={(e) => {
-                      setFallbackProxy({ scheme: e.target.value as IScheme });
+                      setSingleProxy({ scheme: e.target.value as IScheme });
                     }}
                     className="select select-bordered select-sm w-full max-w-xs"
                   >
@@ -132,7 +132,7 @@ export default function Proxy() {
                   <input
                     value={host}
                     onChange={(e) => {
-                      setFallbackProxy({
+                      setSingleProxy({
                         host: e.target.value,
                       });
                     }}
@@ -144,7 +144,7 @@ export default function Proxy() {
                   <input
                     value={port}
                     onChange={(e) => {
-                      setFallbackProxy({
+                      setSingleProxy({
                         port: Number(e.target.value),
                       });
                     }}
