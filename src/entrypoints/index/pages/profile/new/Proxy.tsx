@@ -53,6 +53,7 @@ export default function Proxy() {
       },
     });
   }
+
   function setBypassList(bypassList: string[]) {
     setProfile({
       ...profile,
@@ -164,7 +165,7 @@ export default function Proxy() {
 
         <div className="px-8 pt-2">
           <textarea
-            className="textarea textarea-bordered textarea-sm min-h-60 w-full"
+            className="textarea textarea-bordered textarea-sm min-h-60 w-full leading-5"
             value={profile.value.rules.bypassList.join("\n")}
             onChange={(e) => setBypassList(e.target.value.split("\n"))}
           />
