@@ -6,6 +6,7 @@ export default {
   },
   daisyui: {
     themes: ["emerald"],
+    logs: false,
   },
   plugins: [require("daisyui")],
 };
