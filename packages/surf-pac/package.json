@@ -1,0 +1,35 @@
+{
+  "name": "surf-pac",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "",
+  "author": "",
+  "keywords": [],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c --configPlugin typescript",
+    "test": "vitest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "surf-ast": "workspace:*"
+  },
+  "devDependencies": {
+    "@debbl/eslint-config": "^3.0.6",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/estree": "^1.0.5",
+    "eslint": "^8.56.0",
+    "rollup": "^4.12.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.3.1"
+  }
+}
