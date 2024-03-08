@@ -20,6 +20,7 @@ import type {
   Pattern,
   PrivateIdentifier,
   Property,
+  RegExpLiteral,
   RestElement,
   ReturnStatement,
   SpreadElement,
@@ -54,6 +55,16 @@ export function objectExpression(
   return {
     type: "ObjectExpression",
     properties: properties.flat(),
+  };
+}
+
+export function regExpLiteral(pattern: string, flags: string): RegExpLiteral {
+  return {
+    type: "Literal",
+    regex: {
+      pattern,
+      flags,
+    },
   };
 }
 

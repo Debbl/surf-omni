@@ -13,7 +13,7 @@ const options = {
         profileName: "proxy",
         condition: {
           conditionType: "UrlRegexCondition",
-          pattern: "^http://(www|www2)\\.example\\.com/",
+          pattern: "^http:\\/\\/(www|www2)\\.example\\.com\\/",
         },
       },
       {
@@ -62,6 +62,7 @@ describe("pacGenerator", () => {
   it("should generate pac scripts from options", () => {
     const script = pacGenerator.script("auto", options);
     const code = generate(script);
+    console.log("🚀 ~ it ~ code:", code);
     expect(code).not.to.empty;
 
     // eslint-disable-next-line no-eval

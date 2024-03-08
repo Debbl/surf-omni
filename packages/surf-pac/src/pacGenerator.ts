@@ -13,7 +13,6 @@ import {
   literal,
   logicalExpression,
   memberExpression,
-  newExpression,
   objectExpression,
   property,
   returnStatement,
@@ -21,6 +20,8 @@ import {
   variableDeclaration,
   variableDeclarator,
 } from "surf-ast";
+import { parserCondition } from "./conditions";
+import type { ICondition } from "./conditions";
 import type { Statement } from "estree";
 
 interface IBasicOption {
@@ -35,12 +36,7 @@ interface ISwitchProfileOption extends IBasicOption {
   defaultProfileName: string;
   rules: Array<{
     profileName: string;
-    condition: {
-      conditionType: string;
-      pattern: string;
-      minValue?: number;
-      maxValue?: number;
-    };
+    condition: ICondition;
   }>;
 }
 
@@ -79,22 +75,13 @@ function parserOptions(options: IOptions) {
   const properties = Object.keys(options).map((key) => {
     const option = options[key];
 
+    let ifAsts: Array<Statement> = [];
     const rules = option.profileType === "SwitchProfile" ? option.rules : [];
-    const ifAsts = rules.map((rule) => {
-      return ifStatement(
-        callExpression(
-          memberExpression(
-            newExpression(identifier("RegExp"), [
-              literal(rule.condition.pattern),
-            ]),
-            identifier("test"),
-            false,
-          ),
-          [identifier("host")],
-        ),
-        returnStatement(literal(`+${rule.profileName}`)),
-      );
-    });
+    if (option.profileType === "SwitchProfile") {
+      ifAsts = rules.map((rule) => {
+        return parserCondition(rule.condition, `+${rule.profileName}`);
+      });
+    }
 
     return property(
       literal(key),
