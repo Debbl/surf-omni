@@ -8,7 +8,7 @@ import {
 } from "surf-ast";
 import { describe, expect, it } from "vitest";
 import { formatURL, parserCondition } from "./conditions";
-import type { ICondition } from "./conditions";
+import type { ICondition } from "./types";
 
 function testCond(
   condition: ICondition,

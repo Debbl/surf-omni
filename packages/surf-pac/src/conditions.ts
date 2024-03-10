@@ -9,20 +9,8 @@ import {
   regExpLiteral,
   returnStatement,
 } from "surf-ast";
+import type { ICondition } from "./types";
 import type { Expression } from "estree";
-
-export interface ICondition {
-  conditionType:
-    | "TrueCondition"
-    | "FalseCondition"
-    | "UrlRegexCondition"
-    | "UrlWildcardCondition"
-    | "HostRegexCondition"
-    | "HostWildcardCondition"
-    | "BypassCondition"
-    | "KeywordCondition";
-  pattern?: string;
-}
 
 export function formatURL(url: string) {
   try {

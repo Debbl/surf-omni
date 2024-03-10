@@ -62,7 +62,6 @@ describe("pacGenerator", () => {
   it("should generate pac scripts from options", () => {
     const script = pacGenerator.script("auto", options);
     const code = generate(script);
-    console.log("🚀 ~ it ~ code:", code);
     expect(code).not.to.empty;
 
     // eslint-disable-next-line no-eval

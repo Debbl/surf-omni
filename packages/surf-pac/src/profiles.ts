@@ -4,7 +4,7 @@ interface IProxy {
   port: number;
 }
 
-const builtinProfiles = {
+export const builtinProfiles = {
   "+direct": {
     name: "direct",
     profileType: "DirectProfile",
@@ -19,28 +19,32 @@ const builtinProfiles = {
   },
 };
 
-const schemes = [
+export interface IScheme {
+  scheme: "http" | "https" | "ftp" | "";
+  prop: "proxyForHttp" | "proxyForHttps" | "proxyForFtp" | "fallbackProxy";
+}
+export const schemes: IScheme[] = [
   { scheme: "http", prop: "proxyForHttp" },
   { scheme: "https", prop: "proxyForHttps" },
   { scheme: "ftp", prop: "proxyForFtp" },
   { scheme: "", prop: "fallbackProxy" },
 ];
 
-const pacProtocols = {
+export const pacProtocols = {
   http: "PROXY",
   https: "HTTPS",
   socks4: "SOCKS",
   socks5: "SOCKS5",
 };
 
-const formatByType = {
+export const formatByType = {
   SwitchyRuleListProfile: "Switchy",
   AutoProxyRuleListProfile: "AutoProxy",
 };
 
-const ruleListFormats = ["Switchy", "AutoProxy"];
+export const ruleListFormats = ["Switchy", "AutoProxy"];
 
-function parseHostPort(str: string, scheme: string): IProxy {
+export function parseHostPort(str: string, scheme: string): IProxy {
   const sep = str.lastIndexOf(":");
   if (sep < 0) {
     return;
@@ -60,7 +64,7 @@ function parseHostPort(str: string, scheme: string): IProxy {
   };
 }
 
-function pacResult(proxy: IProxy) {
+export function pacResult(proxy?: IProxy) {
   if (!proxy) {
     return "DIRECT";
   }
@@ -73,22 +77,21 @@ function pacResult(proxy: IProxy) {
   }
 }
 
-function isFileUrl(url: string) {
+export function isFileUrl(url: string) {
   return url.slice(0, 5).toUpperCase() === "FILE:";
 }
-function nameAsKey(profileName: string | { name: string }) {
+
+export function nameAsKey(profileName: string | { name: string }) {
   return typeof profileName === "string"
     ? `+${profileName}`
     : `+${profileName.name}`;
 }
 
-export const profiles = {
-  builtinProfiles,
-  schemes,
-  pacProtocols,
-  formatByType,
-  ruleListFormats,
-  parseHostPort,
-  pacResult,
-  isFileUrl,
-};
+export function byName(profileName: string, options?: any) {
+  if (typeof profileName === "string") {
+    const key = nameAsKey(profileName);
+    return builtinProfiles[key] || options[key];
+  }
+
+  return profileName;
+}

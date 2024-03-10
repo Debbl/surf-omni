@@ -21,7 +21,7 @@ import {
   variableDeclarator,
 } from "surf-ast";
 import { parserCondition } from "./conditions";
-import type { ICondition } from "./conditions";
+import type { ICondition } from "./types";
 import type { Statement } from "estree";
 
 interface IBasicOption {
@@ -47,10 +47,7 @@ interface IFixedProfileOption extends IBasicOption {
     host: string;
     port: number;
   };
-  bypassList: Array<{
-    conditionType: string;
-    pattern: string;
-  }>;
+  bypassList: ICondition[];
 }
 
 type IOption = ISwitchProfileOption | IFixedProfileOption;
@@ -74,12 +71,19 @@ function parserOptions(options: IOptions) {
 
   const properties = Object.keys(options).map((key) => {
     const option = options[key];
+    const { profileType } = option;
 
     let ifAsts: Array<Statement> = [];
     const rules = option.profileType === "SwitchProfile" ? option.rules : [];
-    if (option.profileType === "SwitchProfile") {
+    if (profileType === "SwitchProfile") {
       ifAsts = rules.map((rule) => {
         return parserCondition(rule.condition, `+${rule.profileName}`);
+      });
+    }
+
+    if (profileType === "FixedProfile") {
+      ifAsts = option.bypassList.map((bypass) => {
+        return parserCondition(bypass, "DIRECT");
       });
     }
 

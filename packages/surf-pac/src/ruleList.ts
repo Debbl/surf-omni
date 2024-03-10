@@ -1,7 +1,4 @@
-interface ICondition {
-  conditionType: string;
-  pattern: string;
-}
+import type { ICondition } from "./types";
 
 interface IRule {
   condition: ICondition;
@@ -9,17 +6,17 @@ interface IRule {
   source: string;
 }
 
-const magicPrefix = "W0F1dG9Qcm94";
+export const magicPrefix = "W0F1dG9Qcm94";
 
-const strStartsWith = (text: string, prefix: string) => {
+export const strStartsWith = (text: string, prefix: string) => {
   return text.slice(0, prefix.length) === prefix;
 };
 
-function detect(text: string) {
+export function detect(text: string) {
   return strStartsWith(text, magicPrefix) || strStartsWith(text, "[AutoProxy");
 }
 
-function preprocess(text: string) {
+export function preprocess(text: string) {
   if (!detect(text)) return;
 
   if (strStartsWith(text, magicPrefix)) {
@@ -28,11 +25,11 @@ function preprocess(text: string) {
   return text;
 }
 
-function getIsExclusive(text: string) {
+export function getIsExclusive(text: string) {
   return strStartsWith(text, "@@");
 }
 
-function getCondition(line: string): ICondition {
+export function getCondition(line: string): ICondition {
   if (line[0] === "/") {
     return {
       conditionType: "UrlRegexCondition",
@@ -66,7 +63,7 @@ function getCondition(line: string): ICondition {
   };
 }
 
-function parse(
+export function parse(
   textRaw: string,
   matchProfileName: string,
   defaultProfileName: string,
@@ -100,8 +97,3 @@ function parse(
 
   return exclusiveRules.concat(normalRules);
 }
-
-export const AutoProxy = {
-  preprocess,
-  parse,
-};
