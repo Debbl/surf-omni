@@ -1,16 +1,17 @@
-export type IConditionType =
+export type ConditionType =
   | "UrlRegexCondition"
   | "HostWildcardCondition"
   | "UrlWildcardCondition"
-  | "KeywordCondition";
+  | "KeywordCondition"
+  | "BypassCondition";
 
-export interface ICondition {
-  conditionType: IConditionType;
+export interface Condition {
+  conditionType: ConditionType;
   pattern: string;
 }
 
 export interface IRule {
-  condition: ICondition;
+  condition: Condition;
   isExclusive: boolean;
   source: string;
 }
@@ -27,3 +28,21 @@ export enum ProfileMode {
   pac_script = "pac_script",
   fixed_servers = "fixed_servers",
 }
+
+export interface BasicProfile {
+  name: string;
+  profileType: "FixedProfile";
+}
+
+export interface FixedProfile extends BasicProfile {
+  profileType: "FixedProfile";
+  fallbackProxy?: {
+    scheme: IScheme;
+    host: string;
+    port: number;
+  };
+  bypassList: Condition[];
+}
+
+export type Profile = FixedProfile;
+export type Profiles = Record<string, Profile>;

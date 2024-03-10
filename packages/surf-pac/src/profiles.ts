@@ -95,3 +95,12 @@ export function byName(profileName: string, options?: any) {
 
   return profileName;
 }
+
+export function isProfile(profileName: string) {
+  return profileName[0] === "+";
+}
+
+export function keyAsName(key: string) {
+  if (isProfile(key)) return key.slice(1);
+  return key;
+}
