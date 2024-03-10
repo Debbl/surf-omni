@@ -1,7 +1,8 @@
 import { Form, Input, Modal, Radio, Space } from "antd";
 import * as stylex from "@stylexjs/stylex";
 import { useNavigate } from "react-router-dom";
-import { IonEarth, MingcuteTransferFill } from "@/icons";
+import { IonEarth, MingcuteTransferFill } from "~/icons";
+import { useProfiles } from "@/atoms/hooks/useProfiles";
 
 interface FieldType {
   name: string;
@@ -29,11 +30,15 @@ export default function NewProfile({
 }) {
   const [form] = Form.useForm<FieldType>();
   const navigate = useNavigate();
+  const { addProfile } = useProfiles();
 
   const handleOk = () => {
     form.validateFields().then(() => {
       const { name } = form.getFieldsValue();
+
+      addProfile({ name, profileType: "FixedProfile" });
       navigate(`/profile/${name}`);
+
       setIsOpen(false);
     });
   };
