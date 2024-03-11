@@ -12,9 +12,9 @@ import {
 } from "@ant-design/icons";
 import { useAtom } from "jotai";
 import { isProfile, keyAsName, nameAsKey } from "surf-pac";
-import { useStore } from "@/atoms/hooks/useStore";
 import { isSettingsChangeAtom } from "@/atoms/isSettingsChange";
 import { useProfiles } from "@/atoms/hooks/useProfiles";
+import { resetFromLocal, saveToLocal } from "@/lib/store";
 import NewProfile from "../../../components/NewProfile";
 import type { MenuProps } from "antd";
 
@@ -72,7 +72,6 @@ const styles = stylex.create({
 });
 
 export default function App() {
-  const { save } = useStore();
   const { profiles } = useProfiles();
   const [isSettingsChange] = useAtom(isSettingsChangeAtom);
   const [isSetNewProfile, setIsSetNewProfile] = useState(false);
@@ -144,7 +143,8 @@ export default function App() {
   const onClick: MenuProps["onClick"] = (e) => {
     if (e.key === "new-profile") setIsSetNewProfile(true);
 
-    if (e.key === "save") save();
+    if (e.key === "save") saveToLocal();
+    if (e.key === "undo") resetFromLocal();
 
     if (isProfile(e.key)) {
       navigate(`/profile/${keyAsName(e.key)}`);
