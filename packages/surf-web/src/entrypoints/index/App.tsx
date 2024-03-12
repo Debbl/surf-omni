@@ -1,18 +1,10 @@
 import { RouterProvider } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { Spin } from "antd";
-import { loadFromLocal } from "@/lib/store";
+import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
 import { router } from "./router";
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      await loadFromLocal();
-      setIsLoading(false);
-    })();
-  }, []);
+  const { isLoading } = useLoadFormLocal();
 
   if (isLoading) return <Spin fullscreen />;
 
