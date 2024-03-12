@@ -1,7 +1,23 @@
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { nameAsKey } from "surf-pac";
+import { Flex } from "antd";
+import stylex from "@stylexjs/stylex";
 import { useProfiles } from "@/atoms/hooks/useProfiles";
+import { globalStyles } from "@/entrypoints/styles";
+
+const styles = stylex.create({
+  header: {
+    height: 80,
+    padding: "20px 0",
+  },
+  title: {
+    fontSize: 20,
+  },
+  content: {
+    flex: 1,
+  },
+});
 
 export default function ProfileName() {
   const { profileName = "" } = useParams();
@@ -13,5 +29,15 @@ export default function ProfileName() {
   );
   // console.log(currentProfile);
 
-  return <div>{JSON.stringify(currentProfile)}</div>;
+  return (
+    <Flex vertical {...stylex.props(globalStyles["size-full"])}>
+      <Flex align="center" {...stylex.props(styles.header)}>
+        <Flex align="center">
+          <div>情景模式：</div>
+          <div>{currentProfile.name}</div>
+        </Flex>
+      </Flex>
+      <div {...stylex.props(styles.content)}>content</div>
+    </Flex>
+  );
 }

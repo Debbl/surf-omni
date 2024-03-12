@@ -10,6 +10,9 @@
     "test": "turbo test",
     "lint": "eslint . && turbo lint"
   },
+  "dependencies": {
+    "@debbl/utils": "^0.0.2"
+  },
   "devDependencies": {
     "@debbl/eslint-config": "^3.0.6",
     "eslint": "^8.56.0",

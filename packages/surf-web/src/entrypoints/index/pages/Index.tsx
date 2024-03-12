@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Layout, Menu, Space } from "antd";
-import * as stylex from "@stylexjs/stylex";
+import stylex from "@stylexjs/stylex";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import {
   CheckCircleOutlined,
@@ -46,21 +46,7 @@ const styles = stylex.create({
   h1: {
     textAlign: "center",
   },
-  header: {
-    textAlign: "center",
-    color: "#fff",
-    height: 64,
-    paddingInline: 48,
-    lineHeight: "64px",
-    backgroundColor: "#4096ff",
-  },
-  content: {
-    textAlign: "center",
-    minHeight: 120,
-    lineHeight: "120px",
-    color: "#fff",
-    backgroundColor: "#0958d9",
-  },
+  content: {},
 
   // save action
   save: {

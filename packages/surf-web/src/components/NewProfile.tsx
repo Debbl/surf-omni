@@ -1,5 +1,5 @@
 import { Form, Input, Modal, Radio, Space } from "antd";
-import * as stylex from "@stylexjs/stylex";
+import stylex from "@stylexjs/stylex";
 import { useNavigate } from "react-router-dom";
 import { IonEarth, MingcuteTransferFill } from "~/icons";
 import { useProfiles } from "@/atoms/hooks/useProfiles";
