@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import stylex from "@stylexjs/stylex";
-import { globalStyles } from "@/entrypoints/styles";
+import { globalStyles } from "@/styles";
 
 export default function Profile() {
   return (

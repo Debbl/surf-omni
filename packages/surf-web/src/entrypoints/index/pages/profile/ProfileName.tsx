@@ -4,7 +4,7 @@ import { nameAsKey } from "surf-pac";
 import { Flex } from "antd";
 import stylex from "@stylexjs/stylex";
 import { useProfiles } from "@/atoms/hooks/useProfiles";
-import { globalStyles } from "@/entrypoints/styles";
+import { globalStyles } from "@/styles";
 
 const styles = stylex.create({
   header: {
