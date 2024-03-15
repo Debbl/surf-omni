@@ -2,7 +2,8 @@ import type { SVGProps } from "react";
 
 export type IIcon = (props: SVGProps<SVGSVGElement>) => JSX.Element;
 
-export function MingcuteTransferFill(props: SVGProps<SVGSVGElement>) {
+// MingcuteTransferFill
+export function TransferFill(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +23,8 @@ export function MingcuteTransferFill(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function TdesignPoweroff(props: SVGProps<SVGSVGElement>) {
+// TdesignPoweroff
+export function PowerOff(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +41,8 @@ export function TdesignPoweroff(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function IonEarth(props: SVGProps<SVGSVGElement>) {
+// IonEarth
+export function Earth(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +59,8 @@ export function IonEarth(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function CiSettings(props: SVGProps<SVGSVGElement>) {
+// CiSettings
+export function Settings(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -79,9 +83,8 @@ export function CiSettings(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function MaterialSymbolsAutorenewOutlineRounded(
-  props: SVGProps<SVGSVGElement>,
-) {
+// MaterialSymbolsAutorenewOutlineRounded
+export function AutorenewOutlineRounded(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +101,8 @@ export function MaterialSymbolsAutorenewOutlineRounded(
   );
 }
 
-export function MdiPlus(props: SVGProps<SVGSVGElement>) {
+// MdiPlus
+export function Plus(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

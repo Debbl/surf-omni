@@ -1,7 +1,6 @@
 import { URL, fileURLToPath } from "node:url";
 import { defineConfig } from "wxt";
 import react from "@vitejs/plugin-react";
-import stylex from "unplugin-stylex/vite";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
@@ -15,6 +14,6 @@ export default defineConfig({
     "@": fileURLToPath(new URL("./src", import.meta.url)),
   },
   vite: () => ({
-    plugins: [react(), stylex()],
+    plugins: [react()],
   }),
 });
