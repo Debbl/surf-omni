@@ -19,11 +19,10 @@ export const builtinProfiles = {
   },
 };
 
-export interface IScheme {
-  scheme: "http" | "https" | "ftp" | "";
-  prop: "proxyForHttp" | "proxyForHttps" | "proxyForFtp" | "fallbackProxy";
-}
-export const schemes: IScheme[] = [
+export const schemes: {
+  scheme: string;
+  prop: string;
+}[] = [
   { scheme: "http", prop: "proxyForHttp" },
   { scheme: "https", prop: "proxyForHttps" },
   { scheme: "ftp", prop: "proxyForFtp" },
@@ -103,4 +102,17 @@ export function isProfile(profileName: string) {
 export function keyAsName(key: string) {
   if (isProfile(key)) return key.slice(1);
   return key;
+}
+
+export function getProxyValue(profileName: string) {
+  if (profileName === "direct") {
+    return {
+      mode: "direct",
+    };
+  }
+  if (profileName === "system") {
+    return {
+      mode: "system",
+    };
+  }
 }

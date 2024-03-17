@@ -141,6 +141,9 @@ importers:
       postcss:
         specifier: ^8.4.35
         version: 8.4.35
+      tailwind-merge:
+        specifier: ^2.2.1
+        version: 2.2.1
       tailwindcss:
         specifier: ^3.4.1
         version: 3.4.1
@@ -3044,7 +3047,7 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 6.21.0(eslint@8.57.0)(typescript@5.3.3)
+      '@typescript-eslint/parser': 6.21.0(eslint@8.57.0)(typescript@5.4.2)
       debug: 3.2.7
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
@@ -3367,7 +3370,7 @@ packages:
       '@typescript-eslint/eslint-plugin':
         optional: true
     dependencies:
-      '@typescript-eslint/eslint-plugin': 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.3.3)
+      '@typescript-eslint/eslint-plugin': 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.4.2)
       eslint: 8.57.0
       eslint-rule-composer: 0.3.0
     dev: true
@@ -7098,6 +7101,12 @@ packages:
     dependencies:
       '@pkgr/core': 0.1.1
       tslib: 2.6.2
+    dev: true
+
+  /tailwind-merge@2.2.1:
+    resolution: {integrity: sha512-o+2GTLkthfa5YUt4JxPfzMIpQzZ3adD1vLVkvKE1Twl9UAhGsEbIZhHHZVRttyW177S8PDJI3bTQNaebyofK3Q==}
+    dependencies:
+      '@babel/runtime': 7.23.9
     dev: true
 
   /tailwindcss@3.4.1:

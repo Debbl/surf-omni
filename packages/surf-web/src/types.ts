@@ -1,3 +1,5 @@
+import type { OptionProfileType } from "surf-pac";
+
 export type ConditionType =
   | "UrlRegexCondition"
   | "HostWildcardCondition"
@@ -31,7 +33,7 @@ export enum ProfileMode {
 
 export interface BasicProfile {
   name: string;
-  profileType: "FixedProfile";
+  profileType: OptionProfileType;
 }
 
 export interface FixedProfile extends BasicProfile {
@@ -44,5 +46,15 @@ export interface FixedProfile extends BasicProfile {
   bypassList: Condition[];
 }
 
-export type Profile = FixedProfile;
+export interface SwitchProfile extends BasicProfile {
+  profileType: "SwitchProfile";
+  fallbackProxy?: {
+    scheme: IScheme;
+    host: string;
+    port: number;
+  };
+  bypassList: Condition[];
+}
+
+export type Profile = FixedProfile | SwitchProfile;
 export type Profiles = Record<string, Profile>;
