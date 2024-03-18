@@ -1,9 +1,11 @@
 import { Fragment } from "react";
-import { getProxyValue } from "surf-pac";
-import { setBrowserProxy } from "@/lib/proxy";
+import { getProxyValue, nameAsKey } from "surf-pac";
+import { setBrowserProxy } from "~/lib/proxy";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
 import { Button } from "~/components/Button";
 import { Earth, Settings, TransferFill } from "~/icons";
+import { useProfiles } from "~/atoms/hooks/useProfiles";
+import type { Profiles } from "surf-pac";
 import type { IIcon } from "~/icons";
 
 async function handleOpenSetting() {
@@ -19,8 +21,25 @@ async function handleOpenSetting() {
   }
 }
 
+export const builtinProfiles: Profiles = {
+  "+direct": {
+    name: "direct",
+    profileType: "DirectProfile",
+  },
+  "+system": {
+    name: "system",
+    profileType: "SystemProfile",
+  },
+};
+
 export default function App() {
   const { isLoading } = useLoadFormLocal();
+  const { profiles } = useProfiles();
+  const allProfiles: Profiles = {
+    ...builtinProfiles,
+    ...profiles,
+  };
+
   const Menu: {
     name: string;
     children: {
@@ -46,6 +65,15 @@ export default function App() {
       ],
     },
     {
+      name: "Profiles",
+      children: [
+        ...Object.values(profiles).map(({ name }) => ({
+          name,
+          profileName: name,
+        })),
+      ],
+    },
+    {
       name: "Actions",
       children: [
         {
@@ -66,6 +94,15 @@ export default function App() {
   //   })();
   // }, []);
 
+  const handleClick = (profileName: string) => {
+    const profile = allProfiles[nameAsKey(profileName)];
+    if (!profile) return;
+
+    setBrowserProxy({
+      value: getProxyValue(profile),
+    });
+  };
+
   if (isLoading) return <div>loading</div>;
 
   return (
@@ -73,7 +110,7 @@ export default function App() {
       <ul>
         {Menu.map((item) => (
           <Fragment key={item.name}>
-            <li className="border-b"></li>
+            {item.children.length !== 0 && <li className="border-b" />}
             {item.children.map((i) => (
               <li key={i.name}>
                 <Button
@@ -82,9 +119,7 @@ export default function App() {
                     if (i.onClick) {
                       i.onClick();
                     } else {
-                      setBrowserProxy({
-                        value: getProxyValue(i.profileName ?? ""),
-                      });
+                      i.profileName && handleClick(i.profileName);
                     }
                   }}
                 >

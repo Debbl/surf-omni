@@ -8,10 +8,10 @@ import {
 } from "surf-ast";
 import { describe, expect, it } from "vitest";
 import { formatURL, parserCondition } from "./conditions";
-import type { ICondition } from "./types";
+import type { Condition } from "./conditions";
 
 function testCond(
-  condition: ICondition,
+  condition: Condition,
   request: { url: string; host: string; scheme: string } | string,
   shouldMatch = true,
 ) {
@@ -65,7 +65,7 @@ describe("falseCondition", () => {
 });
 
 describe("urlRegexCondition", () => {
-  const cond: ICondition = {
+  const cond: Condition = {
     conditionType: "UrlRegexCondition",
     pattern: "example\\.com",
   };
@@ -79,7 +79,7 @@ describe("urlRegexCondition", () => {
   });
 
   it("should support regex meta chars", () => {
-    const con: ICondition = {
+    const con: Condition = {
       conditionType: "UrlRegexCondition",
       pattern: "exam.*\\.com",
     };
@@ -96,7 +96,7 @@ describe("urlRegexCondition", () => {
 });
 
 describe("urlWildcardCondition", () => {
-  const cond: ICondition = {
+  const cond: Condition = {
     conditionType: "UrlWildcardCondition",
     pattern: "*example.com*",
   };
@@ -109,7 +109,7 @@ describe("urlWildcardCondition", () => {
   });
 
   it("should support wildcard question marks", () => {
-    const con: ICondition = {
+    const con: Condition = {
       conditionType: "UrlWildcardCondition",
       pattern: "*exam???.com*",
     };
@@ -117,7 +117,7 @@ describe("urlWildcardCondition", () => {
   });
 
   it("should not support regex meta chars", () => {
-    const con: ICondition = {
+    const con: Condition = {
       conditionType: "UrlWildcardCondition",
       pattern: ".*example.com.*",
     };
@@ -125,7 +125,7 @@ describe("urlWildcardCondition", () => {
   });
 
   it("should support multiple patterns in one condition", () => {
-    const con: ICondition = {
+    const con: Condition = {
       conditionType: "UrlWildcardCondition",
       pattern: "*.example.com/*|*.example.net/*|*.example.net/*",
     };
@@ -136,7 +136,7 @@ describe("urlWildcardCondition", () => {
 });
 
 describe("hostRegexCondition", () => {
-  const cond: ICondition = {
+  const cond: Condition = {
     conditionType: "HostRegexCondition",
     pattern: ".*\\.example\\.com",
   };
@@ -152,7 +152,7 @@ describe("hostRegexCondition", () => {
 });
 
 describe("hostWildcardCondition", () => {
-  const cond: ICondition = {
+  const cond: Condition = {
     conditionType: "HostWildcardCondition",
     pattern: "*.example.com",
   };
@@ -163,7 +163,7 @@ describe("hostWildcardCondition", () => {
     testCond(cond, "http://example.com/");
   });
   it("should process patterns like *.*example.com correctly", () => {
-    const con: ICondition = {
+    const con: Condition = {
       conditionType: "HostWildcardCondition",
       pattern: "*.*example.com",
     };
@@ -176,7 +176,7 @@ describe("hostWildcardCondition", () => {
 
 describe("bypassCondition", () => {
   it("should correctly support patterns containing hosts", () => {
-    const cond: ICondition = {
+    const cond: Condition = {
       conditionType: "BypassCondition",
       pattern: ".example.com",
     };
@@ -194,7 +194,7 @@ describe("bypassCondition", () => {
     testCond(cond, "http://anotherexample.com/");
   });
   it("should match the scheme specified in the pattern", () => {
-    const cond: ICondition = {
+    const cond: Condition = {
       conditionType: "BypassCondition",
       pattern: "http://example.com",
     };
@@ -202,7 +202,7 @@ describe("bypassCondition", () => {
     testCond(cond, "https://example.com/", false);
   });
   it("should match the port specified in the pattern", () => {
-    const cond: ICondition = {
+    const cond: Condition = {
       conditionType: "BypassCondition",
       pattern: "http://example.com:8080",
     };
@@ -210,7 +210,7 @@ describe("bypassCondition", () => {
     testCond(cond, "http://example.com:888/", false);
   });
   it("should correctly support patterns using IPv4 literals", () => {
-    const cond: ICondition = {
+    const cond: Condition = {
       conditionType: "BypassCondition",
       pattern: "http://127.0.0.1:8080",
     };
@@ -236,7 +236,7 @@ describe("bypassCondition", () => {
   // });
 });
 describe("keywordCondition", () => {
-  const cond: ICondition = {
+  const cond: Condition = {
     conditionType: "KeywordCondition",
     pattern: "example.com",
   };

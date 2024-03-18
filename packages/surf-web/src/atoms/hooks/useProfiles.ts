@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { nameAsKey } from "surf-pac";
 import { profilesAtom } from "../profiles";
-import type { BasicProfile, Profile } from "~/types";
+import type { BasicProfile, Profile } from "surf-pac";
 
 export function useProfiles() {
   const [profiles, setProfiles] = useAtom(profilesAtom);

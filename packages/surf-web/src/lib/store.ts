@@ -1,7 +1,7 @@
 import { getDefaultStore } from "jotai";
-import { isSettingsChangeAtom } from "@/atoms/isSettingsChange";
+import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { profilesAtom, profilesStoreKey } from "~/atoms/profiles";
-import type { Profiles } from "~/types";
+import type { Profiles } from "surf-pac";
 
 export const store = getDefaultStore();
 

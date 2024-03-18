@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { byName, pacResult } from "./profiles";
+import { pacResult } from "./profiles";
 
 describe("#profiles", () => {
   it("should return DIRECT for no proxy", () => {
@@ -15,17 +15,5 @@ describe("#profiles", () => {
     const proxy = { scheme: "socks5", host: "127.0.0.1", port: 8888 };
     const compatibleResult = "SOCKS5 127.0.0.1:8888; SOCKS 127.0.0.1:8888";
     expect(pacResult(proxy)).toBe(compatibleResult);
-  });
-});
-
-describe("#byName", () => {
-  it("should get profiles from builtin profiles", () => {
-    const profile = byName("direct");
-    expect(profile.profileType).toEqual("DirectProfile");
-  });
-
-  it("should get profiles from given options", () => {
-    const profile = {};
-    expect(byName("profile", { "+profile": profile })).toBe(profile);
   });
 });

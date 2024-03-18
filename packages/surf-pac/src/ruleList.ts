@@ -1,7 +1,7 @@
-import type { ICondition } from "./types";
+import type { Condition } from "./conditions";
 
 interface IRule {
-  condition: ICondition;
+  condition: Condition;
   profileName: string;
   source: string;
 }
@@ -29,7 +29,7 @@ export function getIsExclusive(text: string) {
   return strStartsWith(text, "@@");
 }
 
-export function getCondition(line: string): ICondition {
+export function getCondition(line: string): Condition {
   if (line[0] === "/") {
     return {
       conditionType: "UrlRegexCondition",

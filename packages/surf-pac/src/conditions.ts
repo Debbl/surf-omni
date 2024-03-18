@@ -9,8 +9,22 @@ import {
   regExpLiteral,
   returnStatement,
 } from "surf-ast";
-import type { ICondition } from "./types";
 import type { Expression } from "estree";
+
+export type ConditionType =
+  | "TrueCondition"
+  | "FalseCondition"
+  | "UrlRegexCondition"
+  | "UrlWildcardCondition"
+  | "HostRegexCondition"
+  | "HostWildcardCondition"
+  | "BypassCondition"
+  | "KeywordCondition";
+
+export interface Condition {
+  conditionType: ConditionType;
+  pattern?: string;
+}
 
 export function formatURL(url: string) {
   try {
@@ -102,7 +116,7 @@ export function keywordConditionPattern(pattern: string) {
   return `^http:\\/\\/\.*${pattern}.*`;
 }
 
-export function parserCondition(condition: ICondition, match: string) {
+export function parserCondition(condition: Condition, match: string) {
   // this has three identical host, url and scheme
   const { conditionType, pattern = "" } = condition;
 

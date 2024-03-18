@@ -21,7 +21,7 @@ import {
   variableDeclarator,
 } from "surf-ast";
 import { parserCondition } from "./conditions";
-import type { ICondition } from "./types";
+import type { Condition } from "./conditions";
 import type { Statement } from "estree";
 
 interface IBasicOption {
@@ -36,7 +36,7 @@ interface ISwitchProfileOption extends IBasicOption {
   defaultProfileName: string;
   rules: Array<{
     profileName: string;
-    condition: ICondition;
+    condition: Condition;
   }>;
 }
 
@@ -47,7 +47,7 @@ interface IFixedProfileOption extends IBasicOption {
     host: string;
     port: number;
   };
-  bypassList: ICondition[];
+  bypassList: Condition[];
 }
 
 type IOption = ISwitchProfileOption | IFixedProfileOption;
