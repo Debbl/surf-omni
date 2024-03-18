@@ -1,10 +1,26 @@
 import { useAtom } from "jotai";
 import { nameAsKey } from "surf-pac";
 import { profilesAtom } from "../profiles";
-import type { BasicProfile, Profile } from "surf-pac";
+import type { BasicProfile, Profile, Profiles } from "surf-pac";
+
+export const builtinProfiles: Profiles = {
+  "+direct": {
+    name: "direct",
+    profileType: "DirectProfile",
+  },
+  "+system": {
+    name: "system",
+    profileType: "SystemProfile",
+  },
+};
 
 export function useProfiles() {
   const [profiles, setProfiles] = useAtom(profilesAtom);
+
+  const allProfiles: Profiles = {
+    ...builtinProfiles,
+    ...profiles,
+  };
 
   const addProfile = (basicProfile: BasicProfile) => {
     let profile: Profile | null = null;
@@ -30,6 +46,7 @@ export function useProfiles() {
 
   return {
     profiles,
+    allProfiles,
     setProfiles,
     addProfile,
   };

@@ -1,11 +1,13 @@
 import { Fragment } from "react";
-import { getProxyValue, nameAsKey } from "surf-pac";
+import { getProxyValue } from "surf-pac";
+import { useAtom } from "jotai";
+import { twMerge } from "~/lib/tw";
 import { setBrowserProxy } from "~/lib/proxy";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
 import { Button } from "~/components/Button";
 import { Earth, Settings, TransferFill } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
-import type { Profiles } from "surf-pac";
+import { currentProfileKeyAtom } from "~/atoms/currentProfileKey";
 import type { IIcon } from "~/icons";
 
 async function handleOpenSetting() {
@@ -21,31 +23,19 @@ async function handleOpenSetting() {
   }
 }
 
-export const builtinProfiles: Profiles = {
-  "+direct": {
-    name: "direct",
-    profileType: "DirectProfile",
-  },
-  "+system": {
-    name: "system",
-    profileType: "SystemProfile",
-  },
-};
-
 export default function App() {
   const { isLoading } = useLoadFormLocal();
-  const { profiles } = useProfiles();
-  const allProfiles: Profiles = {
-    ...builtinProfiles,
-    ...profiles,
-  };
+  const { profiles, allProfiles } = useProfiles();
+  const [currentProfileKey, setCurrentProfileKey] = useAtom(
+    currentProfileKeyAtom,
+  );
 
   const Menu: {
     name: string;
     children: {
       name: string;
       icon?: IIcon;
-      profileName?: string;
+      profileKey?: string;
       onClick?: () => void;
     }[];
   }[] = [
@@ -55,12 +45,12 @@ export default function App() {
         {
           name: "直接连接",
           icon: TransferFill,
-          profileName: "direct",
+          profileKey: "+direct",
         },
         {
           name: "系统代理",
           icon: Earth,
-          profileName: "system",
+          profileKey: "+system",
         },
       ],
     },
@@ -94,9 +84,10 @@ export default function App() {
   //   })();
   // }, []);
 
-  const handleClick = (profileName: string) => {
-    const profile = allProfiles[nameAsKey(profileName)];
+  const handleClick = (profileKey: string) => {
+    const profile = allProfiles[profileKey];
     if (!profile) return;
+    setCurrentProfileKey(profileKey);
 
     setBrowserProxy({
       value: getProxyValue(profile),
@@ -115,11 +106,16 @@ export default function App() {
               <li key={i.name}>
                 <Button
                   leftIcon={i.icon}
+                  className={twMerge(
+                    i.profileKey === currentProfileKey
+                      ? "rounded-sm bg-blue-400 text-white hover:bg-blue-500"
+                      : "",
+                  )}
                   onClick={() => {
                     if (i.onClick) {
                       i.onClick();
                     } else {
-                      i.profileName && handleClick(i.profileName);
+                      i.profileKey && handleClick(i.profileKey);
                     }
                   }}
                 >

@@ -23,7 +23,8 @@ export function Button(
         "flex items-center gap-x-1",
         "px-2 py-1",
         "text-sm",
-        "hover:rounded-md hover:bg-gray-100",
+        "rounded-md",
+        "hover:bg-gray-100",
         props.className ?? "",
       )}
       {..._props}
