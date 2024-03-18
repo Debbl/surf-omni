@@ -1,10 +1,8 @@
 import { Outlet } from "react-router-dom";
-import stylex from "@stylexjs/stylex";
-import { globalStyles } from "@/styles";
 
-export default function Profile() {
+export default function ProfileIndex() {
   return (
-    <div {...stylex.props(globalStyles["size-full"])}>
+    <div className="size-full">
       <Outlet />
     </div>
   );

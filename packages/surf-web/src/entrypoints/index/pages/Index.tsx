@@ -1,163 +1,122 @@
-import React, { useMemo, useState } from "react";
-import { Layout, Menu, Space } from "antd";
-import stylex from "@stylexjs/stylex";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  PlusOutlined,
-  SaveOutlined,
-  SettingOutlined,
-  ToolFilled,
-} from "@ant-design/icons";
+import { Fragment, useState } from "react";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useAtom } from "jotai";
-import { isProfile, keyAsName, nameAsKey } from "surf-pac";
+import { twMerge } from "~/lib/tw";
+import { Button } from "~/components/Button";
+import { Check, CloseCircleOutlined, Plus } from "~/icons";
+import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { isSettingsChangeAtom } from "@/atoms/isSettingsChange";
-import { useProfiles } from "@/atoms/hooks/useProfiles";
 import { resetFromLocal, saveToLocal } from "@/lib/store";
-import NewProfile from "../../../components/NewProfile";
-import type { MenuProps } from "antd";
+import { NewProfileModel } from "../components/NewProfileModel";
+import type { IIcon } from "~/icons";
+import type { OnOk } from "../components/NewProfileModel";
 
-const { Sider, Content } = Layout;
-
-type MenuItem = Required<MenuProps>["items"][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: "group",
-): MenuItem {
-  return {
-    label,
-    key,
-    icon,
-    children,
-    type,
-  } as MenuItem;
-}
-
-const styles = stylex.create({
-  layout: {
-    height: "100%",
-  },
-  sider: {},
-  h1: {
-    textAlign: "center",
-  },
-  content: {},
-
-  // save action
-  save: {
-    color: "#52c41a",
-  },
-  undo: {
-    color: "#ff4d4f",
-  },
-});
-
-export default function App() {
-  const { profiles } = useProfiles();
+export default function Index() {
+  const [isOpenModel, setIsOpenModel] = useState(false);
+  const { profiles, addProfile } = useProfiles();
   const [isSettingsChange] = useAtom(isSettingsChangeAtom);
-  const [isSetNewProfile, setIsSetNewProfile] = useState(false);
 
   const navigate = useNavigate();
+  const { name } = useParams();
 
-  const { profileName } = useParams();
-  const selectedKeys = useMemo(
-    () => [nameAsKey(profileName ?? "")],
-    [profileName],
-  );
+  const handleOk: OnOk = ({ name, profileType }) => {
+    addProfile({ name, profileType });
+    setIsOpenModel(false);
 
-  const menuItems: MenuProps["items"] = useMemo(
-    () => [
-      { type: "divider" },
-      getItem(
-        "设定",
-        "settings",
-        null,
-        [
-          getItem("界面", "14", <ToolFilled />),
-          getItem("通用", "13", <SettingOutlined />),
-          getItem("导入/导出", "15", <SaveOutlined />),
-        ],
-        "group",
-      ),
-      { type: "divider" },
-      getItem(
-        "情景模式",
-        "profiles",
-        null,
-        [
-          ...[
-            ...Object.entries(profiles).map(([key, { name }]) =>
-              getItem(name, key),
-            ),
-          ],
-          getItem("新建情景模式", "new-profile", <PlusOutlined />),
-        ],
-        "group",
-      ),
-      { type: "divider" },
-      getItem(
-        "Actions",
-        "actions",
-        null,
-        [
-          getItem(
-            <Space size={10} {...stylex.props(isSettingsChange && styles.save)}>
-              <CheckCircleOutlined />
-              应用选项
-            </Space>,
-            "save",
-          ),
-          getItem(
-            <Space size={10} {...stylex.props(isSettingsChange && styles.undo)}>
-              <CloseCircleOutlined />
-              撤销更改
-            </Space>,
-            "undo",
-          ),
-        ],
-        "group",
-      ),
-    ],
-    [isSettingsChange, profiles],
-  );
-
-  const onClick: MenuProps["onClick"] = (e) => {
-    if (e.key === "new-profile") setIsSetNewProfile(true);
-
-    if (e.key === "save") saveToLocal();
-    if (e.key === "undo") resetFromLocal();
-
-    if (isProfile(e.key)) {
-      navigate(`/profile/${keyAsName(e.key)}`);
-    }
+    navigate(`/profile/${name}`);
   };
+
+  const Menu: {
+    name: string;
+    divider?: boolean;
+    children: {
+      name: string;
+      icon?: IIcon;
+      className?: string;
+      onClick?: () => void;
+    }[];
+  }[] = [
+    {
+      name: "情景模式",
+      children: [
+        ...Object.entries(profiles).map(([_key, profile]) => ({
+          name: profile.name,
+          className:
+            name === profile.name
+              ? "border-blue-600 bg-blue-600 text-white hover:bg-blue-700 hover:border-blue-700"
+              : "",
+          onClick: () => navigate(`/profile/${profile.name}`),
+        })),
+        {
+          name: "新建情景模式",
+          icon: Plus,
+          onClick: () => setIsOpenModel(true),
+        },
+      ],
+    },
+    {
+      name: "ACTIONS",
+      divider: true,
+      children: [
+        {
+          name: "应用选项",
+          icon: Check,
+          className: isSettingsChange ? "border-green-600 text-green-600" : "",
+          onClick: () => saveToLocal(),
+        },
+        {
+          name: "撤销更改",
+          icon: CloseCircleOutlined,
+          className: isSettingsChange ? "border-red-600 text-red-600" : "",
+          onClick: () => resetFromLocal(),
+        },
+      ],
+    },
+  ];
 
   return (
     <>
-      <NewProfile isOpen={isSetNewProfile} setIsOpen={setIsSetNewProfile} />
-      <Layout {...stylex.props(styles.layout)}>
-        <Sider {...stylex.props(styles.sider)} theme="light">
-          <h1 {...stylex.props(styles.h1)}>
-            <Link to="/">Surf Omni</Link>
-          </h1>
+      <NewProfileModel
+        open={isOpenModel}
+        setOpen={setIsOpenModel}
+        onOk={handleOk}
+      />
 
-          <Menu
-            onClick={onClick}
-            selectable={false}
-            selectedKeys={selectedKeys}
-            mode="inline"
-            items={menuItems}
-          />
-        </Sider>
-        <Content {...stylex.props(styles.content)}>
+      <div className="flex h-full">
+        <aside className="w-60 px-8 py-4">
+          <h1 className="text-3xl font-bold">Surf Omni</h1>
+
+          <nav className="pt-3">
+            <ul>
+              {Menu.map((item) => (
+                <Fragment key={item.name}>
+                  {item.divider && <li className="my-2 border-b" />}
+
+                  <li className="py-2 font-mono text-gray-600">{item.name}</li>
+                  {item.children.map((i) => (
+                    <li key={i.name}>
+                      <Button
+                        leftIcon={i?.icon}
+                        onClick={i.onClick}
+                        className={twMerge(
+                          "mb-1 border border-transparent rounded-md",
+                          i.className,
+                        )}
+                      >
+                        {i.name}
+                      </Button>
+                    </li>
+                  ))}
+                </Fragment>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+
+        <main className="flex-1">
           <Outlet />
-        </Content>
-      </Layout>
+        </main>
+      </div>
     </>
   );
 }

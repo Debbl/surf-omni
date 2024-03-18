@@ -1,7 +1,7 @@
 import { createHashRouter } from "react-router-dom";
 import Index from "../pages/Index";
-import Profile from "../pages/profile/Index";
-import ProfileName from "../pages/profile/ProfileName";
+import ProfileIndex from "../pages/profile/Index";
+import ProfileName from "../pages/profile/Name";
 
 const router = createHashRouter([
   {
@@ -10,10 +10,10 @@ const router = createHashRouter([
     children: [
       {
         path: "profile",
-        element: <Profile />,
+        element: <ProfileIndex />,
         children: [
           {
-            path: ":profileName",
+            path: ":name",
             element: <ProfileName />,
           },
         ],

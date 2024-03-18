@@ -1,10 +1,10 @@
-import { Menu, Spin } from "antd";
-import { useMemo } from "react";
-import { SettingOutlined } from "@ant-design/icons";
-import { joinArr } from "@debbl/utils";
+import { Fragment } from "react";
+import { getProxyValue } from "surf-pac";
+import { setBrowserProxy } from "@/lib/proxy";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
-import { useProfiles } from "@/atoms/hooks/useProfiles";
-import type { MenuProps } from "antd";
+import { Button } from "~/components/Button";
+import { Earth, Settings, TransferFill } from "~/icons";
+import type { IIcon } from "~/icons";
 
 async function handleOpenSetting() {
   const url = `chrome-extension://${browser.runtime.id}/index.html`;
@@ -19,65 +19,82 @@ async function handleOpenSetting() {
   }
 }
 
-type MenuItem = Required<MenuProps>["items"][number];
-
-const builtinItems = [
-  {
-    label: "直接连接",
-    key: "direct",
-  },
-  {
-    label: "系统代理",
-    key: "system",
-  },
-];
-
-const settingItem = [
-  {
-    icon: <SettingOutlined />,
-    label: "选项",
-    key: "setting",
-  },
-];
-
-function App() {
+export default function App() {
   const { isLoading } = useLoadFormLocal();
-  const { profiles } = useProfiles();
+  const Menu: {
+    name: string;
+    children: {
+      name: string;
+      icon?: IIcon;
+      profileName?: string;
+      onClick?: () => void;
+    }[];
+  }[] = [
+    {
+      name: "BuiltinProfiles",
+      children: [
+        {
+          name: "直接连接",
+          icon: TransferFill,
+          profileName: "direct",
+        },
+        {
+          name: "系统代理",
+          icon: Earth,
+          profileName: "system",
+        },
+      ],
+    },
+    {
+      name: "Actions",
+      children: [
+        {
+          name: "选项",
+          icon: Settings,
+          onClick: handleOpenSetting,
+        },
+      ],
+    },
+  ];
 
-  const items: MenuItem[] = useMemo(() => {
-    const profilesItems = Object.entries(profiles).map(([key, profile]) => ({
-      label: profile.name,
-      key,
-    }));
+  // useEffect(() => {
+  //   (async () => {
+  //     setInterval(async () => {
+  //       const v = await browser.proxy.settings.get({});
+  //       console.log("🚀 ~ v:", v);
+  //     }, 1000);
+  //   })();
+  // }, []);
 
-    return joinArr(
-      [builtinItems, profilesItems, settingItem].filter((i) => i.length),
-      {
-        type: "divider",
-      },
-    );
-  }, [profiles]);
-
-  const onClick: MenuProps["onClick"] = (e) => {
-    if (e.key === "setting") {
-      handleOpenSetting();
-    }
-
-    window.close();
-  };
-
-  if (isLoading) return <Spin fullscreen />;
+  if (isLoading) return <div>loading</div>;
 
   return (
-    <Menu
-      selectable={false}
-      onClick={onClick}
-      defaultSelectedKeys={["1"]}
-      defaultOpenKeys={["sub1"]}
-      mode="inline"
-      items={items}
-    />
+    <>
+      <ul>
+        {Menu.map((item) => (
+          <Fragment key={item.name}>
+            <li className="border-b"></li>
+            {item.children.map((i) => (
+              <li key={i.name}>
+                <Button
+                  leftIcon={i.icon}
+                  onClick={() => {
+                    if (i.onClick) {
+                      i.onClick();
+                    } else {
+                      setBrowserProxy({
+                        value: getProxyValue(i.profileName ?? ""),
+                      });
+                    }
+                  }}
+                >
+                  {i.name}
+                </Button>
+              </li>
+            ))}
+          </Fragment>
+        ))}
+      </ul>
+    </>
   );
 }
-
-export default App;

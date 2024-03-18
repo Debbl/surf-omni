@@ -2,7 +2,8 @@ import type { SVGProps } from "react";
 
 export type IIcon = (props: SVGProps<SVGSVGElement>) => JSX.Element;
 
-export function MingcuteTransferFill(props: SVGProps<SVGSVGElement>) {
+// MingcuteTransferFill
+export function TransferFill(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +23,8 @@ export function MingcuteTransferFill(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function TdesignPoweroff(props: SVGProps<SVGSVGElement>) {
+// TdesignPoweroff
+export function PowerOff(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +41,8 @@ export function TdesignPoweroff(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function IonEarth(props: SVGProps<SVGSVGElement>) {
+// IonEarth
+export function Earth(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +59,8 @@ export function IonEarth(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function CiSettings(props: SVGProps<SVGSVGElement>) {
+// CiSettings
+export function Settings(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -79,9 +83,8 @@ export function CiSettings(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function MaterialSymbolsAutorenewOutlineRounded(
-  props: SVGProps<SVGSVGElement>,
-) {
+// MaterialSymbolsAutorenewOutlineRounded
+export function AutorenewOutlineRounded(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +101,8 @@ export function MaterialSymbolsAutorenewOutlineRounded(
   );
 }
 
-export function MdiPlus(props: SVGProps<SVGSVGElement>) {
+// MdiPlus
+export function Plus(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -112,6 +116,69 @@ export function MdiPlus(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function Icon(props: { icon: IIcon }) {
-  return <props.icon />;
+// MaterialSymbolsCloseSmallOutline
+export function Close(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M8.4 17L7 15.6l3.6-3.6L7 8.425l1.4-1.4l3.6 3.6l3.575-3.6l1.4 1.4l-3.6 3.575l3.6 3.6l-1.4 1.4L12 13.4z"
+      ></path>
+    </svg>
+  );
+}
+
+// AntDesignCheckCircleOutlined
+export function Check(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 1024 1024"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0 0 51.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7"
+      ></path>
+      <path
+        fill="currentColor"
+        d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448s448-200.6 448-448S759.4 64 512 64m0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372s372 166.6 372 372s-166.6 372-372 372"
+      ></path>
+    </svg>
+  );
+}
+
+// AntDesignCloseCircleOutlined
+export function CloseCircleOutlined(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 1024 1024"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960S64 759.4 64 512S264.6 64 512 64m0 76c-205.4 0-372 166.6-372 372s166.6 372 372 372s372-166.6 372-372s-166.6-372-372-372m128.013 198.826c.023.007.042.018.083.059l45.02 45.019c.04.04.05.06.058.083a.118.118 0 0 1 0 .07c-.007.022-.018.041-.059.082L557.254 512l127.861 127.862a.268.268 0 0 1 .05.06l.009.023a.118.118 0 0 1 0 .07c-.007.022-.018.041-.059.082l-45.019 45.02c-.04.04-.06.05-.083.058a.118.118 0 0 1-.07 0c-.022-.007-.041-.018-.082-.059L512 557.254L384.14 685.115c-.042.041-.06.052-.084.059a.118.118 0 0 1-.07 0c-.022-.007-.041-.018-.082-.059l-45.02-45.019a.199.199 0 0 1-.058-.083a.118.118 0 0 1 0-.07c.007-.022.018-.041.059-.082L466.745 512l-127.86-127.86a.268.268 0 0 1-.05-.061l-.009-.023a.118.118 0 0 1 0-.07c.007-.022.018-.041.059-.082l45.019-45.02c.04-.04.06-.05.083-.058a.118.118 0 0 1 .07 0c.022.007.041.018.082.059L512 466.745l127.862-127.86c.04-.041.06-.052.083-.059a.118.118 0 0 1 .07 0Z"
+      ></path>
+    </svg>
+  );
+}
+
+export function Icon(props: { icon: IIcon } & SVGProps<SVGSVGElement>) {
+  const _props = Object.fromEntries(
+    Object.entries(props).filter(([key]) => key !== "icon"),
+  );
+
+  return <props.icon {..._props} />;
 }
