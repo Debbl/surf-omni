@@ -2,56 +2,137 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { nameAsKey } from "surf-pac";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
+import type { Profile } from "surf-pac";
+
+const SCHEME = [
+  {
+    label: "HTTP",
+    value: "http",
+  },
+  {
+    label: "HTTPS",
+    value: "https",
+  },
+  {
+    label: "SOCKS4",
+    value: "socks4",
+  },
+  {
+    label: "SOCKS5",
+    value: "socks5",
+  },
+];
 
 export default function ProfileName() {
-  const { name } = useParams();
-  const { profiles } = useProfiles();
+  const { name = "" } = useParams();
+  const { profiles, updateProfile } = useProfiles();
 
-  const currentProfile = useMemo(() => {
-    if (!name) return "";
+  const profile = useMemo(() => {
     return profiles[nameAsKey(name)];
   }, [name, profiles]);
 
-  if (!currentProfile) return <div>Profile not found</div>;
+  const setProfile = (profile: Profile) => {
+    updateProfile(profile);
+  };
 
-  return (
-    <div>
-      <div className="py-6 text-2xl font-medium">
-        情景模式：{currentProfile.name}
+  if (!profile) return <div>Profile not found</div>;
+
+  if (profile.profileType === "FixedProfile") {
+    return (
+      <div>
+        <div className="flex items-center justify-between py-6">
+          <div className="text-2xl font-medium">情景模式：{profile.name}</div>
+        </div>
+        <div className="border-b"></div>
+
+        <div className="pt-4">
+          <div className="text-2xl">代理服务器</div>
+
+          <table className="mt-2 w-[80%] border-separate border-spacing-2 rounded-sm border text-left text-sm">
+            <thead>
+              <tr>
+                <th>代理协议</th>
+                <th>代理服务器</th>
+                <th>代理端口</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <select
+                    value={profile.fallbackProxy.scheme}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        fallbackProxy: {
+                          ...profile.fallbackProxy,
+                          scheme: e.target.value as any,
+                        },
+                      })
+                    }
+                  >
+                    {SCHEME.map((item) => (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    className="rounded-sm border"
+                    value={profile.fallbackProxy.host}
+                    onChange={(e) => {
+                      setProfile({
+                        ...profile,
+                        fallbackProxy: {
+                          ...profile.fallbackProxy,
+                          host: e.target.value,
+                        },
+                      });
+                    }}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    className="rounded-sm border"
+                    value={profile.fallbackProxy.port}
+                    onChange={(e) => {
+                      setProfile({
+                        ...profile,
+                        fallbackProxy: {
+                          ...profile.fallbackProxy,
+                          port: Number.parseInt(e.target.value),
+                        },
+                      });
+                    }}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div className="mb-2 mt-6 text-2xl">不代理的主机列表</div>
+          <textarea
+            value={profile.bypassList.map((item) => item.pattern).join("\n")}
+            onChange={(e) => {
+              setProfile({
+                ...profile,
+                bypassList: e.target.value.split("\n").map((pattern) => ({
+                  conditionType: "BypassCondition",
+                  pattern,
+                })),
+              });
+            }}
+            rows={8}
+            className="w-[80%] rounded-sm border p-2"
+          />
+        </div>
       </div>
-      <div className="border-b"></div>
+    );
+  }
 
-      <div className="pt-4">
-        <div className="text-2xl">代理服务器</div>
-
-        <table className="mt-2 w-[80%] border-separate border-spacing-2 rounded-sm border text-left text-sm">
-          <thead>
-            <tr>
-              <th>代理协议</th>
-              <th>代理服务器</th>
-              <th>代理端口</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <select defaultValue="http">
-                  <option value="http">HTTP</option>
-                </select>
-              </td>
-              <td>
-                <input type="text" className="rounded-sm border" />
-              </td>
-              <td>
-                <input type="text" className="rounded-sm border" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div className="mb-2 mt-6 text-2xl">不代理的主机列表</div>
-        <textarea rows={8} className="w-[80%] rounded-sm border p-2"></textarea>
-      </div>
-    </div>
-  );
+  return <div>name</div>;
 }

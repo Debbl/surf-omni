@@ -14,7 +14,7 @@ export interface BasicProfile {
 export type IScheme = "http" | "https" | "quic" | "socks4" | "socks5";
 export interface FixedProfile extends BasicProfile {
   profileType: "FixedProfile";
-  fallbackProxy?: {
+  fallbackProxy: {
     scheme: IScheme;
     host: string;
     port: number;
@@ -99,6 +99,14 @@ export function getProxyValue(profile: Profile) {
     case "SystemProfile":
       return {
         mode: "system",
+      };
+    case "FixedProfile":
+      return {
+        mode: "fixed_servers",
+        rules: {
+          proxyForHttp: profile.fallbackProxy,
+          bypassList: profile.bypassList.map((item) => item.pattern),
+        },
       };
   }
   return {

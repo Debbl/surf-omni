@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { getProxyValue } from "surf-pac";
+import { getProxyValue, nameAsKey } from "surf-pac";
 import { useAtom } from "jotai";
 import { twMerge } from "~/lib/tw";
 import { setBrowserProxy } from "~/lib/proxy";
@@ -59,7 +59,7 @@ export default function App() {
       children: [
         ...Object.values(profiles).map(({ name }) => ({
           name,
-          profileName: name,
+          profileKey: nameAsKey(name),
         })),
       ],
     },
@@ -74,15 +74,6 @@ export default function App() {
       ],
     },
   ];
-
-  // useEffect(() => {
-  //   (async () => {
-  //     setInterval(async () => {
-  //       const v = await browser.proxy.settings.get({});
-  //       console.log("🚀 ~ v:", v);
-  //     }, 1000);
-  //   })();
-  // }, []);
 
   const handleClick = (profileKey: string) => {
     const profile = allProfiles[profileKey];

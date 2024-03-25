@@ -28,6 +28,11 @@ export function useProfiles() {
     if (basicProfile.profileType === "FixedProfile") {
       profile = {
         ...basicProfile,
+        fallbackProxy: {
+          scheme: "http",
+          host: "example.com",
+          port: 80,
+        },
         bypassList: [
           { conditionType: "BypassCondition", pattern: "127.0.0.1" },
           { conditionType: "BypassCondition", pattern: "[::1]" },
@@ -44,10 +49,18 @@ export function useProfiles() {
     }
   };
 
+  const updateProfile = (profile: Profile) => {
+    setProfiles({
+      ...profiles,
+      [nameAsKey(profile.name)]: profile,
+    });
+  };
+
   return {
     profiles,
     allProfiles,
     setProfiles,
     addProfile,
+    updateProfile,
   };
 }
