@@ -28,7 +28,7 @@ export function useProfiles() {
     if (basicProfile.profileType === "FixedProfile") {
       profile = {
         ...basicProfile,
-        fallbackProxy: {
+        singleProxy: {
           scheme: "http",
           host: "example.com",
           port: 80,

@@ -60,12 +60,12 @@ export default function ProfileName() {
               <tr>
                 <td>
                   <select
-                    value={profile.fallbackProxy.scheme}
+                    value={profile.singleProxy.scheme}
                     onChange={(e) =>
                       setProfile({
                         ...profile,
-                        fallbackProxy: {
-                          ...profile.fallbackProxy,
+                        singleProxy: {
+                          ...profile.singleProxy,
                           scheme: e.target.value as any,
                         },
                       })
@@ -82,12 +82,12 @@ export default function ProfileName() {
                   <input
                     type="text"
                     className="rounded-sm border"
-                    value={profile.fallbackProxy.host}
+                    value={profile.singleProxy.host}
                     onChange={(e) => {
                       setProfile({
                         ...profile,
-                        fallbackProxy: {
-                          ...profile.fallbackProxy,
+                        singleProxy: {
+                          ...profile.singleProxy,
                           host: e.target.value,
                         },
                       });
@@ -98,12 +98,12 @@ export default function ProfileName() {
                   <input
                     type="text"
                     className="rounded-sm border"
-                    value={profile.fallbackProxy.port}
+                    value={profile.singleProxy.port}
                     onChange={(e) => {
                       setProfile({
                         ...profile,
-                        fallbackProxy: {
-                          ...profile.fallbackProxy,
+                        singleProxy: {
+                          ...profile.singleProxy,
                           port: Number.parseInt(e.target.value),
                         },
                       });
