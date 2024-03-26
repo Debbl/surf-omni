@@ -1,8 +1,5 @@
-import { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { nameAsKey } from "surf-pac";
-import { useProfiles } from "~/atoms/hooks/useProfiles";
-import type { Profile } from "surf-pac";
+import { useProfile } from "~/entrypoints/index/hooks/useProfile";
 
 const SCHEME = [
   {
@@ -25,15 +22,7 @@ const SCHEME = [
 
 export default function ProfileName() {
   const { name = "" } = useParams();
-  const { profiles, updateProfile } = useProfiles();
-
-  const profile = useMemo(() => {
-    return profiles[nameAsKey(name)];
-  }, [name, profiles]);
-
-  const setProfile = (profile: Profile) => {
-    updateProfile(profile);
-  };
+  const { profile, setProfile } = useProfile(name);
 
   if (!profile) return <div>Profile not found</div>;
 
