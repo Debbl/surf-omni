@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { pacResult } from "./profiles";
+import { pacResult } from "./utils";
 
 describe("#profiles", () => {
   it("should return DIRECT for no proxy", () => {

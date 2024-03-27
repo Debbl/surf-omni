@@ -7,7 +7,7 @@ import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
 import { Button } from "~/components/Button";
 import { Earth, Settings, TransferFill } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
-import { currentProfileKeyAtom } from "~/atoms/currentProfileKey";
+import { currentProfileNameAtom } from "@/atoms/currentProfileName";
 import type { IIcon } from "~/icons";
 
 async function handleOpenSetting() {
@@ -25,9 +25,9 @@ async function handleOpenSetting() {
 
 export default function App() {
   const { isLoading } = useLoadFormLocal();
-  const { profiles, allProfiles } = useProfiles();
-  const [currentProfileKey, setCurrentProfileKey] = useAtom(
-    currentProfileKeyAtom,
+  const { showProfiles, profiles, allProfiles } = useProfiles();
+  const [currentProfileName, setCurrentProfileName] = useAtom(
+    currentProfileNameAtom,
   );
 
   const Menu: {
@@ -35,7 +35,7 @@ export default function App() {
     children: {
       name: string;
       icon?: IIcon;
-      profileKey?: string;
+      profileName?: string;
       onClick?: () => void;
     }[];
   }[] = [
@@ -45,21 +45,21 @@ export default function App() {
         {
           name: "直接连接",
           icon: TransferFill,
-          profileKey: "+direct",
+          profileName: "direct",
         },
         {
           name: "系统代理",
           icon: Earth,
-          profileKey: "+system",
+          profileName: "system",
         },
       ],
     },
     {
       name: "Profiles",
       children: [
-        ...Object.values(profiles).map(({ name }) => ({
+        ...Object.values(showProfiles).map(({ name }) => ({
           name,
-          profileKey: nameAsKey(name),
+          profileName: name,
         })),
       ],
     },
@@ -75,13 +75,13 @@ export default function App() {
     },
   ];
 
-  const handleClick = (profileKey: string) => {
-    const profile = allProfiles[profileKey];
+  const handleClick = (profileName: string) => {
+    const profile = allProfiles[nameAsKey(profileName)];
     if (!profile) return;
-    setCurrentProfileKey(profileKey);
+    setCurrentProfileName(profileName);
 
     setBrowserProxy({
-      value: getProxyValue(profile),
+      value: getProxyValue(profileName, profiles),
     });
   };
 
@@ -98,7 +98,7 @@ export default function App() {
                 <Button
                   leftIcon={i.icon}
                   className={twMerge(
-                    i.profileKey === currentProfileKey
+                    i.profileName === currentProfileName
                       ? "rounded-sm bg-blue-400 text-white hover:bg-blue-500"
                       : "",
                   )}
@@ -106,7 +106,7 @@ export default function App() {
                     if (i.onClick) {
                       i.onClick();
                     } else {
-                      i.profileKey && handleClick(i.profileKey);
+                      i.profileName && handleClick(i.profileName);
                     }
                   }}
                 >

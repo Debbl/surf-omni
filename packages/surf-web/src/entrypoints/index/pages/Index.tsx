@@ -13,7 +13,7 @@ import type { OnOk } from "../components/NewProfileModel";
 
 export default function Index() {
   const [isOpenModel, setIsOpenModel] = useState(false);
-  const { profiles, addProfile } = useProfiles();
+  const { showProfiles, addProfile } = useProfiles();
   const [isSettingsChange] = useAtom(isSettingsChangeAtom);
 
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function Index() {
     {
       name: "情景模式",
       children: [
-        ...Object.entries(profiles).map(([_key, profile]) => ({
+        ...Object.entries(showProfiles).map(([_key, profile]) => ({
           name: profile.name,
           className:
             name === profile.name

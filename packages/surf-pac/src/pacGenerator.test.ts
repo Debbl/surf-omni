@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { generate } from "surf-ast";
-import { pacGenerator } from "./pacGenerator";
+import { script } from "./pacGenerator";
 
 const options = {
   "+auto": {
@@ -36,7 +36,7 @@ const options = {
     name: "proxy",
     profileType: "FixedProfile",
     revision: "test",
-    fallbackProxy: {
+    singleProxy: {
       scheme: "http",
       host: "127.0.0.1",
       port: 8888,
@@ -60,14 +60,14 @@ const options = {
 
 describe("pacGenerator", () => {
   it("should generate pac scripts from options", () => {
-    const script = pacGenerator.script("auto", options);
-    const code = generate(script);
+    const ast = script("auto", options);
+    const code = generate(ast);
     expect(code).not.to.empty;
 
     // eslint-disable-next-line no-eval
     const func = eval(`(function () { ${code}\n return FindProxyForURL; })()`);
 
     const result = func("http://www.example.com/", "www.example.com");
-    expect(result).toBe("direct");
+    expect(result).toBe("DIRECT");
   });
 });

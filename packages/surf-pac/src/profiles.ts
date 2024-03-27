@@ -1,8 +1,15 @@
+import { generate } from "surf-ast";
+import { script } from "./pacGenerator";
+import { nameAsKey } from "./utils";
 import type { Condition } from "./conditions";
 
 export type BuiltinProfileType = "DirectProfile" | "SystemProfile";
 
-export type ProfileType = BuiltinProfileType | "FixedProfile" | "SwitchProfile";
+export type ProfileType =
+  | BuiltinProfileType
+  | "FixedProfile"
+  | "SwitchProfile"
+  | "RuleListProfile";
 
 export type OptionProfileType = Exclude<ProfileType, BuiltinProfileType>;
 
@@ -12,6 +19,14 @@ export interface BasicProfile {
 }
 
 export type Scheme = "http" | "https" | "quic" | "socks4" | "socks5";
+
+export interface DirectProfile extends BasicProfile {
+  profileType: "DirectProfile";
+}
+export interface SystemProfile extends BasicProfile {
+  profileType: "SystemProfile";
+}
+
 export interface FixedProfile extends BasicProfile {
   profileType: "FixedProfile";
   singleProxy: {
@@ -24,73 +39,33 @@ export interface FixedProfile extends BasicProfile {
 
 export interface SwitchProfile extends BasicProfile {
   profileType: "SwitchProfile";
-  fallbackProxy?: {
-    scheme: Scheme;
-    host: string;
-    port: number;
-  };
-  bypassList: Condition[];
+  defaultProfileName: string;
+  rules: {
+    condition: Condition;
+    profileName: string;
+  }[];
 }
 
-export interface DirectProfile extends BasicProfile {
-  profileType: "DirectProfile";
-}
-export interface SystemProfile extends BasicProfile {
-  profileType: "SystemProfile";
+export interface RuleListProfile extends BasicProfile {
+  profileType: "RuleListProfile";
+  matchProfileName: string;
+  defaultProfileName: string;
+  url: string;
+  raw: string;
 }
 
 export type Profile =
   | DirectProfile
   | SystemProfile
   | FixedProfile
-  | SwitchProfile;
+  | SwitchProfile
+  | RuleListProfile;
 
 export type Profiles = Record<string, Profile>;
 
-interface IProxy {
-  scheme: string;
-  host: string;
-  port: number;
-}
+export function getProxyValue(currentProfileName: string, profiles: Profiles) {
+  const profile = profiles[nameAsKey(currentProfileName)];
 
-export const pacProtocols = {
-  http: "PROXY",
-  https: "HTTPS",
-  socks4: "SOCKS",
-  socks5: "SOCKS5",
-};
-
-export function pacResult(proxy?: IProxy) {
-  if (!proxy) {
-    return "DIRECT";
-  }
-
-  const { scheme, host, port } = proxy;
-  if (scheme === "socks5") {
-    return `SOCKS5 ${host}:${port}; SOCKS ${host}:${port}`;
-  } else {
-    return `${pacProtocols[scheme]} ${host}:${port}`;
-  }
-}
-
-export function isFileUrl(url: string) {
-  return url.slice(0, 5).toUpperCase() === "FILE:";
-}
-
-export function nameAsKey(profileName: string) {
-  return `+${profileName}`;
-}
-
-export function isProfile(profileName: string) {
-  return profileName[0] === "+";
-}
-
-export function keyAsName(key: string) {
-  if (isProfile(key)) return key.slice(1);
-  return key;
-}
-
-export function getProxyValue(profile: Profile) {
   switch (profile.profileType) {
     case "DirectProfile":
       return {
@@ -108,7 +83,15 @@ export function getProxyValue(profile: Profile) {
           bypassList: profile.bypassList.map((item) => item.pattern),
         },
       };
+    case "SwitchProfile":
+      return {
+        mode: "pac_script",
+        pacScript: {
+          data: generate(script(currentProfileName, profiles)),
+        },
+      };
   }
+
   return {
     mode: "direct",
   };

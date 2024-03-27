@@ -2,9 +2,9 @@ import { getDefaultStore } from "jotai";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { profilesAtom, profilesStoreKey } from "~/atoms/profiles";
 import {
-  currentProfileKeyAtom,
-  currentProfileKeyStoreKey,
-} from "~/atoms/currentProfileKey";
+  currentProfileNameAtom,
+  currentProfileNameStoreKey,
+} from "@/atoms/currentProfileName";
 import type { Profiles } from "surf-pac";
 
 export const store = getDefaultStore();
@@ -19,12 +19,12 @@ export async function loadFromLocal() {
   const localProfiles = await storage.get(profilesStoreKey);
   const profiles = (localProfiles[profilesStoreKey] ?? {}) as Profiles;
 
-  const localCurrentProfileKey = await storage.get(currentProfileKeyStoreKey);
-  const currentProfileKey =
-    localCurrentProfileKey[currentProfileKeyStoreKey] ?? "";
+  const localCurrentProfileKey = await storage.get(currentProfileNameStoreKey);
+  const currentProfileName =
+    localCurrentProfileKey[currentProfileNameStoreKey] ?? "";
 
   store.set(profilesAtom, profiles);
-  store.set(currentProfileKeyAtom, currentProfileKey);
+  store.set(currentProfileNameAtom, currentProfileName);
 
   store.sub(profilesAtom, () => {
     if (!isInit) store.set(isSettingsChangeAtom, true);

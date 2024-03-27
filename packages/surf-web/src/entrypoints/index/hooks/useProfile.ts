@@ -1,15 +1,16 @@
 import { useMemo } from "react";
-import { useProfiles } from "@/atoms/hooks/useProfiles";
+import { nameAsKey } from "surf-pac";
+import { useProfiles } from "~/atoms/hooks/useProfiles";
 import type { Profile } from "surf-pac";
 
-export function useProfile(key: string) {
-  const { profiles, updateProfile } = useProfiles();
+export function useProfile<T extends Profile>(name: string) {
+  const { allProfiles, updateProfile } = useProfiles();
 
   const profile = useMemo(() => {
-    return profiles[key];
-  }, [key, profiles]);
+    return allProfiles[nameAsKey(name)];
+  }, [name, allProfiles]) as T;
 
-  const setProfile = (profile: Profile) => {
+  const setProfile = (profile: T) => {
     updateProfile(profile);
   };
 

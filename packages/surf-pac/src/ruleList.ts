@@ -1,6 +1,6 @@
 import type { Condition } from "./conditions";
 
-interface IRule {
+export interface Rule {
   condition: Condition;
   profileName: string;
   source: string;
@@ -64,13 +64,12 @@ export function getCondition(line: string): Condition {
 }
 
 export function parse(
-  textRaw: string,
+  text: string,
   matchProfileName: string,
   defaultProfileName: string,
-) {
-  const text = preprocess(textRaw);
-  const normalRules: IRule[] = [];
-  const exclusiveRules: IRule[] = [];
+): Rule[] {
+  const normalRules: Rule[] = [];
+  const exclusiveRules: Rule[] = [];
 
   text
     .split(/\n|\r/)

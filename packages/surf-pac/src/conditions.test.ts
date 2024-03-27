@@ -235,6 +235,7 @@ describe("bypassCondition", () => {
   //   testCond(cond, "http://[1::1]:8080/", false);
   // });
 });
+
 describe("keywordCondition", () => {
   const cond: Condition = {
     conditionType: "KeywordCondition",

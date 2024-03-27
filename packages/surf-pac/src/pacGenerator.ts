@@ -7,7 +7,6 @@ import {
   doWhileStatement,
   expressionStatement,
   functionExpression,
-  generate,
   identifier,
   ifStatement,
   literal,
@@ -21,40 +20,12 @@ import {
   variableDeclarator,
 } from "surf-ast";
 import { parserCondition } from "./conditions";
-import type { Condition } from "./conditions";
+import { parse } from "./ruleList";
+import { nameAsKey, pacResult } from "./utils";
+import type { Profiles } from "./profiles";
 import type { Statement } from "estree";
 
-interface IBasicOption {
-  name: string;
-  profileType: string;
-  revision: string;
-  defaultProfileName?: string;
-}
-
-interface ISwitchProfileOption extends IBasicOption {
-  profileType: "SwitchProfile";
-  defaultProfileName: string;
-  rules: Array<{
-    profileName: string;
-    condition: Condition;
-  }>;
-}
-
-interface IFixedProfileOption extends IBasicOption {
-  profileType: "FixedProfile";
-  fallbackProxy: {
-    scheme: string;
-    host: string;
-    port: number;
-  };
-  bypassList: Condition[];
-}
-
-type IOption = ISwitchProfileOption | IFixedProfileOption;
-
-type IOptions = Record<string, IOption>;
-
-function parserOptions(options: IOptions) {
+function parserOptions(profiles: Profiles) {
   const factory = (
     statements: Array<Statement>,
     defaultProfileName: string,
@@ -69,35 +40,57 @@ function parserOptions(options: IOptions) {
     );
   };
 
-  const properties = Object.keys(options).map((key) => {
-    const option = options[key];
-    const { profileType } = option;
+  const properties = Object.keys(profiles).map((key) => {
+    const profile = profiles[key];
+    const { profileType } = profile;
+    let defaultProfileName = (profile as any).defaultProfileName;
+    if (defaultProfileName === "direct" || !defaultProfileName) {
+      defaultProfileName = "DIRECT";
+    } else {
+      defaultProfileName = nameAsKey(defaultProfileName);
+    }
 
     let ifAsts: Array<Statement> = [];
-    const rules = option.profileType === "SwitchProfile" ? option.rules : [];
-    if (profileType === "SwitchProfile") {
-      ifAsts = rules.map((rule) => {
-        return parserCondition(rule.condition, `+${rule.profileName}`);
-      });
-    }
+    const rules = profile.profileType === "SwitchProfile" ? profile.rules : [];
 
     if (profileType === "FixedProfile") {
-      ifAsts = option.bypassList.map((bypass) => {
+      ifAsts = profile.bypassList.map((bypass) => {
         return parserCondition(bypass, "DIRECT");
+      });
+      defaultProfileName = pacResult(profile.singleProxy);
+    }
+
+    if (profileType === "SwitchProfile") {
+      ifAsts = rules.map((rule) => {
+        return parserCondition(
+          rule.condition,
+          rule.profileName === "direct" ? "DIRECT" : `+${rule.profileName}`,
+        );
       });
     }
 
-    return property(
-      literal(key),
-      factory(ifAsts, option.defaultProfileName ?? "DIRECT"),
-      "init",
-    );
+    if (profileType === "RuleListProfile") {
+      const rules = parse(
+        profile.raw,
+        profile.matchProfileName,
+        profile.defaultProfileName,
+      );
+
+      ifAsts = rules.map((rule) => {
+        return parserCondition(
+          rule.condition,
+          rule.profileName === "direct" ? "DIRECT" : `+${rule.profileName}`,
+        );
+      });
+    }
+
+    return property(literal(key), factory(ifAsts, defaultProfileName), "init");
   });
 
   return objectExpression(properties);
 }
 
-function script(init: string, options: IOptions) {
+export function script(init: string, profiles: Profiles) {
   const doWhile = doWhileStatement(
     blockStatement([
       expressionStatement(
@@ -187,14 +180,8 @@ function script(init: string, options: IOptions) {
           [identifier("init"), identifier("profiles")],
           blockStatement([returnStatement(factory)]),
         ),
-        [literal(`+${init}`), parserOptions(options)],
+        [literal(`+${init}`), parserOptions(profiles)],
       ),
     ),
   ]);
 }
-
-export const pacGenerator = {
-  script,
-  parserOptions,
-  generate,
-};

@@ -1,9 +1,19 @@
 import { useAtom } from "jotai";
 import { nameAsKey } from "surf-pac";
+import { useMemo } from "react";
 import { profilesAtom } from "../profiles";
-import type { BasicProfile, Profile, Profiles } from "surf-pac";
+import type {
+  BasicProfile,
+  DirectProfile,
+  FixedProfile,
+  Profile,
+  Profiles,
+  RuleListProfile,
+  SwitchProfile,
+  SystemProfile,
+} from "surf-pac";
 
-export const builtinProfiles: Profiles = {
+export const builtinProfiles: Record<string, DirectProfile | SystemProfile> = {
   "+direct": {
     name: "direct",
     profileType: "DirectProfile",
@@ -23,10 +33,10 @@ export function useProfiles() {
   };
 
   const addProfile = (basicProfile: BasicProfile) => {
-    let profile: Profile | null = null;
+    const addProfiles: Profiles = {};
 
     if (basicProfile.profileType === "FixedProfile") {
-      profile = {
+      addProfiles[nameAsKey(basicProfile.name)] = {
         ...basicProfile,
         singleProxy: {
           scheme: "http",
@@ -38,13 +48,31 @@ export function useProfiles() {
           { conditionType: "BypassCondition", pattern: "[::1]" },
           { conditionType: "BypassCondition", pattern: "localhost" },
         ],
-      };
+      } as FixedProfile;
     }
 
-    if (profile) {
+    if (basicProfile.profileType === "SwitchProfile") {
+      addProfiles[nameAsKey(`__ruleListOf_${basicProfile.name}`)] = {
+        name: `__ruleListOf_${basicProfile.name}`,
+        profileType: "RuleListProfile",
+        matchProfileName: "direct",
+        defaultProfileName: "direct",
+        url: "",
+        raw: "",
+      } as RuleListProfile;
+
+      addProfiles[nameAsKey(basicProfile.name)] = {
+        ...basicProfile,
+        profileType: "SwitchProfile",
+        defaultProfileName: `__ruleListOf_${basicProfile.name}`,
+        rules: [],
+      } as SwitchProfile;
+    }
+
+    if (addProfiles) {
       setProfiles({
         ...profiles,
-        [nameAsKey(profile.name)]: profile,
+        ...addProfiles,
       });
     }
   };
@@ -56,9 +84,19 @@ export function useProfiles() {
     });
   };
 
+  const showProfiles = useMemo(() => {
+    return Object.fromEntries(
+      Object.entries(profiles).filter(([_key, profile]) =>
+        ["FixedProfile", "SwitchProfile"].includes(profile.profileType),
+      ),
+    );
+  }, [profiles]) as Record<string, FixedProfile | SwitchProfile>;
+
   return {
     profiles,
+    showProfiles,
     allProfiles,
+    builtinProfiles,
     setProfiles,
     addProfile,
     updateProfile,

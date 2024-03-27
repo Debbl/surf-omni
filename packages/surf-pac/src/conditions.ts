@@ -113,7 +113,7 @@ export function bypassConditionPattern(pattern: string) {
 }
 
 export function keywordConditionPattern(pattern: string) {
-  return `^http:\\/\\/\.*${pattern}.*`;
+  return `^http:\\/\\/\.*${pattern.replace(/[.+^${}()|[\]\\/]/g, "\\$&")}.*`;
 }
 
 export function parserCondition(condition: Condition, match: string) {
