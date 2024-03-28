@@ -45,12 +45,11 @@ export function formatURL(url: string) {
 }
 
 /**
- * start with http or https, optional www, then pattern
  * @param pattern
  * @returns a regex pattern
  */
 export function urlRegexConditionPattern(pattern: string) {
-  return `^(http|https)?:\\/\\/(?:www\\.)?${pattern}`;
+  return pattern;
 }
 
 /**

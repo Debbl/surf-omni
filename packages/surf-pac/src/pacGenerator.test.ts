@@ -68,6 +68,6 @@ describe("pacGenerator", () => {
     const func = eval(`(function () { ${code}\n return FindProxyForURL; })()`);
 
     const result = func("http://www.example.com/", "www.example.com");
-    expect(result).toBe("DIRECT");
+    expect(result).toBe("PROXY 127.0.0.1:8888");
   });
 });
