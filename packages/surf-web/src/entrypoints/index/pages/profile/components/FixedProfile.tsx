@@ -68,7 +68,7 @@ export default function FixedProfile({
                     });
                   }}
                 >
-                  <SelectTrigger className="w-28">
+                  <SelectTrigger className="w-36">
                     <SelectValue placeholder="select" />
                   </SelectTrigger>
                   <SelectContent>

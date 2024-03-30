@@ -87,6 +87,16 @@ export function SwitchProfileRules({
     });
   };
 
+  const handleRemoveRule = (index: number) => {
+    const newRules = [...switchProfile.rules];
+    newRules.splice(index, 1);
+
+    setSwitchProfile({
+      ...switchProfile,
+      rules: newRules,
+    });
+  };
+
   return (
     <>
       {switchProfile.rules.map((rule, index) => (
@@ -135,7 +145,10 @@ export function SwitchProfileRules({
             </Select>
           </TableCell>
           <TableCell>
-            <Button className="justify-center">
+            <Button
+              onClick={() => handleRemoveRule(index)}
+              className="justify-center"
+            >
               <Icon icon={Delete} />
             </Button>
           </TableCell>
