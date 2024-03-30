@@ -8,6 +8,7 @@ import { Button } from "~/components/Button";
 import { Earth, Settings, TransferFill } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { currentProfileNameAtom } from "@/atoms/currentProfileName";
+import { Loading } from "~/components/Loading";
 import type { IIcon } from "~/icons";
 
 async function handleOpenSetting() {
@@ -85,7 +86,7 @@ export default function App() {
     });
   };
 
-  if (isLoading) return <div>loading</div>;
+  if (isLoading) return <Loading />;
 
   return (
     <>
