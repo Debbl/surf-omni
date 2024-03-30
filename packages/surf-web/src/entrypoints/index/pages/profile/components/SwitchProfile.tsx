@@ -125,6 +125,7 @@ export default function SwitchProfile({
           <Textarea
             value={ruleListProfile.raw}
             rows={8}
+            disabled
             className="w-[80%]"
             onChange={(e) => {
               setRuleListProfile({
