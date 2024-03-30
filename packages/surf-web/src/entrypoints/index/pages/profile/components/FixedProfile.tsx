@@ -69,7 +69,7 @@ export default function FixedProfile({
                   }}
                 >
                   <SelectTrigger className="w-28">
-                    <SelectValue placeholder="Select a timezone" />
+                    <SelectValue placeholder="select" />
                   </SelectTrigger>
                   <SelectContent>
                     {SCHEME.map((item) => (

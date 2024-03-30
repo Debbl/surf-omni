@@ -212,10 +212,8 @@ export function Loading(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function Icon(props: { icon: IIcon } & SVGProps<SVGSVGElement>) {
-  const _props = Object.fromEntries(
-    Object.entries(props).filter(([key]) => key !== "icon"),
-  );
+export function Icon(IconProps: { icon: IIcon } & SVGProps<SVGSVGElement>) {
+  const { icon: _, ...props } = IconProps;
 
-  return <props.icon {..._props} />;
+  return <IconProps.icon {...props} />;
 }

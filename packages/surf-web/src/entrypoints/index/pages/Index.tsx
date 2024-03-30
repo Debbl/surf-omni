@@ -70,6 +70,7 @@ export default function Index() {
         {
           name: "撤销更改",
           icon: CloseCircleOutlined,
+          variant: "outline",
           disabled: !isSettingsChange,
           active: isSettingsChange ? "failure" : undefined,
           onClick: () => resetFromLocal(),

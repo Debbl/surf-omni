@@ -1,8 +1,17 @@
 import { preprocess } from "surf-pac";
+import { useMemo } from "react";
 import { Button } from "~/components/Button";
 import { useProfile } from "~/entrypoints/index/hooks/useProfile";
 import { Input } from "~/components/Input";
 import { Textarea } from "~/components/Textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/Select";
+import { useProfiles } from "@/atoms/hooks/useProfiles";
 import type {
   SwitchProfile as ISwitchProfile,
   RuleListProfile,
@@ -26,6 +35,22 @@ export default function SwitchProfile({
   const { profile: switchProfile } = useProfile<ISwitchProfile>(profileName);
   const { profile: ruleListProfile, setProfile: setRuleListProfile } =
     useProfile<RuleListProfile>(switchProfile.defaultProfileName);
+  const { showProfiles } = useProfiles();
+
+  const matchProfileNames = useMemo(() => {
+    return [
+      ...Object.values(showProfiles)
+        .map((profile) => ({
+          label: profile.name,
+          value: profile.name,
+        }))
+        .filter(({ value }) => value !== switchProfile.name),
+      {
+        label: "直接连接",
+        value: "direct",
+      },
+    ];
+  }, [showProfiles, switchProfile.name]);
 
   return (
     <div>
@@ -69,17 +94,26 @@ export default function SwitchProfile({
             </Button>
           </div>
           <div>规则列表规则</div>
-          <Input
+          <Select
             value={ruleListProfile.matchProfileName}
-            className="w-[30rem]"
-            type="text"
-            onChange={(e) => {
+            onValueChange={(value) => {
               setRuleListProfile({
                 ...ruleListProfile,
-                matchProfileName: e.target.value,
+                matchProfileName: value as any,
               });
             }}
-          />
+          >
+            <SelectTrigger className="w-28">
+              <SelectValue placeholder="select" />
+            </SelectTrigger>
+            <SelectContent>
+              {matchProfileNames.map(({ label, value }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div>
@@ -89,9 +123,15 @@ export default function SwitchProfile({
         <div>
           <div className="mb-2 mt-6 text-2xl">规则列表正文</div>
           <Textarea
-            defaultValue={ruleListProfile.raw}
+            value={ruleListProfile.raw}
             rows={8}
             className="w-[80%]"
+            onChange={(e) => {
+              setRuleListProfile({
+                ...ruleListProfile,
+                raw: e.target.value,
+              });
+            }}
           />
         </div>
       </div>
