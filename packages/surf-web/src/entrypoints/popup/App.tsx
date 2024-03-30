@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { getProxyValue, nameAsKey } from "surf-pac";
+import { getProxyValue } from "surf-pac";
 import { useAtom } from "jotai";
 import { setBrowserProxy } from "~/lib/proxy";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
@@ -26,7 +26,7 @@ async function handleOpenSetting() {
 
 export default function App() {
   const { isLoading } = useLoadFormLocal();
-  const { showProfiles, profiles, allProfiles } = useProfiles();
+  const { showProfiles, allProfiles } = useProfiles();
   const [currentProfileName, setCurrentProfileName] = useAtom(
     currentProfileNameAtom,
   );
@@ -78,12 +78,10 @@ export default function App() {
   ];
 
   const handleClick = (profileName: string) => {
-    const profile = allProfiles[nameAsKey(profileName)];
-    if (!profile) return;
     setCurrentProfileName(profileName);
 
     setBrowserProxy({
-      value: getProxyValue(profileName, profiles),
+      value: getProxyValue(profileName, allProfiles),
     });
   };
 

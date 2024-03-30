@@ -5,7 +5,7 @@ import { profilesAtom, profilesStoreKey } from "~/atoms/profiles";
 import {
   currentProfileNameAtom,
   currentProfileNameStoreKey,
-} from "@/atoms/currentProfileName";
+} from "~/atoms/currentProfileName";
 import { setBrowserProxy } from "./proxy";
 import type { Profiles } from "surf-pac";
 
@@ -55,3 +55,17 @@ export async function resetFromLocal() {
   store.set(profilesAtom, profiles);
   store.set(isSettingsChangeAtom, false);
 }
+
+export const storageCurrentProfileName = {
+  get: async (): Promise<string> => {
+    const localCurrentProfileKey = await storage.get(
+      currentProfileNameStoreKey,
+    );
+    return localCurrentProfileKey[currentProfileNameStoreKey] ?? "";
+  },
+  set: async (currentProfileName: string) => {
+    await storage.set({
+      [currentProfileNameStoreKey]: currentProfileName,
+    });
+  },
+};
