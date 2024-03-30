@@ -1,10 +1,12 @@
 import { getDefaultStore } from "jotai";
+import { getProxyValue } from "surf-pac";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { profilesAtom, profilesStoreKey } from "~/atoms/profiles";
 import {
   currentProfileNameAtom,
   currentProfileNameStoreKey,
 } from "@/atoms/currentProfileName";
+import { setBrowserProxy } from "./proxy";
 import type { Profiles } from "surf-pac";
 
 export const store = getDefaultStore();
@@ -38,6 +40,12 @@ export async function saveToLocal() {
   await storage.set({ [profilesStoreKey]: profiles });
 
   store.set(isSettingsChangeAtom, false);
+
+  // update current profile name
+  const currentProfileName = store.get(currentProfileNameAtom);
+  setBrowserProxy({
+    value: getProxyValue(currentProfileName, store.get(profilesAtom)),
+  });
 }
 
 export async function resetFromLocal() {

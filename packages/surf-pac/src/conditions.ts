@@ -78,21 +78,17 @@ export function hostWildcardConditionPattern(pattern: string) {
     return `^.*\\.${pattern
       .replace(/[.+^${}()|[\]\\/]/g, "\\$&")
       .replace(/\*/g, ".*")
-      .replace(/\?/g, ".")}$`;
+      .replace(/\?/g, ".?")}$`;
   } else if (pattern.startsWith("*.")) {
     return `^(${pattern
       .replace(/[.+^${}()|[\]\\/]/g, "\\$&")
       .replace(/\*/g, ".*")
-      .replace(/\?/g, ".")}|${pattern
-      .slice(2)
-      .replace(/[.+^${}()|[\]\\/]/g, "\\$&")
-      .replace(/\*/g, ".*")
-      .replace(/\?/g, ".")})$`;
+      .replace(/\?/g, ".?")})$`;
   }
   return `^${pattern
     .replace(/[.+^${}()|[\]\\/]/g, "\\$&")
     .replace(/\*/g, ".*")
-    .replace(/\?/g, ".")}$`;
+    .replace(/\?/g, ".?")}$`;
 }
 
 export function bypassConditionPattern(pattern: string) {

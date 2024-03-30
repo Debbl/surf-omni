@@ -11,7 +11,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/Select";
-import { useProfiles } from "@/atoms/hooks/useProfiles";
+import { useProfiles } from "~/atoms/hooks/useProfiles";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/Table";
+import { SwitchProfileRules } from "./SwitchProfileRules";
 import type {
   SwitchProfile as ISwitchProfile,
   RuleListProfile,
@@ -32,7 +40,8 @@ export default function SwitchProfile({
 }: {
   profileName: string;
 }) {
-  const { profile: switchProfile } = useProfile<ISwitchProfile>(profileName);
+  const { profile: switchProfile, setProfile: setSwitchProfile } =
+    useProfile<ISwitchProfile>(profileName);
   const { profile: ruleListProfile, setProfile: setRuleListProfile } =
     useProfile<RuleListProfile>(switchProfile.defaultProfileName);
   const { showProfiles } = useProfiles();
@@ -53,7 +62,7 @@ export default function SwitchProfile({
   }, [showProfiles, switchProfile.name]);
 
   return (
-    <div>
+    <div className="h-full overflow-y-scroll pb-20">
       <div className="flex items-center justify-between py-6">
         <div className="text-2xl font-medium">
           情景模式：{switchProfile.name}
@@ -63,7 +72,28 @@ export default function SwitchProfile({
 
       <div className="pt-4">
         <div>
-          <div className="text-2xl">切换规则</div>
+          <div className="font-mono text-2xl">切换规则</div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>条件类型</TableHead>
+                <TableHead>条件设置</TableHead>
+                <TableHead>情景模式</TableHead>
+                <TableHead>操作</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <SwitchProfileRules
+                matchProfileNames={matchProfileNames}
+                switchProfile={switchProfile}
+                setSwitchProfile={setSwitchProfile}
+              />
+            </TableBody>
+          </Table>
+        </div>
+
+        <div>
+          <div className="mb-2 mt-6 text-2xl">规则列表设置</div>
           <div className="mt-6 flex w-full items-center gap-x-2 text-sm">
             <div>规则列表网址</div>
             <div>
@@ -93,31 +123,29 @@ export default function SwitchProfile({
               更新
             </Button>
           </div>
-          <div>规则列表规则</div>
-          <Select
-            value={ruleListProfile.matchProfileName}
-            onValueChange={(value) => {
-              setRuleListProfile({
-                ...ruleListProfile,
-                matchProfileName: value as any,
-              });
-            }}
-          >
-            <SelectTrigger className="w-28">
-              <SelectValue placeholder="select" />
-            </SelectTrigger>
-            <SelectContent>
-              {matchProfileNames.map(({ label, value }) => (
-                <SelectItem key={value} value={value}>
-                  {label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div>
-          <div className="mb-2 mt-6 text-2xl">规则列表设置</div>
+          <div className="mt-2 flex items-center gap-x-2 text-sm">
+            <div>规则列表规则</div>
+            <Select
+              value={ruleListProfile.matchProfileName}
+              onValueChange={(value) => {
+                setRuleListProfile({
+                  ...ruleListProfile,
+                  matchProfileName: value as any,
+                });
+              }}
+            >
+              <SelectTrigger className="w-36">
+                <SelectValue placeholder="select" />
+              </SelectTrigger>
+              <SelectContent>
+                {matchProfileNames.map(({ label, value }) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <div>
