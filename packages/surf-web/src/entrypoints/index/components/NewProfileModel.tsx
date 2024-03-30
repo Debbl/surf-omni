@@ -52,12 +52,18 @@ export function NewProfileModel(props: {
     }
   }, [open]);
 
+  const handleOk = () => {
+    if (!name) return;
+
+    onOk?.({ name, profileType });
+  };
+
   return (
     <Model
       title="新建情景模式"
       open={open}
       onCancel={() => setOpen(false)}
-      onOk={() => onOk?.({ name, profileType })}
+      onOk={() => handleOk()}
       className="w-[30rem]"
     >
       <div className="my-3 text-sm">情景模式名称</div>
