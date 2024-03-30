@@ -4,10 +4,11 @@ import { useAtom } from "jotai";
 import { setBrowserProxy } from "~/lib/proxy";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
 import { Button } from "~/components/Button";
-import { Earth, Icon, Settings, TransferFill } from "~/icons";
+import { Icon, PowerOff, Settings, TransferFill } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { currentProfileNameAtom } from "@/atoms/currentProfileName";
 import { Loading } from "~/components/Loading";
+import { getIconByProfileType } from "@/lib/utils";
 import type { IIcon } from "~/icons";
 
 async function handleOpenSetting() {
@@ -49,7 +50,7 @@ export default function App() {
         },
         {
           name: "系统代理",
-          icon: Earth,
+          icon: PowerOff,
           profileName: "system",
         },
       ],
@@ -57,8 +58,9 @@ export default function App() {
     {
       name: "Profiles",
       children: [
-        ...Object.values(showProfiles).map(({ name }) => ({
+        ...Object.values(showProfiles).map(({ name, profileType }) => ({
           name,
+          icon: getIconByProfileType(profileType),
           profileName: name,
         })),
       ],

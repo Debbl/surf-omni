@@ -6,6 +6,7 @@ import { Check, CloseCircleOutlined, Icon, Plus } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { resetFromLocal, saveToLocal } from "~/lib/store";
+import { getIconByProfileType } from "@/lib/utils";
 import { NewProfileModel } from "../components/NewProfileModel";
 import type { ButtonProps } from "~/components/Button";
 import type { IIcon } from "~/icons";
@@ -41,13 +42,16 @@ export default function Index() {
     {
       name: "情景模式",
       children: [
-        ...Object.entries(showProfiles).map(([_key, profile]) => ({
-          name: profile.name,
-          active: (name === profile.name
-            ? "info"
-            : undefined) as ButtonProps["active"],
-          onClick: () => navigate(`/profile/${profile.name}`),
-        })),
+        ...Object.entries(showProfiles).map(
+          ([_key, { name: profileName, profileType }]) => ({
+            name: profileName,
+            icon: getIconByProfileType(profileType),
+            active: (name === profileName
+              ? "info"
+              : undefined) as ButtonProps["active"],
+            onClick: () => navigate(`/profile/${profileName}`),
+          }),
+        ),
         {
           name: "新建情景模式",
           icon: Plus,
