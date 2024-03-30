@@ -1,13 +1,13 @@
 import { Fragment, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useAtom } from "jotai";
-import { twMerge } from "~/lib/tw";
 import { Button } from "~/components/Button";
-import { Check, CloseCircleOutlined, Plus } from "~/icons";
+import { Check, CloseCircleOutlined, Icon, Plus } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { resetFromLocal, saveToLocal } from "~/lib/store";
 import { NewProfileModel } from "../components/NewProfileModel";
+import type { ButtonProps } from "~/components/Button";
 import type { IIcon } from "~/icons";
 import type { OnOk } from "../components/NewProfileModel";
 
@@ -32,7 +32,9 @@ export default function Index() {
     children: {
       name: string;
       icon?: IIcon;
-      className?: string;
+      variant?: ButtonProps["variant"];
+      active?: ButtonProps["active"];
+      disabled?: ButtonProps["disabled"];
       onClick?: () => void;
     }[];
   }[] = [
@@ -41,10 +43,9 @@ export default function Index() {
       children: [
         ...Object.entries(showProfiles).map(([_key, profile]) => ({
           name: profile.name,
-          className:
-            name === profile.name
-              ? "border-blue-600 bg-blue-600 text-white hover:bg-blue-700 hover:border-blue-700"
-              : "",
+          active: (name === profile.name
+            ? "info"
+            : undefined) as ButtonProps["active"],
           onClick: () => navigate(`/profile/${profile.name}`),
         })),
         {
@@ -61,13 +62,16 @@ export default function Index() {
         {
           name: "应用选项",
           icon: Check,
-          className: isSettingsChange ? "border-green-600 text-green-600" : "",
+          variant: "outline",
+          disabled: !isSettingsChange,
+          active: isSettingsChange ? "success" : undefined,
           onClick: () => saveToLocal(),
         },
         {
           name: "撤销更改",
           icon: CloseCircleOutlined,
-          className: isSettingsChange ? "border-red-600 text-red-600" : "",
+          disabled: !isSettingsChange,
+          active: isSettingsChange ? "failure" : undefined,
           onClick: () => resetFromLocal(),
         },
       ],
@@ -87,7 +91,7 @@ export default function Index() {
           <h1 className="text-3xl font-bold">Surf Omni</h1>
 
           <nav className="pt-3">
-            <ul>
+            <ul className="flex flex-col gap-y-1">
               {Menu.map((item) => (
                 <Fragment key={item.name}>
                   {item.divider && <li className="my-2 border-b" />}
@@ -96,13 +100,12 @@ export default function Index() {
                   {item.children.map((i) => (
                     <li key={i.name}>
                       <Button
-                        leftIcon={i?.icon}
+                        variant={i.variant || "ghost"}
                         onClick={i.onClick}
-                        className={twMerge(
-                          "mb-1 border border-transparent rounded-md",
-                          i.className,
-                        )}
+                        active={i.active}
+                        disabled={i.disabled}
                       >
+                        {i.icon && <Icon icon={i.icon} />}
                         {i.name}
                       </Button>
                     </li>

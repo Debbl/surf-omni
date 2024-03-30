@@ -1,6 +1,8 @@
 import { preprocess } from "surf-pac";
 import { Button } from "~/components/Button";
-import { useProfile } from "@/entrypoints/index/hooks/useProfile";
+import { useProfile } from "~/entrypoints/index/hooks/useProfile";
+import { Input } from "~/components/Input";
+import { Textarea } from "~/components/Textarea";
 import type {
   SwitchProfile as ISwitchProfile,
   RuleListProfile,
@@ -40,9 +42,9 @@ export default function SwitchProfile({
           <div className="mt-6 flex w-full items-center gap-x-2 text-sm">
             <div>规则列表网址</div>
             <div>
-              <input
+              <Input
                 value={ruleListProfile.url}
-                className="w-[30rem] rounded-sm border px-2 py-1"
+                className="w-[30rem]"
                 type="text"
                 onChange={(e) => {
                   setRuleListProfile({
@@ -61,15 +63,15 @@ export default function SwitchProfile({
                   });
                 });
               }}
-              className="w-20 justify-center bg-blue-600 text-center text-white hover:bg-blue-700"
+              className="w-20 justify-center"
             >
               更新
             </Button>
           </div>
           <div>规则列表规则</div>
-          <input
+          <Input
             value={ruleListProfile.matchProfileName}
-            className="w-[30rem] rounded-sm border px-2 py-1"
+            className="w-[30rem]"
             type="text"
             onChange={(e) => {
               setRuleListProfile({
@@ -86,10 +88,10 @@ export default function SwitchProfile({
 
         <div>
           <div className="mb-2 mt-6 text-2xl">规则列表正文</div>
-          <textarea
+          <Textarea
             defaultValue={ruleListProfile.raw}
             rows={8}
-            className="w-[80%] rounded-sm border p-2"
+            className="w-[80%]"
           />
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Model } from "~/components/Model";
+import { Input } from "~/components/Input";
 import type { BuiltinProfileType, ProfileType } from "surf-pac";
 
 export type OptionProfileType = Exclude<ProfileType, BuiltinProfileType>;
@@ -27,8 +28,8 @@ function Radio(props: {
         onChange={() => setType(value)}
       />
       <div className="flex flex-col gap-y-1">
-        <div>{title}</div>
-        <div>{desc}</div>
+        <div className="text-xs">{title}</div>
+        <div className="text-xs text-gray-600">{desc}</div>
       </div>
     </label>
   );
@@ -59,15 +60,15 @@ export function NewProfileModel(props: {
       onOk={() => onOk?.({ name, profileType })}
       className="w-[30rem]"
     >
-      <div className="mb-2 text-sm">情景模式名称</div>
-      <input
+      <div className="my-3 text-sm">情景模式名称</div>
+      <Input
         type="text"
         className="h-8 w-full rounded-md border px-2"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
 
-      <div className="my-2 text-sm">请选择情景模式的类型:</div>
+      <div className="my-3 text-sm">请选择情景模式的类型:</div>
       <div className="flex flex-col gap-y-2">
         <Radio
           type={profileType}

@@ -1,3 +1,12 @@
+import { Input } from "~/components/Input";
+import { Textarea } from "~/components/Textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/Select";
 import type { FixedProfile as IFixedProfile } from "surf-pac";
 
 const SCHEME = [
@@ -47,29 +56,33 @@ export default function FixedProfile({
           <tbody>
             <tr>
               <td>
-                <select
+                <Select
                   value={profile.singleProxy.scheme}
-                  onChange={(e) =>
+                  onValueChange={(value) => {
                     setProfile({
                       ...profile,
                       singleProxy: {
                         ...profile.singleProxy,
-                        scheme: e.target.value as any,
+                        scheme: value as any,
                       },
-                    })
-                  }
+                    });
+                  }}
                 >
-                  {SCHEME.map((item) => (
-                    <option key={item.value} value={item.value}>
-                      {item.label}
-                    </option>
-                  ))}
-                </select>
+                  <SelectTrigger className="w-28">
+                    <SelectValue placeholder="Select a timezone" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SCHEME.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </td>
               <td>
-                <input
+                <Input
                   type="text"
-                  className="rounded-sm border"
                   value={profile.singleProxy.host}
                   onChange={(e) => {
                     setProfile({
@@ -83,9 +96,8 @@ export default function FixedProfile({
                 />
               </td>
               <td>
-                <input
-                  type="text"
-                  className="rounded-sm border"
+                <Input
+                  type="number"
                   value={profile.singleProxy.port}
                   onChange={(e) => {
                     setProfile({
@@ -103,7 +115,7 @@ export default function FixedProfile({
         </table>
 
         <div className="mb-2 mt-6 text-2xl">不代理的主机列表</div>
-        <textarea
+        <Textarea
           value={profile.bypassList.map((item) => item.pattern).join("\n")}
           onChange={(e) => {
             setProfile({
@@ -115,7 +127,7 @@ export default function FixedProfile({
             });
           }}
           rows={8}
-          className="w-[80%] rounded-sm border p-2"
+          className="w-[80%]"
         />
       </div>
     </div>

@@ -1,11 +1,10 @@
 import { Fragment } from "react";
 import { getProxyValue, nameAsKey } from "surf-pac";
 import { useAtom } from "jotai";
-import { twMerge } from "~/lib/tw";
 import { setBrowserProxy } from "~/lib/proxy";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
 import { Button } from "~/components/Button";
-import { Earth, Settings, TransferFill } from "~/icons";
+import { Earth, Icon, Settings, TransferFill } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { currentProfileNameAtom } from "@/atoms/currentProfileName";
 import { Loading } from "~/components/Loading";
@@ -90,19 +89,19 @@ export default function App() {
 
   return (
     <>
-      <ul>
-        {Menu.map((item) => (
+      <ul className="flex flex-col gap-y-1 py-1">
+        {Menu.map((item, index) => (
           <Fragment key={item.name}>
-            {item.children.length !== 0 && <li className="border-b" />}
+            {item.children.length !== 0 && index !== 0 && (
+              <li className="border-b" />
+            )}
             {item.children.map((i) => (
               <li key={i.name}>
                 <Button
-                  leftIcon={i.icon}
-                  className={twMerge(
-                    i.profileName === currentProfileName
-                      ? "rounded-sm bg-blue-400 text-white hover:bg-blue-500"
-                      : "",
-                  )}
+                  variant="ghost"
+                  active={
+                    currentProfileName === i.profileName ? "info" : undefined
+                  }
                   onClick={() => {
                     if (i.onClick) {
                       i.onClick();
@@ -111,6 +110,7 @@ export default function App() {
                     }
                   }}
                 >
+                  {i.icon && <Icon icon={i.icon} />}
                   {i.name}
                 </Button>
               </li>
