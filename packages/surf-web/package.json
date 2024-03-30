@@ -17,6 +17,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-select": "^2.0.0",
     "class-variance-authority": "^0.7.0",
     "jotai": "^2.7.0",

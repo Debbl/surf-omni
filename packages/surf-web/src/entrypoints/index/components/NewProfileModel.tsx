@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
-import { Model } from "~/components/Model";
 import { Input } from "~/components/Input";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/Dialog";
+import { Button } from "@/components/Button";
 import type { BuiltinProfileType, ProfileType } from "surf-pac";
 
 export type OptionProfileType = Exclude<ProfileType, BuiltinProfileType>;
@@ -59,39 +66,55 @@ export function NewProfileModel(props: {
   };
 
   return (
-    <Model
-      title="新建情景模式"
-      open={open}
-      onCancel={() => setOpen(false)}
-      onOk={() => handleOk()}
-      className="w-[30rem]"
-    >
-      <div className="my-3 text-sm">情景模式名称</div>
-      <Input
-        type="text"
-        className="h-8 w-full rounded-md border px-2"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>新建情景模式</DialogTitle>
+        </DialogHeader>
 
-      <div className="my-3 text-sm">请选择情景模式的类型:</div>
-      <div className="flex flex-col gap-y-2">
-        <Radio
-          type={profileType}
-          value="FixedProfile"
-          title="代理服务器"
-          desc="经过代理服务器访问网站。"
-          setType={setProfileType}
+        <div className="my-3 text-sm">情景模式名称</div>
+        <Input
+          type="text"
+          className="h-8 w-full rounded-md border px-2"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
-        <Radio
-          type={profileType}
-          value="SwitchProfile"
-          title="自动切换模式"
-          desc="根据多种条件，如域名或网址等自动选择情景模式。您也可以导入在线发布的切换规则（如 AutoProxy 列表）以简化设置。"
-          setType={setProfileType}
-        />
-      </div>
-    </Model>
+        <div className="my-3 text-sm">请选择情景模式的类型:</div>
+        <div className="flex flex-col gap-y-2">
+          <Radio
+            type={profileType}
+            value="FixedProfile"
+            title="代理服务器"
+            desc="经过代理服务器访问网站。"
+            setType={setProfileType}
+          />
+          <Radio
+            type={profileType}
+            value="SwitchProfile"
+            title="自动切换模式"
+            desc="根据多种条件，如域名或网址等自动选择情景模式。您也可以导入在线发布的切换规则（如 AutoProxy 列表）以简化设置。"
+            setType={setProfileType}
+          />
+        </div>
+
+        <DialogFooter>
+          <Button
+            className="w-20 justify-center"
+            variant="outline"
+            onClick={() => setOpen(false)}
+          >
+            取消
+          </Button>
+          <Button
+            className="w-20 justify-center"
+            variant="default"
+            onClick={() => handleOk()}
+          >
+            确定
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
