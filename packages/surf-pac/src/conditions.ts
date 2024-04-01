@@ -75,16 +75,10 @@ export function hostRegexConditionPattern(pattern: string) {
 export function hostWildcardConditionPattern(pattern: string) {
   if (pattern.startsWith("**.")) {
     pattern = pattern.slice(1); // remove one '*'
-    return `^.*\\.${pattern
-      .replace(/[.+^${}()|[\]\\/]/g, "\\$&")
-      .replace(/\*/g, ".*")
-      .replace(/\?/g, ".?")}$`;
   } else if (pattern.startsWith("*.")) {
-    return `^(${pattern
-      .replace(/[.+^${}()|[\]\\/]/g, "\\$&")
-      .replace(/\*/g, ".*")
-      .replace(/\?/g, ".?")})$`;
+    pattern = `*${pattern.slice(2)}`; // *. -> *
   }
+
   return `^${pattern
     .replace(/[.+^${}()|[\]\\/]/g, "\\$&")
     .replace(/\*/g, ".*")
