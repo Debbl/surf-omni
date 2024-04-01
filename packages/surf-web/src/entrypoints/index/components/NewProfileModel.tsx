@@ -6,8 +6,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/Dialog";
-import { Button } from "@/components/Button";
+} from "~/components/Dialog";
+import { Button } from "~/components/Button";
 import type { BuiltinProfileType, ProfileType } from "surf-pac";
 
 export type OptionProfileType = Exclude<ProfileType, BuiltinProfileType>;

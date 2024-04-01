@@ -1,14 +1,13 @@
 import { Fragment } from "react";
 import { getProxyValue } from "surf-pac";
 import { useAtom } from "jotai";
-import { setBrowserProxy } from "~/lib/proxy";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
 import { Button } from "~/components/Button";
 import { Icon, PowerOff, Settings, TransferFill } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
-import { currentProfileNameAtom } from "@/atoms/currentProfileName";
 import { Loading } from "~/components/Loading";
-import { getIconByProfileType } from "@/lib/utils";
+import { browserProxySettings, getIconByProfileType } from "~/lib";
+import { currentProfileNameAtom } from "~/atoms/currentProfileName";
 import type { IIcon } from "~/icons";
 
 async function handleOpenSetting() {
@@ -80,7 +79,7 @@ export default function App() {
   const handleClick = (profileName: string) => {
     setCurrentProfileName(profileName);
 
-    setBrowserProxy({
+    browserProxySettings.set({
       value: getProxyValue(profileName, allProfiles),
     });
   };

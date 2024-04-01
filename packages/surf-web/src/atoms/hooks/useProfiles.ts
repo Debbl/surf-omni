@@ -1,28 +1,21 @@
 import { useAtom } from "jotai";
 import { nameAsKey } from "surf-pac";
 import { useMemo } from "react";
+import {
+  builtinProfiles,
+  defaultFixedProfile,
+  defaultRuleListProfile,
+  defaultSwitchProfile,
+} from "~/constants";
 import { profilesAtom } from "../profiles";
 import type {
   BasicProfile,
-  DirectProfile,
   FixedProfile,
   Profile,
   Profiles,
   RuleListProfile,
   SwitchProfile,
-  SystemProfile,
 } from "surf-pac";
-
-export const builtinProfiles: Record<string, DirectProfile | SystemProfile> = {
-  "+direct": {
-    name: "direct",
-    profileType: "DirectProfile",
-  },
-  "+system": {
-    name: "system",
-    profileType: "SystemProfile",
-  },
-};
 
 export function useProfiles() {
   const [profiles, setProfiles] = useAtom(profilesAtom);
@@ -37,35 +30,21 @@ export function useProfiles() {
 
     if (basicProfile.profileType === "FixedProfile") {
       addProfiles[nameAsKey(basicProfile.name)] = {
+        ...defaultFixedProfile,
         ...basicProfile,
-        singleProxy: {
-          scheme: "http",
-          host: "example.com",
-          port: 80,
-        },
-        bypassList: [
-          { conditionType: "BypassCondition", pattern: "127.0.0.1" },
-          { conditionType: "BypassCondition", pattern: "[::1]" },
-          { conditionType: "BypassCondition", pattern: "localhost" },
-        ],
       } as FixedProfile;
     }
 
     if (basicProfile.profileType === "SwitchProfile") {
       addProfiles[nameAsKey(`__ruleListOf_${basicProfile.name}`)] = {
+        ...defaultRuleListProfile,
         name: `__ruleListOf_${basicProfile.name}`,
-        profileType: "RuleListProfile",
-        matchProfileName: "direct",
-        defaultProfileName: "direct",
-        url: "",
-        raw: "",
       } as RuleListProfile;
 
       addProfiles[nameAsKey(basicProfile.name)] = {
+        ...defaultSwitchProfile,
         ...basicProfile,
-        profileType: "SwitchProfile",
         defaultProfileName: `__ruleListOf_${basicProfile.name}`,
-        rules: [],
       } as SwitchProfile;
     }
 

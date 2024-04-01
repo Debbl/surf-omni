@@ -1,13 +1,13 @@
 import { storageCurrentProfileName } from "~/lib/store";
-import { setActionTitle } from "~/lib/utils";
+import { browserActionSetTitle, browserTabs } from "~/lib";
 import type { Tabs } from "webextension-polyfill";
 
 export default defineBackground(() => {
-  browser.tabs.onActivated.addListener(
+  browserTabs.onActivated.addListener(
     async (activeInfo: Tabs.OnActivatedActiveInfoType) => {
       const currentProfileName = await storageCurrentProfileName.get();
 
-      setActionTitle({
+      browserActionSetTitle({
         title: currentProfileName,
         tabId: activeInfo.tabId,
       });

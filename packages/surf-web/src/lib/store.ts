@@ -6,22 +6,19 @@ import {
   currentProfileNameAtom,
   currentProfileNameStoreKey,
 } from "~/atoms/currentProfileName";
-import { setBrowserProxy } from "./proxy";
+import { browserProxySettings, browserStorageLocal } from "./browser";
 import type { Profiles } from "surf-pac";
 
 export const store = getDefaultStore();
 
-export const storage = {
-  get: browser.storage.local.get,
-  set: browser.storage.local.set,
-};
-
 let isInit = true;
 export async function loadFromLocal() {
-  const localProfiles = await storage.get(profilesStoreKey);
+  const localProfiles = await browserStorageLocal.get(profilesStoreKey);
   const profiles = (localProfiles[profilesStoreKey] ?? {}) as Profiles;
 
-  const localCurrentProfileKey = await storage.get(currentProfileNameStoreKey);
+  const localCurrentProfileKey = await browserStorageLocal.get(
+    currentProfileNameStoreKey,
+  );
   const currentProfileName =
     localCurrentProfileKey[currentProfileNameStoreKey] ?? "";
 
@@ -37,19 +34,19 @@ export async function loadFromLocal() {
 export async function saveToLocal() {
   const profiles = store.get(profilesAtom);
 
-  await storage.set({ [profilesStoreKey]: profiles });
+  await browserStorageLocal.set({ [profilesStoreKey]: profiles });
 
   store.set(isSettingsChangeAtom, false);
 
   // update current profile name
   const currentProfileName = store.get(currentProfileNameAtom);
-  setBrowserProxy({
+  browserProxySettings.set({
     value: getProxyValue(currentProfileName, store.get(profilesAtom)),
   });
 }
 
 export async function resetFromLocal() {
-  const localProfiles = await storage.get(profilesStoreKey);
+  const localProfiles = await browserStorageLocal.get(profilesStoreKey);
   const profiles = (localProfiles[profilesStoreKey] ?? {}) as Profiles;
 
   store.set(profilesAtom, profiles);
@@ -58,13 +55,13 @@ export async function resetFromLocal() {
 
 export const storageCurrentProfileName = {
   get: async (): Promise<string> => {
-    const localCurrentProfileKey = await storage.get(
+    const localCurrentProfileKey = await browserStorageLocal.get(
       currentProfileNameStoreKey,
     );
     return localCurrentProfileKey[currentProfileNameStoreKey] ?? "";
   },
   set: async (currentProfileName: string) => {
-    await storage.set({
+    await browserStorageLocal.set({
       [currentProfileNameStoreKey]: currentProfileName,
     });
   },
