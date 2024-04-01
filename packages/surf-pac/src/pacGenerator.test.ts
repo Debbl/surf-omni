@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { generate } from "surf-ast";
-import { script } from "./pacGenerator";
+import { astringGenerate } from "surf-ast";
+import { pacGeneratorScript } from "./pacGenerator";
 
 const options = {
   "+auto": {
@@ -60,8 +60,8 @@ const options = {
 
 describe("pacGenerator", () => {
   it("should generate pac scripts from options", () => {
-    const ast = script("auto", options);
-    const code = generate(ast);
+    const ast = pacGeneratorScript("auto", options);
+    const code = astringGenerate(ast);
     expect(code).not.to.empty;
 
     // eslint-disable-next-line no-eval

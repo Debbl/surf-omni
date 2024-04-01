@@ -20,7 +20,7 @@ import {
   variableDeclarator,
 } from "surf-ast";
 import { parserCondition } from "./conditions";
-import { parse } from "./ruleList";
+import { ruleListParser } from "./ruleList";
 import { nameAsKey, pacResult } from "./utils";
 import type { Profiles } from "./profiles";
 import type { Statement } from "estree";
@@ -64,13 +64,15 @@ function parserOptions(profiles: Profiles) {
       ifAsts = rules.map((rule) => {
         return parserCondition(
           rule.condition,
-          rule.profileName === "direct" ? "DIRECT" : `+${rule.profileName}`,
+          rule.profileName === "direct"
+            ? "DIRECT"
+            : nameAsKey(rule.profileName),
         );
       });
     }
 
     if (profileType === "RuleListProfile") {
-      const rules = parse(
+      const rules = ruleListParser(
         profile.raw,
         profile.matchProfileName,
         profile.defaultProfileName,
@@ -79,7 +81,9 @@ function parserOptions(profiles: Profiles) {
       ifAsts = rules.map((rule) => {
         return parserCondition(
           rule.condition,
-          rule.profileName === "direct" ? "DIRECT" : `+${rule.profileName}`,
+          rule.profileName === "direct"
+            ? "DIRECT"
+            : nameAsKey(rule.profileName),
         );
       });
     }
@@ -90,7 +94,7 @@ function parserOptions(profiles: Profiles) {
   return objectExpression(properties);
 }
 
-export function script(init: string, profiles: Profiles) {
+export function pacGeneratorScript(init: string, profiles: Profiles) {
   const doWhile = doWhileStatement(
     blockStatement([
       expressionStatement(

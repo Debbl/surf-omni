@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { parse } from "./ruleList";
+import { ruleListParser } from "./ruleList";
 
 function test(line: string, result: any) {
-  const _result = parse(line, "match", "nomatch");
+  const _result = ruleListParser(line, "match", "nomatch");
   expect(_result[0]).toEqual(result);
 }
 

@@ -1,8 +1,8 @@
 import {
+  astringGenerate,
   blockStatement,
   callExpression,
   functionExpression,
-  generate,
   identifier,
   returnStatement,
 } from "surf-ast";
@@ -32,7 +32,7 @@ function testCond(
     [],
   );
 
-  const code = generate(testFuncAst);
+  const code = astringGenerate(testFuncAst);
   // eslint-disable-next-line no-eval
   const testFunc = eval(code) as (
     url: string,

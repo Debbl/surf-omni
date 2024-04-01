@@ -63,7 +63,7 @@ export function getCondition(line: string): Condition {
   };
 }
 
-export function parse(
+export function ruleListParser(
   text: string,
   matchProfileName: string,
   defaultProfileName: string,

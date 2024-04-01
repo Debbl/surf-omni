@@ -1,5 +1,5 @@
-import { generate } from "surf-ast";
-import { script } from "./pacGenerator";
+import { astringGenerate } from "surf-ast";
+import { pacGeneratorScript } from "./pacGenerator";
 import { nameAsKey } from "./utils";
 import type { Condition } from "./conditions";
 
@@ -87,7 +87,9 @@ export function getProxyValue(currentProfileName: string, profiles: Profiles) {
       return {
         mode: "pac_script",
         pacScript: {
-          data: generate(script(currentProfileName, profiles)),
+          data: astringGenerate(
+            pacGeneratorScript(currentProfileName, profiles),
+          ),
         },
       };
   }

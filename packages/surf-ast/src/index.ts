@@ -31,7 +31,7 @@ import type {
   VariableDeclarator,
 } from "estree";
 
-export { generate } from "astring";
+export { generate as astringGenerate } from "astring";
 
 export function property(
   key: Property["key"],
