@@ -10,3 +10,4 @@ export const browserActionSetTitle = (details: Action.SetTitleDetailsType) => {
 export const browserStorageLocal = browser.storage.local;
 export const browserTabs = browser.tabs;
 export const browserProxySettings = browser.proxy.settings;
+export const browserDownloads = browser.downloads;

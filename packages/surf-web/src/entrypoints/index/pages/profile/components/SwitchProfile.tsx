@@ -1,4 +1,4 @@
-import { preprocess } from "surf-pac";
+import { getProxyValue, preprocess } from "surf-pac";
 import { useMemo } from "react";
 import { Button } from "~/components/Button";
 import { useProfile } from "~/entrypoints/index/hooks/useProfile";
@@ -19,6 +19,8 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/Table";
+import { Download, Icon } from "~/icons";
+import { downloadFile } from "@/lib";
 import { SwitchProfileRules } from "./SwitchProfileRules";
 import type {
   SwitchProfile as ISwitchProfile,
@@ -44,7 +46,7 @@ export default function SwitchProfile({
     useProfile<ISwitchProfile>(profileName);
   const { profile: ruleListProfile, setProfile: setRuleListProfile } =
     useProfile<RuleListProfile>(switchProfile.defaultProfileName);
-  const { showProfiles } = useProfiles();
+  const { showProfiles, profiles } = useProfiles();
 
   const matchProfileNames = useMemo(() => {
     return [
@@ -61,11 +63,24 @@ export default function SwitchProfile({
     ];
   }, [showProfiles, switchProfile.name]);
 
+  const exportPacScript = () => {
+    const script = getProxyValue(switchProfile.name, profiles);
+    const data = script.pacScript?.data || "";
+
+    downloadFile(data, `${switchProfile.name}.pac`);
+  };
+
   return (
     <div className="h-full overflow-y-scroll pb-20">
       <div className="flex items-center justify-between py-6">
         <div className="text-2xl font-medium">
           情景模式：{switchProfile.name}
+        </div>
+        <div className="px-6">
+          <Button onClick={() => exportPacScript()}>
+            <Icon icon={Download} />
+            导出PAC
+          </Button>
         </div>
       </div>
       <div className="border-b" />

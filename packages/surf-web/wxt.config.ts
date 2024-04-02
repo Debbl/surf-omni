@@ -6,7 +6,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   manifest: {
     name: "surf-omni",
-    permissions: ["proxy", "storage", "tabs"],
+    permissions: ["proxy", "storage", "tabs", "downloads"],
   },
   srcDir: fileURLToPath(new URL("./src", import.meta.url)),
   publicDir: fileURLToPath(new URL("./public", import.meta.url)),
