@@ -2,6 +2,7 @@
   "name": "surf-pac",
   "type": "module",
   "version": "0.0.0",
+  "packageManager": "pnpm@9.0.6",
   "description": "",
   "author": "",
   "keywords": [],
@@ -21,13 +22,11 @@
     "surf-ast": "workspace:*"
   },
   "devDependencies": {
-    "@debbl/eslint-config": "^3.1.2",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/estree": "^1.0.5",
-    "eslint": "^8.57.0",
-    "rollup": "^4.16.4",
+    "rollup": "^4.17.0",
     "rollup-plugin-dts": "^6.1.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
