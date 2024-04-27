@@ -1,13 +1,6 @@
 import { useAtom } from "jotai";
 import { nameAsKey } from "surf-pac";
 import { useMemo } from "react";
-import {
-  builtinProfiles,
-  defaultFixedProfile,
-  defaultRuleListProfile,
-  defaultSwitchProfile,
-} from "~/constants";
-import { profilesAtom } from "../profiles";
 import type {
   BasicProfile,
   FixedProfile,
@@ -16,6 +9,13 @@ import type {
   RuleListProfile,
   SwitchProfile,
 } from "surf-pac";
+import { profilesAtom } from "../profiles";
+import {
+  builtinProfiles,
+  defaultFixedProfile,
+  defaultRuleListProfile,
+  defaultSwitchProfile,
+} from "~/constants";
 
 export function useProfiles() {
   const [profiles, setProfiles] = useAtom(profilesAtom);

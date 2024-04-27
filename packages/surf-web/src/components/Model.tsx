@@ -1,8 +1,8 @@
 import { createPortal } from "react-dom";
+import type { ReactNode } from "react";
+import { Button } from "./Button";
 import { Close, Icon } from "~/icons";
 import { cn } from "~/lib/utils";
-import { Button } from "./Button";
-import type { ReactNode } from "react";
 
 export function Model(props: {
   title?: string;
