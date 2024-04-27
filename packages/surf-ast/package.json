@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "build": "rollup -c --configPlugin typescript",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

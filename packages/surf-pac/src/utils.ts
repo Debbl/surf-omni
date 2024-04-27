@@ -1,5 +1,7 @@
-interface IProxy {
-  scheme: string;
+import type { Scheme } from "./profiles";
+
+export interface IProxy {
+  scheme: Scheme;
   host: string;
   port: number;
 }

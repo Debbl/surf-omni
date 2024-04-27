@@ -8,6 +8,7 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "test": "turbo test",
+    "typecheck": "turbo typecheck",
     "lint": "eslint . && turbo lint"
   },
   "dependencies": {

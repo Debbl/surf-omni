@@ -18,7 +18,7 @@ export interface BasicProfile {
   profileType: ProfileType;
 }
 
-export type Scheme = "http" | "https" | "quic" | "socks4" | "socks5";
+export type Scheme = "http" | "https" | "socks4" | "socks5";
 
 export interface DirectProfile extends BasicProfile {
   profileType: "DirectProfile";

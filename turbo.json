@@ -9,6 +9,10 @@
       "cache": false,
       "persistent": true
     },
+    "typecheck": {
+      "outputs": [".output/**", "dist/**"],
+      "dependsOn": ["^build"]
+    },
     "test": {},
     "lint": {}
   }

@@ -1,6 +1,6 @@
+import type { Tabs } from "webextension-polyfill";
 import { storageCurrentProfileName } from "~/lib/store";
 import { browserActionSetTitle, browserTabs } from "~/lib";
-import type { Tabs } from "webextension-polyfill";
 
 export default defineBackground(() => {
   browserTabs.onActivated.addListener(

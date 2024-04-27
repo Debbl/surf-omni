@@ -13,6 +13,7 @@
   "scripts": {
     "build": "rollup -c --configPlugin typescript",
     "test": "vitest",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

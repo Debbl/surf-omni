@@ -184,8 +184,8 @@ export function doWhileStatement(
 export function memberExpression(
   object: Expression | Super,
   property: Expression | PrivateIdentifier,
-  computed: boolean,
-  optional?: boolean,
+  computed: boolean = false,
+  optional: boolean = false,
 ): MemberExpression {
   return {
     type: "MemberExpression",
@@ -238,7 +238,7 @@ export function variableDeclaration(
 }
 
 export function functionDeclaration(
-  id: Identifier | null | undefined,
+  id: Identifier,
   params: Array<Identifier | Pattern | RestElement>,
   body: BlockStatement,
 ): FunctionDeclaration {

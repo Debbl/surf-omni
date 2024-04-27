@@ -34,7 +34,7 @@ const handleUpdateSource = async (
   const response = await fetch(url);
   const raw = await response.text();
 
-  updateRaw(preprocess(raw));
+  updateRaw(preprocess(raw) ?? "");
 };
 
 export default function SwitchProfile({
