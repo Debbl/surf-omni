@@ -1,5 +1,5 @@
-import { projectName } from "~/constants";
 import type { Action } from "wxt/browser";
+import { projectName } from "~/constants";
 
 export const browserActionSetTitle = (details: Action.SetTitleDetailsType) => {
   browser.action.setTitle({

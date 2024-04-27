@@ -19,11 +19,11 @@ import {
   variableDeclaration,
   variableDeclarator,
 } from "surf-ast";
+import type { Statement } from "estree";
 import { parserCondition } from "./conditions";
 import { ruleListParser } from "./ruleList";
 import { nameAsKey, pacResult } from "./utils";
 import type { Profiles } from "./profiles";
-import type { Statement } from "estree";
 
 function parserOptions(profiles: Profiles) {
   const factory = (

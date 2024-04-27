@@ -1,3 +1,4 @@
+import type { ConditionType, SwitchProfile } from "surf-pac";
 import { Button } from "~/components/Button";
 import { Input } from "~/components/Input";
 import {
@@ -9,7 +10,6 @@ import {
 } from "~/components/Select";
 import { TableCell, TableRow } from "~/components/Table";
 import { Delete, Icon, Plus } from "~/icons";
-import type { ConditionType, SwitchProfile } from "surf-pac";
 
 const conditionType: {
   label: string;

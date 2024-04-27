@@ -1,16 +1,16 @@
 import { Fragment, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useAtom } from "jotai";
+import { NewProfileModel } from "../components/NewProfileModel";
+import type { OnOk } from "../components/NewProfileModel";
 import { Button } from "~/components/Button";
 import { Check, CloseCircleOutlined, Icon, Plus } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { resetFromLocal, saveToLocal } from "~/lib/store";
 import { getIconByProfileType } from "~/lib/utils";
-import { NewProfileModel } from "../components/NewProfileModel";
 import type { ButtonProps } from "~/components/Button";
 import type { IIcon } from "~/icons";
-import type { OnOk } from "../components/NewProfileModel";
 
 export default function Index() {
   const [isOpenModel, setIsOpenModel] = useState(false);

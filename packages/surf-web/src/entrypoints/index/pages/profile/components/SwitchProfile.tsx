@@ -1,5 +1,10 @@
 import { getProxyValue, preprocess } from "surf-pac";
 import { useMemo } from "react";
+import type {
+  SwitchProfile as ISwitchProfile,
+  RuleListProfile,
+} from "surf-pac";
+import { SwitchProfileRules } from "./SwitchProfileRules";
 import { Button } from "~/components/Button";
 import { useProfile } from "~/entrypoints/index/hooks/useProfile";
 import { Input } from "~/components/Input";
@@ -21,11 +26,6 @@ import {
 } from "~/components/Table";
 import { Download, Icon } from "~/icons";
 import { downloadFile } from "@/lib";
-import { SwitchProfileRules } from "./SwitchProfileRules";
-import type {
-  SwitchProfile as ISwitchProfile,
-  RuleListProfile,
-} from "surf-pac";
 
 const handleUpdateSource = async (
   url: string,
@@ -169,7 +169,7 @@ export default function SwitchProfile({
             value={ruleListProfile.raw}
             rows={8}
             disabled
-            className="w-[80%]"
+            className="w-4/5"
             onChange={(e) => {
               setRuleListProfile({
                 ...ruleListProfile,

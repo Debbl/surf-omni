@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { BuiltinProfileType, ProfileType } from "surf-pac";
 import { Input } from "~/components/Input";
 import {
   Dialog,
@@ -8,7 +9,6 @@ import {
   DialogTitle,
 } from "~/components/Dialog";
 import { Button } from "~/components/Button";
-import type { BuiltinProfileType, ProfileType } from "surf-pac";
 
 export type OptionProfileType = Exclude<ProfileType, BuiltinProfileType>;
 export type OnOk = (value: {

@@ -1,3 +1,4 @@
+import type { FixedProfile as IFixedProfile } from "surf-pac";
 import { Input } from "~/components/Input";
 import { Textarea } from "~/components/Textarea";
 import {
@@ -7,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/Select";
-import type { FixedProfile as IFixedProfile } from "surf-pac";
 
 const SCHEME = [
   {
@@ -45,7 +45,7 @@ export default function FixedProfile({
       <div className="pt-4">
         <div className="text-2xl">代理服务器</div>
 
-        <table className="mt-2 w-[80%] border-separate border-spacing-2 rounded-sm border text-left text-sm">
+        <table className="mt-2 w-4/5 border-separate border-spacing-2 rounded-sm border text-left text-sm">
           <thead>
             <tr>
               <th>代理协议</th>
@@ -127,7 +127,7 @@ export default function FixedProfile({
             });
           }}
           rows={8}
-          className="w-[80%]"
+          className="w-4/5"
         />
       </div>
     </div>

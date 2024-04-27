@@ -14,9 +14,9 @@
     "@debbl/utils": "^0.0.2"
   },
   "devDependencies": {
-    "@debbl/eslint-config": "^3.0.6",
+    "@debbl/eslint-config": "^3.1.2",
     "eslint": "^8.57.0",
-    "turbo": "^1.13.0",
-    "typescript": "^5.4.3"
+    "turbo": "^1.13.3",
+    "typescript": "^5.4.5"
   }
 }
