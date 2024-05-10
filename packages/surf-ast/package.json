@@ -2,7 +2,7 @@
   "name": "surf-ast",
   "type": "module",
   "version": "0.0.0",
-  "packageManager": "pnpm@9.0.6",
+  "packageManager": "pnpm@9.1.0",
   "description": "",
   "author": "",
   "keywords": [],
@@ -25,10 +25,10 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/estree": "^1.0.5",
-    "rollup": "^4.17.0",
+    "rollup": "^4.17.2",
     "rollup-plugin-dts": "^6.1.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
-    "vitest": "^1.5.2"
+    "vitest": "^1.6.0"
   }
 }

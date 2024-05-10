@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@9.0.6",
+  "packageManager": "pnpm@9.1.0",
   "description": "manifest.json description",
   "scripts": {
     "dev": "turbo dev",
@@ -16,7 +16,7 @@
     "@debbl/utils": "^0.0.2"
   },
   "devDependencies": {
-    "@debbl/eslint-config": "^3.1.2",
+    "@debbl/eslint-config": "^3.1.5",
     "eslint": "^8.57.0",
     "turbo": "^1.13.3",
     "typescript": "^5.4.5"
