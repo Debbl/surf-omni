@@ -1,11 +1,10 @@
 import { Fragment } from "react";
 import { getProxyValue } from "surf-pac";
 import { useAtom } from "jotai";
-import { Button } from "@nextui-org/react";
+import { Button, Spinner } from "@nextui-org/react";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
 import { Icon, PowerOff, Settings, TransferFill } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
-import { Loading } from "~/components/Loading";
 import { browserProxySettings, getIconByProfileType } from "~/lib";
 import { currentProfileNameAtom } from "~/atoms/currentProfileName";
 import type { IIcon } from "~/icons";
@@ -84,7 +83,7 @@ export default function App() {
     });
   };
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Spinner className="h-screen w-full" label="loading" />;
 
   return (
     <>

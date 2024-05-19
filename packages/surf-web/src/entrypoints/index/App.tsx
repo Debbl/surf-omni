@@ -1,12 +1,13 @@
 import { RouterProvider } from "react-router-dom";
+import { Spinner } from "@nextui-org/react";
 import { router } from "./router";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
-import { Loading } from "~/components/Loading";
 
 function App() {
   const { isLoading } = useLoadFormLocal();
 
-  if (isLoading) return <Loading />;
+  if (isLoading)
+    return <Spinner className="h-screen w-full" label="Loading..." />;
 
   return <RouterProvider router={router} />;
 }
