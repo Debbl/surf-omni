@@ -19,25 +19,22 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@radix-ui/react-dialog": "^1.0.5",
-    "@radix-ui/react-select": "^2.0.0",
-    "class-variance-authority": "^0.7.0",
+    "@nextui-org/react": "^2.3.6",
+    "@nextui-org/theme": "^2.2.3",
+    "framer-motion": "^11.2.4",
     "jotai": "^2.8.0",
-    "lucide-react": "^0.378.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
     "surf-pac": "workspace:*",
-    "tailwindcss-animate": "^1.0.7"
+    "twl": "0.0.0-alpha.5"
   },
   "devDependencies": {
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
-    "eslint-plugin-tailwindcss": "^3.15.2",
     "postcss": "^8.4.38",
-    "tailwind-merge": "^2.3.0",
     "tailwindcss": "^3.4.3",
     "wxt": "^0.18.2"
   }

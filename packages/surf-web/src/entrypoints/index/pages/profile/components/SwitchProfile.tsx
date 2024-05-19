@@ -4,26 +4,10 @@ import type {
   SwitchProfile as ISwitchProfile,
   RuleListProfile,
 } from "surf-pac";
+import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { SwitchProfileRules } from "./SwitchProfileRules";
-import { Button } from "~/components/Button";
 import { useProfile } from "~/entrypoints/index/hooks/useProfile";
-import { Input } from "~/components/Input";
-import { Textarea } from "~/components/Textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/Select";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/components/Table";
 import { Download, Icon } from "~/icons";
 import { downloadFile } from "@/lib";
 
@@ -44,6 +28,7 @@ export default function SwitchProfile({
 }) {
   const { profile: switchProfile, setProfile: setSwitchProfile } =
     useProfile<ISwitchProfile>(profileName);
+
   const { profile: ruleListProfile, setProfile: setRuleListProfile } =
     useProfile<RuleListProfile>(switchProfile.defaultProfileName);
   const { showProfiles, profiles } = useProfiles();
@@ -77,8 +62,11 @@ export default function SwitchProfile({
           情景模式：{switchProfile.name}
         </div>
         <div className="px-6">
-          <Button onClick={() => exportPacScript()}>
-            <Icon icon={Download} />
+          <Button
+            size="sm"
+            startContent={<Icon icon={Download} />}
+            onClick={() => exportPacScript()}
+          >
             导出PAC
           </Button>
         </div>
@@ -87,44 +75,33 @@ export default function SwitchProfile({
 
       <div className="pt-4">
         <div>
-          <div className="font-mono text-2xl">切换规则</div>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>条件类型</TableHead>
-                <TableHead>条件设置</TableHead>
-                <TableHead>情景模式</TableHead>
-                <TableHead>操作</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <SwitchProfileRules
-                matchProfileNames={matchProfileNames}
-                switchProfile={switchProfile}
-                setSwitchProfile={setSwitchProfile}
-              />
-            </TableBody>
-          </Table>
+          <SwitchProfileRules
+            matchProfileNames={matchProfileNames}
+            switchProfile={switchProfile}
+            setSwitchProfile={setSwitchProfile}
+          />
         </div>
 
         <div>
           <div className="mb-2 mt-6 text-2xl">规则列表设置</div>
           <div className="mt-6 flex w-full items-center gap-x-2 text-sm">
-            <div>规则列表网址</div>
             <div>
               <Input
+                size="sm"
+                label="规则列表网址"
                 value={ruleListProfile.url}
                 className="w-[30rem]"
-                type="text"
-                onChange={(e) => {
+                onValueChange={(v) => {
                   setRuleListProfile({
                     ...ruleListProfile,
-                    url: e.target.value,
+                    url: v,
                   });
                 }}
               />
             </div>
             <Button
+              variant="solid"
+              color="primary"
               onClick={() => {
                 handleUpdateSource(ruleListProfile.url, (raw) => {
                   setRuleListProfile({
@@ -138,42 +115,37 @@ export default function SwitchProfile({
               更新
             </Button>
           </div>
-          <div className="mt-2 flex items-center gap-x-2 text-sm">
-            <div>规则列表规则</div>
-            <Select
-              value={ruleListProfile.matchProfileName}
-              onValueChange={(value) => {
-                setRuleListProfile({
-                  ...ruleListProfile,
-                  matchProfileName: value as any,
-                });
-              }}
-            >
-              <SelectTrigger className="w-36">
-                <SelectValue placeholder="select" />
-              </SelectTrigger>
-              <SelectContent>
-                {matchProfileNames.map(({ label, value }) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        <div>
-          <div className="mb-2 mt-6 text-2xl">规则列表正文</div>
-          <Textarea
-            value={ruleListProfile.raw}
-            rows={8}
-            disabled
-            className="w-4/5"
+          <Select
+            size="sm"
+            className="mt-4 w-60"
+            label="选择规则列表规则"
+            selectedKeys={[ruleListProfile.matchProfileName]}
             onChange={(e) => {
               setRuleListProfile({
                 ...ruleListProfile,
-                raw: e.target.value,
+                matchProfileName: e.target.value,
+              });
+            }}
+          >
+            {matchProfileNames.map(({ label, value }) => (
+              <SelectItem key={value} value={value}>
+                {label}
+              </SelectItem>
+            ))}
+          </Select>
+        </div>
+
+        <div className="mt-8">
+          <Textarea
+            label="规则列表正文"
+            value={ruleListProfile.raw}
+            minRows={8}
+            disabled
+            className="w-4/5"
+            onValueChange={(v) => {
+              setRuleListProfile({
+                ...ruleListProfile,
+                raw: v,
               });
             }}
           />

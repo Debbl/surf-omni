@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import { getProxyValue } from "surf-pac";
 import { useAtom } from "jotai";
+import { Button } from "@nextui-org/react";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
-import { Button } from "~/components/Button";
 import { Icon, PowerOff, Settings, TransferFill } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { Loading } from "~/components/Loading";
@@ -97,9 +97,12 @@ export default function App() {
             {item.children.map((i) => (
               <li key={i.name}>
                 <Button
-                  variant="ghost"
-                  active={
-                    currentProfileName === i.profileName ? "info" : undefined
+                  className="w-full justify-start"
+                  variant={
+                    currentProfileName === i.profileName ? "solid" : "light"
+                  }
+                  color={
+                    currentProfileName === i.profileName ? "primary" : "default"
                   }
                   onClick={() => {
                     if (i.onClick) {
@@ -108,8 +111,10 @@ export default function App() {
                       i.profileName && handleClick(i.profileName);
                     }
                   }}
+                  startContent={
+                    i.icon && <Icon className="size-4" icon={i.icon} />
+                  }
                 >
-                  {i.icon && <Icon icon={i.icon} />}
                   {i.name}
                 </Button>
               </li>

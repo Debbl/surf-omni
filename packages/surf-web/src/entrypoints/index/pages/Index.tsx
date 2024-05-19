@@ -1,15 +1,15 @@
 import { Fragment, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useAtom } from "jotai";
+import { Button } from "@nextui-org/react";
+import type { ButtonProps } from "@nextui-org/react";
 import { NewProfileModel } from "../components/NewProfileModel";
 import type { OnOk } from "../components/NewProfileModel";
-import { Button } from "~/components/Button";
 import { Check, CloseCircleOutlined, Icon, Plus } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { resetFromLocal, saveToLocal } from "~/lib/store";
 import { getIconByProfileType } from "~/lib/utils";
-import type { ButtonProps } from "~/components/Button";
 import type { IIcon } from "~/icons";
 
 export default function Index() {
@@ -34,7 +34,7 @@ export default function Index() {
       name: string;
       icon?: IIcon;
       variant?: ButtonProps["variant"];
-      active?: ButtonProps["active"];
+      color?: ButtonProps["color"];
       disabled?: ButtonProps["disabled"];
       onClick?: () => void;
     }[];
@@ -46,15 +46,20 @@ export default function Index() {
           ([_key, { name: profileName, profileType }]) => ({
             name: profileName,
             icon: getIconByProfileType(profileType),
-            active: (name === profileName
-              ? "info"
-              : undefined) as ButtonProps["active"],
+            variant:
+              name === profileName
+                ? "solid"
+                : ("light" as ButtonProps["variant"]),
+            color: (name === profileName
+              ? "primary"
+              : undefined) as ButtonProps["color"],
             onClick: () => navigate(`/profile/${profileName}`),
           }),
         ),
         {
           name: "新建情景模式",
           icon: Plus,
+          variant: "light",
           onClick: () => setIsOpenModel(true),
         },
       ],
@@ -66,17 +71,17 @@ export default function Index() {
         {
           name: "应用选项",
           icon: Check,
-          variant: "outline",
+          variant: "flat",
           disabled: !isSettingsChange,
-          active: isSettingsChange ? "success" : undefined,
+          color: isSettingsChange ? "success" : undefined,
           onClick: () => saveToLocal(),
         },
         {
           name: "撤销更改",
           icon: CloseCircleOutlined,
-          variant: "outline",
+          variant: "light",
           disabled: !isSettingsChange,
-          active: isSettingsChange ? "failure" : undefined,
+          color: isSettingsChange ? "danger" : undefined,
           onClick: () => resetFromLocal(),
         },
       ],
@@ -91,7 +96,7 @@ export default function Index() {
         onOk={handleOk}
       />
 
-      <div className="flex h-full">
+      <div className="flex h-screen">
         <aside className="w-60 px-8 py-4">
           <h1 className="text-3xl font-bold">Surf Omni</h1>
 
@@ -105,12 +110,13 @@ export default function Index() {
                   {item.children.map((i) => (
                     <li key={i.name}>
                       <Button
-                        variant={i.variant || "ghost"}
+                        className="w-full justify-start"
+                        variant={i.variant}
                         onClick={i.onClick}
-                        active={i.active}
+                        color={i.color}
                         disabled={i.disabled}
+                        startContent={i.icon && <Icon icon={i.icon} />}
                       >
-                        {i.icon && <Icon icon={i.icon} />}
                         {i.name}
                       </Button>
                     </li>
@@ -121,7 +127,7 @@ export default function Index() {
           </nav>
         </aside>
 
-        <main className="flex-1">
+        <main className="h-full flex-1 overflow-y-scroll">
           <Outlet />
         </main>
       </div>

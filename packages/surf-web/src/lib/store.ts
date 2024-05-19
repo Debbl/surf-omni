@@ -40,9 +40,11 @@ export async function saveToLocal() {
 
   // update current profile name
   const currentProfileName = store.get(currentProfileNameAtom);
-  browserProxySettings.set({
-    value: getProxyValue(currentProfileName, store.get(profilesAtom)),
-  });
+  if (currentProfileName) {
+    browserProxySettings.set({
+      value: getProxyValue(currentProfileName, store.get(profilesAtom)),
+    });
+  }
 }
 
 export async function resetFromLocal() {

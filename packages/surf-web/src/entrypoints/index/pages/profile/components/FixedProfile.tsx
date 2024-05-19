@@ -1,13 +1,16 @@
-import type { FixedProfile as IFixedProfile } from "surf-pac";
-import { Input } from "~/components/Input";
-import { Textarea } from "~/components/Textarea";
+import type { FixedProfile as IFixedProfile, Scheme } from "surf-pac";
 import {
+  Input,
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/Select";
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+  Textarea,
+} from "@nextui-org/react";
 
 const SCHEME = [
   {
@@ -44,91 +47,91 @@ export default function FixedProfile({
 
       <div className="pt-4">
         <div className="text-2xl">代理服务器</div>
-
-        <table className="mt-2 w-4/5 border-separate border-spacing-2 rounded-sm border text-left text-sm">
-          <thead>
-            <tr>
-              <th>代理协议</th>
-              <th>代理服务器</th>
-              <th>代理端口</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <Select
-                  value={profile.singleProxy.scheme}
-                  onValueChange={(value) => {
-                    setProfile({
-                      ...profile,
-                      singleProxy: {
-                        ...profile.singleProxy,
-                        scheme: value as any,
-                      },
-                    });
-                  }}
-                >
-                  <SelectTrigger className="w-36">
-                    <SelectValue placeholder="select" />
-                  </SelectTrigger>
-                  <SelectContent>
+        <div className="w-4/5 p-4">
+          <Table aria-label="代理服务器">
+            <TableHeader>
+              <TableColumn width={160}>代理协议</TableColumn>
+              <TableColumn>代理服务器</TableColumn>
+              <TableColumn>代理端口</TableColumn>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell>
+                  <Select
+                    aria-label="选择代理协议"
+                    selectedKeys={[profile.singleProxy.scheme]}
+                    onChange={(e) => {
+                      setProfile({
+                        ...profile,
+                        singleProxy: {
+                          ...profile.singleProxy,
+                          scheme: e.target.value as Scheme,
+                        },
+                      });
+                    }}
+                  >
                     {SCHEME.map((item) => (
                       <SelectItem key={item.value} value={item.value}>
                         {item.label}
                       </SelectItem>
                     ))}
-                  </SelectContent>
-                </Select>
-              </td>
-              <td>
-                <Input
-                  type="text"
-                  value={profile.singleProxy.host}
-                  onChange={(e) => {
-                    setProfile({
-                      ...profile,
-                      singleProxy: {
-                        ...profile.singleProxy,
-                        host: e.target.value,
-                      },
-                    });
-                  }}
-                />
-              </td>
-              <td>
-                <Input
-                  type="number"
-                  value={profile.singleProxy.port}
-                  onChange={(e) => {
-                    setProfile({
-                      ...profile,
-                      singleProxy: {
-                        ...profile.singleProxy,
-                        port: Number.parseInt(e.target.value),
-                      },
-                    });
-                  }}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                  </Select>
+                </TableCell>
+                <TableCell>
+                  <Input
+                    aria-label="host"
+                    type="text"
+                    value={profile.singleProxy.host}
+                    onValueChange={(value) => {
+                      setProfile({
+                        ...profile,
+                        singleProxy: {
+                          ...profile.singleProxy,
+                          host: value,
+                        },
+                      });
+                    }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Input
+                    aria-label="port"
+                    type="number"
+                    value={`${profile.singleProxy.port}`}
+                    onValueChange={(value) => {
+                      setProfile({
+                        ...profile,
+                        singleProxy: {
+                          ...profile.singleProxy,
+                          port: Number.parseInt(value),
+                        },
+                      });
+                    }}
+                  />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
 
-        <div className="mb-2 mt-6 text-2xl">不代理的主机列表</div>
-        <Textarea
-          value={profile.bypassList.map((item) => item.pattern).join("\n")}
-          onChange={(e) => {
-            setProfile({
-              ...profile,
-              bypassList: e.target.value.split("\n").map((pattern) => ({
-                conditionType: "BypassCondition",
-                pattern,
-              })),
-            });
-          }}
-          rows={8}
-          className="w-4/5"
-        />
+        <div className="p-4">
+          <Textarea
+            label="不代理的主机列表"
+            labelPlacement="outside"
+            value={profile.bypassList.map((item) => item.pattern).join("\n")}
+            onValueChange={(value) => {
+              setProfile({
+                ...profile,
+                bypassList: value.split("\n").map((pattern) => ({
+                  conditionType: "BypassCondition",
+                  pattern,
+                })),
+              });
+            }}
+            minRows={8}
+            className="w-4/5"
+          />
+        </div>
       </div>
     </div>
   );
