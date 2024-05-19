@@ -1,4 +1,5 @@
 import type { ProfileType } from "surf-pac";
+import type { Action } from "wxt/browser";
 import { browserDownloads } from "./browser";
 import { AutorenewOutlineRounded, Earth } from "~/icons";
 
@@ -20,4 +21,56 @@ export async function downloadFile(content: string, filename: string) {
     saveAs: true,
     filename,
   });
+}
+
+export function drawCritical(
+  ctx: OffscreenCanvasRenderingContext2D,
+  innerCircleColor: string,
+  outerCircleColor: string,
+) {
+  ctx.globalCompositeOperation = "source-over";
+  ctx.fillStyle = outerCircleColor;
+  ctx.beginPath();
+  ctx.arc(8, 8, 4, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.fill();
+
+  if (innerCircleColor != null) {
+    ctx.fillStyle = innerCircleColor;
+  } else {
+    ctx.globalCompositeOperation = "destination-out";
+  }
+
+  ctx.beginPath();
+  ctx.arc(8, 8, 8, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.fill();
+}
+
+export function drawSurfOmniIcon(
+  innerCircleColor: string,
+  outerCircleColor: string = "#eee",
+) {
+  const canvas = new OffscreenCanvas(16, 16);
+  const ctx = canvas.getContext("2d")!;
+
+  ctx.globalCompositeOperation = "source-over";
+  ctx.fillStyle = outerCircleColor;
+  ctx.beginPath();
+  ctx.arc(8, 8, 4, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.fill();
+
+  if (innerCircleColor != null) {
+    ctx.fillStyle = innerCircleColor;
+  } else {
+    ctx.globalCompositeOperation = "destination-out";
+  }
+
+  ctx.beginPath();
+  ctx.arc(8, 8, 8, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.fill();
+
+  return ctx.getImageData(0, 0, 16, 16) as Action.ImageDataType;
 }

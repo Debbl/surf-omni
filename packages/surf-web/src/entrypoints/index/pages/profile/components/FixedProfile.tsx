@@ -11,6 +11,8 @@ import {
   TableRow,
   Textarea,
 } from "@nextui-org/react";
+import ProfileTop from "./ProfileTop";
+import { useProfiles } from "~/atoms/hooks/useProfiles";
 
 const SCHEME = [
   {
@@ -38,11 +40,11 @@ export default function FixedProfile({
   profile: IFixedProfile;
   setProfile: (profile: IFixedProfile) => void;
 }) {
+  const { profiles } = useProfiles();
+
   return (
     <div>
-      <div className="flex items-center justify-between py-6">
-        <div className="text-2xl font-medium">情景模式：{profile.name}</div>
-      </div>
+      <ProfileTop name={profile.name} profiles={profiles} />
       <div className="border-b"></div>
 
       <div className="pt-4">
@@ -52,7 +54,7 @@ export default function FixedProfile({
             <TableHeader>
               <TableColumn width={160}>代理协议</TableColumn>
               <TableColumn>代理服务器</TableColumn>
-              <TableColumn>代理端口</TableColumn>
+              <TableColumn width={130}>代理端口</TableColumn>
             </TableHeader>
             <TableBody>
               <TableRow>

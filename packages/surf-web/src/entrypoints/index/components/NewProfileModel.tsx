@@ -11,7 +11,7 @@ import {
   Radio,
   RadioGroup,
 } from "@nextui-org/react";
-import { ProfileIcon } from "@/components/ProfileIcon";
+import { ProfileIcon } from "~/components/ProfileIcon";
 
 export type OptionProfileType = Exclude<ProfileType, BuiltinProfileType>;
 export type OnOk = (value: {

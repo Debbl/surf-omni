@@ -1,4 +1,4 @@
-import { getProxyValue, preprocess } from "surf-pac";
+import { preprocess } from "surf-pac";
 import { useMemo } from "react";
 import type {
   SwitchProfile as ISwitchProfile,
@@ -6,10 +6,9 @@ import type {
 } from "surf-pac";
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { SwitchProfileRules } from "./SwitchProfileRules";
+import ProfileTop from "./ProfileTop";
 import { useProfile } from "~/entrypoints/index/hooks/useProfile";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
-import { Download, Icon } from "~/icons";
-import { downloadFile } from "@/lib";
 
 const handleUpdateSource = async (
   url: string,
@@ -48,29 +47,9 @@ export default function SwitchProfile({
     ];
   }, [showProfiles, switchProfile.name]);
 
-  const exportPacScript = () => {
-    const script = getProxyValue(switchProfile.name, profiles);
-    const data = script.pacScript?.data || "";
-
-    downloadFile(data, `${switchProfile.name}.pac`);
-  };
-
   return (
     <div className="h-full overflow-y-scroll pb-20">
-      <div className="flex items-center justify-between py-6">
-        <div className="text-2xl font-medium">
-          情景模式：{switchProfile.name}
-        </div>
-        <div className="px-6">
-          <Button
-            size="sm"
-            startContent={<Icon icon={Download} />}
-            onClick={() => exportPacScript()}
-          >
-            导出PAC
-          </Button>
-        </div>
-      </div>
+      <ProfileTop name={switchProfile.name} profiles={profiles} />
       <div className="border-b" />
 
       <div className="pt-4">
