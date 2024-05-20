@@ -1,7 +1,11 @@
 import { getDefaultStore } from "jotai";
-import { getProxyValue } from "surf-pac";
-import type { Profiles } from "surf-pac";
-import { browserProxySettings, browserStorageLocal } from "./browser";
+import { getProxyValue, nameAsKey } from "surf-pac";
+import type { Profile, Profiles } from "surf-pac";
+import {
+  browserProxySettings,
+  browserStorageLocal,
+  updateBrowserAction,
+} from "./browser";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { profilesAtom, profilesStoreKey } from "~/atoms/profiles";
 import {
@@ -11,10 +15,19 @@ import {
 
 export const store = getDefaultStore();
 
+export const storageProfiles = {
+  get: async (): Promise<Profiles> => {
+    const localProfiles = await browserStorageLocal.get(profilesStoreKey);
+    return localProfiles[profilesStoreKey] ?? {};
+  },
+  set: async (profiles: Profiles) => {
+    await browserStorageLocal.set({ [profilesStoreKey]: profiles });
+  },
+};
+
 let isInit = true;
 export async function loadFromLocal() {
-  const localProfiles = await browserStorageLocal.get(profilesStoreKey);
-  const profiles = (localProfiles[profilesStoreKey] ?? {}) as Profiles;
+  const profiles = await storageProfiles.get();
 
   const localCurrentProfileKey = await browserStorageLocal.get(
     currentProfileNameStoreKey,
@@ -38,12 +51,14 @@ export async function saveToLocal() {
 
   store.set(isSettingsChangeAtom, false);
 
-  // update current profile name
+  // update current proxy by updated profiles
   const currentProfileName = store.get(currentProfileNameAtom);
   if (currentProfileName) {
+    const profile = profiles[nameAsKey(currentProfileName)];
     browserProxySettings.set({
-      value: getProxyValue(currentProfileName, store.get(profilesAtom)),
+      value: getProxyValue(profile.name, profiles),
     });
+    updateBrowserAction(profile);
   }
 }
 
@@ -66,5 +81,22 @@ export const storageCurrentProfileName = {
     await browserStorageLocal.set({
       [currentProfileNameStoreKey]: currentProfileName,
     });
+  },
+};
+
+export const storageCurrentProfile = {
+  get: async (): Promise<Profile> => {
+    const currentProfileName = await storageCurrentProfileName.get();
+    const profiles = await storageProfiles.get();
+
+    return profiles[nameAsKey(currentProfileName)] ?? {};
+  },
+  set: async (profile: Profile) => {
+    const profiles = await storageProfiles.get();
+    const newProfiles = {
+      ...profiles,
+      [nameAsKey(profile.name)]: profile,
+    };
+    await browserStorageLocal.set({ [profilesStoreKey]: newProfiles });
   },
 };
