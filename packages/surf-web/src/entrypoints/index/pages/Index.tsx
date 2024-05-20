@@ -9,7 +9,7 @@ import { Check, CloseCircleOutlined, Icon, Plus } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { resetFromLocal, saveToLocal } from "~/lib/store";
-import { getIconByProfileType } from "~/lib/utils";
+import { getIconByProfileType } from "~/utils";
 import type { IIcon } from "~/icons";
 
 export default function Index() {

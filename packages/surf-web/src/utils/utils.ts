@@ -1,6 +1,6 @@
 import type { ProfileType } from "surf-pac";
 import type { Action } from "wxt/browser";
-import { browserDownloads } from "./browser";
+import { browserDownloads } from "../lib/browser";
 import { AutorenewOutlineRounded, Earth } from "~/icons";
 
 export function getIconByProfileType(type: ProfileType) {

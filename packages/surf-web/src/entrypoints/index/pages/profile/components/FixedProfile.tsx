@@ -11,6 +11,7 @@ import {
   TableRow,
   Textarea,
 } from "@nextui-org/react";
+import { useCallback, useMemo } from "react";
 import ProfileTop from "./ProfileTop";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 
@@ -42,9 +43,20 @@ export default function FixedProfile({
 }) {
   const { profiles } = useProfiles();
 
+  const color = useMemo(() => profile.color, [profile]);
+  const setColor = useCallback(
+    (v: string) => setProfile({ ...profile, color: v }),
+    [profile, setProfile],
+  );
+
   return (
     <div>
-      <ProfileTop name={profile.name} profiles={profiles} />
+      <ProfileTop
+        color={color}
+        setColor={setColor}
+        name={profile.name}
+        profiles={profiles}
+      />
       <div className="border-b"></div>
 
       <div className="pt-4">

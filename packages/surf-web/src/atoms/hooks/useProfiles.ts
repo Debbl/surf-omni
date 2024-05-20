@@ -17,6 +17,8 @@ import {
   defaultSwitchProfile,
 } from "~/constants";
 
+export type BasicProfileWithoutColor = Omit<BasicProfile, "color">;
+
 export function useProfiles() {
   const [profiles, setProfiles] = useAtom(profilesAtom);
 
@@ -25,8 +27,13 @@ export function useProfiles() {
     ...profiles,
   };
 
-  const addProfile = (basicProfile: BasicProfile) => {
+  const addProfile = (basicProfileWithoutColor: BasicProfileWithoutColor) => {
     const addProfiles: Profiles = {};
+
+    const basicProfile = {
+      ...basicProfileWithoutColor,
+      color: "#60a5fa",
+    } as BasicProfile;
 
     if (basicProfile.profileType === "FixedProfile") {
       addProfiles[nameAsKey(basicProfile.name)] = {

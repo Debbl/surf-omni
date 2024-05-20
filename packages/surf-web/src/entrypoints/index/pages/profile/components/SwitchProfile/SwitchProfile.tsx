@@ -1,12 +1,12 @@
 import { preprocess } from "surf-pac";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import type {
   SwitchProfile as ISwitchProfile,
   RuleListProfile,
 } from "surf-pac";
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import ProfileTop from "../ProfileTop";
 import { SwitchProfileRules } from "./SwitchProfileRules";
-import ProfileTop from "./ProfileTop";
 import { useProfile } from "~/entrypoints/index/hooks/useProfile";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 
@@ -47,9 +47,20 @@ export default function SwitchProfile({
     ];
   }, [showProfiles, switchProfile.name]);
 
+  const color = useMemo(() => switchProfile.color, [switchProfile]);
+  const setColor = useCallback(
+    (v: string) => setSwitchProfile({ ...switchProfile, color: v }),
+    [switchProfile, setSwitchProfile],
+  );
+
   return (
     <div className="h-full overflow-y-scroll pb-20">
-      <ProfileTop name={switchProfile.name} profiles={profiles} />
+      <ProfileTop
+        color={color}
+        setColor={setColor}
+        name={switchProfile.name}
+        profiles={profiles}
+      />
       <div className="border-b" />
 
       <div className="pt-4">

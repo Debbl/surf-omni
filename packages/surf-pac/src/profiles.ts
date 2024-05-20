@@ -16,6 +16,7 @@ export type OptionProfileType = Exclude<ProfileType, BuiltinProfileType>;
 export interface BasicProfile {
   name: string;
   profileType: ProfileType;
+  color: string;
 }
 
 export type Scheme = "http" | "https" | "socks4" | "socks5";
