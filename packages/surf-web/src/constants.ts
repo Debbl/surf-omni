@@ -12,16 +12,19 @@ export const builtinProfiles: Record<string, DirectProfile | SystemProfile> = {
   "+direct": {
     name: "direct",
     profileType: "DirectProfile",
+    color: "#1f2937",
   },
   "+system": {
     name: "system",
     profileType: "SystemProfile",
+    color: "#030712",
   },
 };
 
 export const defaultFixedProfile: FixedProfile = {
   name: "",
   profileType: "FixedProfile",
+  color: "#2563eb",
   singleProxy: {
     scheme: "http",
     host: "example.com",
@@ -36,6 +39,7 @@ export const defaultFixedProfile: FixedProfile = {
 
 export const defaultSwitchProfile: SwitchProfile = {
   name: "",
+  color: "#10b981",
   profileType: "SwitchProfile",
   defaultProfileName: "direct",
   rules: [],
@@ -43,6 +47,7 @@ export const defaultSwitchProfile: SwitchProfile = {
 
 export const defaultRuleListProfile: RuleListProfile = {
   name: "",
+  color: "#6ee7b7",
   profileType: "RuleListProfile",
   matchProfileName: "direct",
   defaultProfileName: "direct",

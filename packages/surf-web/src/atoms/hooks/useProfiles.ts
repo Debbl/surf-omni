@@ -30,28 +30,24 @@ export function useProfiles() {
   const addProfile = (basicProfileWithoutColor: BasicProfileWithoutColor) => {
     const addProfiles: Profiles = {};
 
-    const basicProfile = {
-      ...basicProfileWithoutColor,
-      color: "#60a5fa",
-    } as BasicProfile;
-
-    if (basicProfile.profileType === "FixedProfile") {
-      addProfiles[nameAsKey(basicProfile.name)] = {
+    if (basicProfileWithoutColor.profileType === "FixedProfile") {
+      addProfiles[nameAsKey(basicProfileWithoutColor.name)] = {
         ...defaultFixedProfile,
-        ...basicProfile,
+        ...basicProfileWithoutColor,
       } as FixedProfile;
     }
 
-    if (basicProfile.profileType === "SwitchProfile") {
-      addProfiles[nameAsKey(`__ruleListOf_${basicProfile.name}`)] = {
-        ...defaultRuleListProfile,
-        name: `__ruleListOf_${basicProfile.name}`,
-      } as RuleListProfile;
+    if (basicProfileWithoutColor.profileType === "SwitchProfile") {
+      addProfiles[nameAsKey(`__ruleListOf_${basicProfileWithoutColor.name}`)] =
+        {
+          ...defaultRuleListProfile,
+          name: `__ruleListOf_${basicProfileWithoutColor.name}`,
+        } as RuleListProfile;
 
-      addProfiles[nameAsKey(basicProfile.name)] = {
+      addProfiles[nameAsKey(basicProfileWithoutColor.name)] = {
         ...defaultSwitchProfile,
-        ...basicProfile,
-        defaultProfileName: `__ruleListOf_${basicProfile.name}`,
+        ...basicProfileWithoutColor,
+        defaultProfileName: `__ruleListOf_${basicProfileWithoutColor.name}`,
       } as SwitchProfile;
     }
 
