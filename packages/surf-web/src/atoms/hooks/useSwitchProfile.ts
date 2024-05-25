@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { nameAsKey } from "surf-pac";
-import type { Profile } from "surf-pac";
+import type { SwitchProfile } from "surf-pac";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 
-export function useSwitchProfile<T extends Profile>(name: string) {
+export function useSwitchProfile<T extends SwitchProfile>(name: string) {
   const { allProfiles, updateProfile, showProfiles } = useProfiles();
 
   const switchProfile = useMemo(() => {
