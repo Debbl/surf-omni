@@ -4,7 +4,8 @@ import type { SwitchProfile } from "surf-pac";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 
 export function useSwitchProfile<T extends SwitchProfile>(name: string) {
-  const { allProfiles, updateProfile, showProfiles } = useProfiles();
+  const profiles = useProfiles();
+  const { allProfiles, updateProfile, showProfiles } = profiles;
 
   const switchProfile = useMemo(() => {
     return allProfiles[nameAsKey(name)];
@@ -30,6 +31,7 @@ export function useSwitchProfile<T extends SwitchProfile>(name: string) {
   }, [showProfiles, switchProfile.name]);
 
   return {
+    ...profiles,
     switchProfile,
     setSwitchProfile,
     matchProfileNames,

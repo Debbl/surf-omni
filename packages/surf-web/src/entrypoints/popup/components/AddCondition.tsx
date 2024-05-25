@@ -1,6 +1,6 @@
 import type { Condition, SwitchProfile } from "surf-pac";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getIconByProfileType } from "~/utils";
 import { conditionType } from "~/constants";
 import { useSwitchProfile } from "~/atoms/hooks/useSwitchProfile";
@@ -15,7 +15,11 @@ export default function AddCondition({
 }) {
   const { switchProfile, setSwitchProfile, matchProfileNames } =
     useSwitchProfile<SwitchProfile>(name);
-  const Icon = getIconByProfileType(switchProfile.profileType);
+
+  const Icon = useMemo(
+    () => getIconByProfileType(switchProfile.profileType),
+    [switchProfile.profileType],
+  );
 
   const [condition, setCondition] = useState<Condition>({
     conditionType: "HostWildcardCondition",

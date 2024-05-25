@@ -7,7 +7,6 @@ import type {
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import ProfileTop from "../ProfileTop";
 import { SwitchProfileRules } from "./SwitchProfileRules";
-import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { useProfile } from "~/atoms/hooks/useProfile";
 import { useSwitchProfile } from "~/atoms/hooks/useSwitchProfile";
 
@@ -29,9 +28,11 @@ export default function SwitchProfile({
   const { switchProfile, setSwitchProfile, matchProfileNames } =
     useSwitchProfile<ISwitchProfile>(profileName);
 
-  const { profile: ruleListProfile, setProfile: setRuleListProfile } =
-    useProfile<RuleListProfile>(switchProfile.defaultProfileName);
-  const { profiles } = useProfiles();
+  const {
+    profiles,
+    profile: ruleListProfile,
+    setProfile: setRuleListProfile,
+  } = useProfile<RuleListProfile>(switchProfile.defaultProfileName);
 
   const color = useMemo(() => switchProfile.color, [switchProfile]);
   const setColor = useCallback(
