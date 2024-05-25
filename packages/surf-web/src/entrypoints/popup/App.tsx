@@ -1,9 +1,11 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { getProxyValue } from "surf-pac";
 import { useAtom } from "jotai";
 import { Button, Spinner } from "@nextui-org/react";
+import type { Tabs } from "wxt/browser";
+import AddCondition from "./components/AddCondition";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
-import { Icon, PowerOff, Settings, TransferFill } from "~/icons";
+import { Icon, Plus, PowerOff, Settings, TransferFill } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { browserProxySettings, getIconByProfileType } from "~/lib";
 import { currentProfileNameAtom } from "~/atoms/currentProfileName";
@@ -24,12 +26,31 @@ async function handleOpenSetting() {
 
 export default function App() {
   const { isLoading } = useLoadFormLocal();
-  const { showProfiles, allProfiles } = useProfiles();
+  const { currentProfile, showProfiles, allProfiles } = useProfiles();
   const [currentProfileName, setCurrentProfileName] = useAtom(
     currentProfileNameAtom,
   );
+  const [isShowAddCondition, setIsShowAddCondition] = useState(false);
+  const [activeTabs, setActiveTabs] = useState<
+    (Tabs.Tab & { URL: URL | null })[]
+  >([]);
 
-  const Menu: {
+  useEffect(() => {
+    (async () => {
+      const activeTabs = await browser.tabs.query({
+        active: true,
+        currentWindow: true,
+      });
+      setActiveTabs(
+        activeTabs.map((tab) => ({
+          ...tab,
+          URL: tab.url ? new URL(tab.url) : null,
+        })),
+      );
+    })();
+  }, []);
+
+  const menu: {
     name: string;
     children: {
       name: string;
@@ -63,17 +84,34 @@ export default function App() {
         })),
       ],
     },
-    {
-      name: "Actions",
+  ];
+
+  if (
+    currentProfile.profileType === "SwitchProfile" &&
+    ["http:", "https:"].includes(activeTabs[0].URL?.protocol || "")
+  ) {
+    menu.push({
+      name: "Condition",
       children: [
         {
-          name: "选项",
-          icon: Settings,
-          onClick: handleOpenSetting,
+          name: "添加条件",
+          icon: Plus,
+          onClick: () => setIsShowAddCondition(true),
         },
       ],
-    },
-  ];
+    });
+  }
+
+  menu.push({
+    name: "Actions",
+    children: [
+      {
+        name: "选项",
+        icon: Settings,
+        onClick: handleOpenSetting,
+      },
+    ],
+  });
 
   const handleClick = (profileName: string) => {
     setCurrentProfileName(profileName);
@@ -87,40 +125,49 @@ export default function App() {
 
   return (
     <>
-      <ul className="flex flex-col gap-y-1 py-1">
-        {Menu.map((item, index) => (
-          <Fragment key={item.name}>
-            {item.children.length !== 0 && index !== 0 && (
-              <li className="border-b" />
-            )}
-            {item.children.map((i) => (
-              <li key={i.name}>
-                <Button
-                  className="w-full justify-start"
-                  variant={
-                    currentProfileName === i.profileName ? "solid" : "light"
-                  }
-                  color={
-                    currentProfileName === i.profileName ? "primary" : "default"
-                  }
-                  onClick={() => {
-                    if (i.onClick) {
-                      i.onClick();
-                    } else {
-                      i.profileName && handleClick(i.profileName);
+      {isShowAddCondition ? (
+        <AddCondition
+          name={currentProfileName}
+          setIsShowAddCondition={setIsShowAddCondition}
+        />
+      ) : (
+        <ul className="flex flex-col gap-y-1 py-1">
+          {menu.map((item, index) => (
+            <Fragment key={item.name}>
+              {item.children.length !== 0 && index !== 0 && (
+                <li className="border-b" />
+              )}
+              {item.children.map((i) => (
+                <li key={i.name}>
+                  <Button
+                    className="w-full justify-start"
+                    variant={
+                      currentProfileName === i.profileName ? "solid" : "light"
                     }
-                  }}
-                  startContent={
-                    i.icon && <Icon className="size-4" icon={i.icon} />
-                  }
-                >
-                  {i.name}
-                </Button>
-              </li>
-            ))}
-          </Fragment>
-        ))}
-      </ul>
+                    color={
+                      currentProfileName === i.profileName
+                        ? "primary"
+                        : "default"
+                    }
+                    onClick={() => {
+                      if (i.onClick) {
+                        i.onClick();
+                      } else {
+                        i.profileName && handleClick(i.profileName);
+                      }
+                    }}
+                    startContent={
+                      i.icon && <Icon className="size-4" icon={i.icon} />
+                    }
+                  >
+                    {i.name}
+                  </Button>
+                </li>
+              ))}
+            </Fragment>
+          ))}
+        </ul>
+      )}
     </>
   );
 }

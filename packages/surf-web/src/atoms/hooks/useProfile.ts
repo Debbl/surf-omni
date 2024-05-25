@@ -4,7 +4,8 @@ import type { Profile } from "surf-pac";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 
 export function useProfile<T extends Profile>(name: string) {
-  const { allProfiles, updateProfile } = useProfiles();
+  const profiles = useProfiles();
+  const { allProfiles, updateProfile } = profiles;
 
   const profile = useMemo(() => {
     return allProfiles[nameAsKey(name)];
@@ -15,6 +16,7 @@ export function useProfile<T extends Profile>(name: string) {
   };
 
   return {
+    ...profiles,
     profile,
     setProfile,
   };

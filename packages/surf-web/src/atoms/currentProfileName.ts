@@ -2,7 +2,7 @@ import { atom } from "jotai";
 import { browserActionSetTitle, browserStorageLocal, store } from "~/lib";
 
 export const currentProfileNameStoreKey = "currentProfileName";
-export const currentProfileNameAtom = atom<string>("");
+export const currentProfileNameAtom = atom<string>("system");
 
 currentProfileNameAtom.onMount = () => {
   store.sub(currentProfileNameAtom, () => {

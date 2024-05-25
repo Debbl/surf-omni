@@ -1,4 +1,4 @@
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { nameAsKey } from "surf-pac";
 import { useMemo } from "react";
 import type {
@@ -10,6 +10,7 @@ import type {
   SwitchProfile,
 } from "surf-pac";
 import { profilesAtom } from "../profiles";
+import { currentProfileNameAtom } from "../currentProfileName";
 import {
   builtinProfiles,
   defaultFixedProfile,
@@ -21,6 +22,7 @@ export type BasicProfileWithoutColor = Omit<BasicProfile, "color">;
 
 export function useProfiles() {
   const [profiles, setProfiles] = useAtom(profilesAtom);
+  const currentProfileName = useAtomValue(currentProfileNameAtom);
 
   const allProfiles: Profiles = {
     ...builtinProfiles,
@@ -74,8 +76,14 @@ export function useProfiles() {
     );
   }, [profiles]) as Record<string, FixedProfile | SwitchProfile>;
 
+  const currentProfile = useMemo(
+    () => allProfiles[nameAsKey(currentProfileName)],
+    [allProfiles],
+  );
+
   return {
     profiles,
+    currentProfile,
     showProfiles,
     allProfiles,
     builtinProfiles,
