@@ -9,6 +9,7 @@ import ProfileTop from "../ProfileTop";
 import { SwitchProfileRules } from "./SwitchProfileRules";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { useProfile } from "~/atoms/hooks/useProfile";
+import { useSwitchProfile } from "~/atoms/hooks/useSwitchProfile";
 
 const handleUpdateSource = async (
   url: string,
@@ -25,27 +26,12 @@ export default function SwitchProfile({
 }: {
   profileName: string;
 }) {
-  const { profile: switchProfile, setProfile: setSwitchProfile } =
-    useProfile<ISwitchProfile>(profileName);
+  const { switchProfile, setSwitchProfile, matchProfileNames } =
+    useSwitchProfile<ISwitchProfile>(profileName);
 
   const { profile: ruleListProfile, setProfile: setRuleListProfile } =
     useProfile<RuleListProfile>(switchProfile.defaultProfileName);
-  const { showProfiles, profiles } = useProfiles();
-
-  const matchProfileNames = useMemo(() => {
-    return [
-      ...Object.values(showProfiles)
-        .map((profile) => ({
-          label: profile.name,
-          value: profile.name,
-        }))
-        .filter(({ value }) => value !== switchProfile.name),
-      {
-        label: "直接连接",
-        value: "direct",
-      },
-    ];
-  }, [showProfiles, switchProfile.name]);
+  const { profiles } = useProfiles();
 
   const color = useMemo(() => switchProfile.color, [switchProfile]);
   const setColor = useCallback(
