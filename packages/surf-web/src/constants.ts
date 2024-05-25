@@ -1,4 +1,5 @@
 import type {
+  ConditionType,
   DirectProfile,
   FixedProfile,
   RuleListProfile,
@@ -54,3 +55,25 @@ export const defaultRuleListProfile: RuleListProfile = {
   url: "",
   raw: "",
 };
+
+export const conditionType: {
+  label: string;
+  value: ConditionType;
+}[] = [
+  {
+    label: "域名通配符",
+    value: "HostWildcardCondition",
+  },
+  {
+    label: "网址通配符",
+    value: "UrlWildcardCondition",
+  },
+  {
+    label: "网址正则",
+    value: "UrlRegexCondition",
+  },
+  {
+    label: "(禁用)",
+    value: "FalseCondition",
+  },
+];

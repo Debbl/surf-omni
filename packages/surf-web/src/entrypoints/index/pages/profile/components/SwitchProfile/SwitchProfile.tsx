@@ -7,8 +7,8 @@ import type {
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import ProfileTop from "../ProfileTop";
 import { SwitchProfileRules } from "./SwitchProfileRules";
-import { useProfile } from "~/entrypoints/index/hooks/useProfile";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
+import { useProfile } from "~/atoms/hooks/useProfile";
 
 const handleUpdateSource = async (
   url: string,

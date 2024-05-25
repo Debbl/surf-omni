@@ -62,7 +62,9 @@ export async function loadFromLocal() {
   const currentProfileName = await storageCurrentProfileName.get();
 
   store.set(profilesAtom, profiles);
-  store.set(currentProfileNameAtom, currentProfileName);
+  if (currentProfileName) {
+    store.set(currentProfileNameAtom, currentProfileName);
+  }
 
   store.sub(profilesAtom, () => {
     if (!isInit) store.set(isSettingsChangeAtom, true);
