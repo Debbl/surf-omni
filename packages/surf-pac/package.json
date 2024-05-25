@@ -2,7 +2,7 @@
   "name": "surf-pac",
   "type": "module",
   "version": "0.0.0",
-  "packageManager": "pnpm@9.1.1",
+  "packageManager": "pnpm@9.1.2",
   "description": "",
   "author": "",
   "keywords": [],
@@ -22,11 +22,11 @@
     "surf-ast": "workspace:*"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-commonjs": "^25.0.8",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/estree": "^1.0.5",
-    "rollup": "^4.17.2",
+    "rollup": "^4.18.0",
     "rollup-plugin-dts": "^6.1.1",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
