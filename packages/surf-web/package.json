@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@9.1.2",
+  "packageManager": "pnpm@9.1.4",
   "description": "manifest.json description",
   "scripts": {
     "dev": "wxt",
@@ -19,10 +19,10 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.3.6",
-    "@nextui-org/theme": "^2.2.3",
-    "framer-motion": "^11.2.6",
-    "jotai": "^2.8.1",
+    "@nextui-org/react": "^2.4.1",
+    "@nextui-org/theme": "^2.2.5",
+    "framer-motion": "^11.2.10",
+    "jotai": "^2.8.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
@@ -36,6 +36,6 @@
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
-    "wxt": "^0.18.3"
+    "wxt": "^0.18.4"
   }
 }
