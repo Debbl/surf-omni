@@ -1,15 +1,25 @@
 import { Fragment, useEffect, useState } from "react";
 import { getProxyValue } from "surf-pac";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
+import type { ButtonGroupProps } from "@nextui-org/react";
 import { Button, Spinner } from "@nextui-org/react";
 import type { Tabs } from "wxt/browser";
 import AddCondition from "./components/AddCondition";
+import FailedResources from "./components/FailedResources";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
-import { Icon, Plus, PowerOff, Settings, TransferFill } from "~/icons";
+import {
+  Icon,
+  Plus,
+  PowerOff,
+  RoundWarning,
+  Settings,
+  TransferFill,
+} from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { browserProxySettings, getIconByProfileType } from "~/lib";
 import { currentProfileNameAtom } from "~/atoms/currentProfileName";
 import type { IIcon } from "~/icons";
+import { failedResourcesAtom } from "@/atoms/failedResources";
 
 async function handleOpenSetting() {
   const url = `chrome-extension://${browser.runtime.id}/index.html`;
@@ -31,9 +41,11 @@ export default function App() {
     currentProfileNameAtom,
   );
   const [isShowAddCondition, setIsShowAddCondition] = useState(false);
+  const [isShowFailedResources, setIsShowFailedResources] = useState(false);
   const [activeTabs, setActiveTabs] = useState<
     (Tabs.Tab & { URL: URL | null })[]
   >([]);
+  const failedResources = useAtomValue(failedResourcesAtom);
 
   useEffect(() => {
     (async () => {
@@ -56,6 +68,7 @@ export default function App() {
       name: string;
       icon?: IIcon;
       profileName?: string;
+      color?: ButtonGroupProps["color"];
       onClick?: () => void;
     }[];
   }[] = [
@@ -72,6 +85,16 @@ export default function App() {
           icon: PowerOff,
           profileName: "system",
         },
+        ...(failedResources.length
+          ? [
+              {
+                name: `${failedResources.length}个资源未加载`,
+                icon: RoundWarning,
+                color: "warning" as const,
+                onClick: () => setIsShowFailedResources(true),
+              },
+            ]
+          : []),
       ],
     },
     {
@@ -84,34 +107,32 @@ export default function App() {
         })),
       ],
     },
-  ];
-
-  if (
-    currentProfile.profileType === "SwitchProfile" &&
+    ...(currentProfile.profileType === "SwitchProfile" &&
     ["http:", "https:"].includes(activeTabs[0].URL?.protocol || "")
-  ) {
-    menu.push({
-      name: "Condition",
+      ? [
+          {
+            name: "Condition",
+            children: [
+              {
+                name: "添加条件",
+                icon: Plus,
+                onClick: () => setIsShowAddCondition(true),
+              },
+            ],
+          },
+        ]
+      : []),
+    {
+      name: "Actions",
       children: [
         {
-          name: "添加条件",
-          icon: Plus,
-          onClick: () => setIsShowAddCondition(true),
+          name: "选项",
+          icon: Settings,
+          onClick: handleOpenSetting,
         },
       ],
-    });
-  }
-
-  menu.push({
-    name: "Actions",
-    children: [
-      {
-        name: "选项",
-        icon: Settings,
-        onClick: handleOpenSetting,
-      },
-    ],
-  });
+    },
+  ];
 
   const handleClick = (profileName: string) => {
     setCurrentProfileName(profileName);
@@ -123,51 +144,62 @@ export default function App() {
 
   if (isLoading) return <Spinner className="h-screen w-full" label="loading" />;
 
+  if (isShowAddCondition)
+    return (
+      <AddCondition
+        name={currentProfileName}
+        setIsShowAddCondition={setIsShowAddCondition}
+      />
+    );
+
+  if (isShowFailedResources)
+    return (
+      <FailedResources
+        name={currentProfileName}
+        failedResources={failedResources}
+        setIsShowFailedResources={setIsShowFailedResources}
+      />
+    );
+
   return (
     <>
-      {isShowAddCondition ? (
-        <AddCondition
-          name={currentProfileName}
-          setIsShowAddCondition={setIsShowAddCondition}
-        />
-      ) : (
-        <ul className="flex flex-col gap-y-1 py-1">
-          {menu.map((item, index) => (
-            <Fragment key={item.name}>
-              {item.children.length !== 0 && index !== 0 && (
-                <li className="border-b" />
-              )}
-              {item.children.map((i) => (
-                <li key={i.name}>
-                  <Button
-                    className="w-full justify-start"
-                    variant={
-                      currentProfileName === i.profileName ? "solid" : "light"
+      <ul className="flex flex-col gap-y-1 py-1">
+        {menu.map((item, index) => (
+          <Fragment key={item.name}>
+            {item.children.length !== 0 && index !== 0 && (
+              <li className="border-b" />
+            )}
+            {item.children.map((i) => (
+              <li key={i.name}>
+                <Button
+                  className="w-full justify-start"
+                  variant={
+                    currentProfileName === i.profileName ? "solid" : "light"
+                  }
+                  color={
+                    i.color ||
+                    (currentProfileName === i.profileName
+                      ? "primary"
+                      : "default")
+                  }
+                  onClick={() => {
+                    if (i.onClick) {
+                      i.onClick();
+                    } else {
+                      i.profileName && handleClick(i.profileName);
                     }
-                    color={
-                      currentProfileName === i.profileName
-                        ? "primary"
-                        : "default"
-                    }
-                    onClick={() => {
-                      if (i.onClick) {
-                        i.onClick();
-                      } else {
-                        i.profileName && handleClick(i.profileName);
-                      }
-                    }}
-                    startContent={
-                      i.icon && <Icon className="size-4" icon={i.icon} />
-                    }
-                  >
-                    {i.name}
-                  </Button>
-                </li>
-              ))}
-            </Fragment>
-          ))}
-        </ul>
-      )}
+                  }}
+                  startContent={
+                    i.icon && <Icon className="size-4" icon={i.icon} />
+                  }
+                >
+                  {i.name}
+                </Button>
+              </li>
+            ))}
+          </Fragment>
+        ))}
+      </ul>
     </>
   );
 }

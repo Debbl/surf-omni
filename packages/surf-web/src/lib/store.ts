@@ -12,6 +12,10 @@ import {
   currentProfileNameAtom,
   currentProfileNameStoreKey,
 } from "~/atoms/currentProfileName";
+import {
+  failedResourcesAtom,
+  failedResourcesKey,
+} from "~/atoms/failedResources";
 
 export const store = getDefaultStore();
 
@@ -56,10 +60,24 @@ export const storageCurrentProfile = {
   },
 };
 
+export const storageFailedResources = {
+  get: async (): Promise<string[]> => {
+    const localFailedResources =
+      await browserStorageLocal.get(failedResourcesKey);
+    return localFailedResources[failedResourcesKey] ?? {};
+  },
+  set: async (failedResources: string[]) => {
+    await browserStorageLocal.set({ [failedResourcesKey]: failedResources });
+  },
+};
+
 let isInit = true;
 export async function loadFromLocal() {
   const profiles = await storageProfiles.get();
   const currentProfileName = await storageCurrentProfileName.get();
+  const failedResources = await storageFailedResources.get();
+
+  store.set(failedResourcesAtom, failedResources);
 
   store.set(profilesAtom, profiles);
   if (currentProfileName) {

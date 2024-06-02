@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+import { useEffect } from "react";
+
 async function test() {
   await browser.proxy.settings.set({
     value: {
@@ -16,11 +19,11 @@ async function test() {
 
 setInterval(async () => {
   const v = await browser.proxy.settings.get({});
-  // eslint-disable-next-line no-console
   console.log("🚀 ~ setInterval ~ v:", v);
 }, 3000);
 
 export default function Test() {
+  useEffect(() => {}, []);
   return (
     <div>
       <button onClick={() => test()}>test</button>
