@@ -29,6 +29,8 @@ export default function FailedResources({
   const [profileName, setProfileName] = useState("");
 
   const handleAddConditions = () => {
+    if (!profileName) return;
+
     setSwitchProfile({
       ...switchProfile,
       rules: [
@@ -44,6 +46,7 @@ export default function FailedResources({
     });
     saveToLocal();
     setIsShowFailedResources(false);
+    browser.tabs.reload();
   };
 
   return (

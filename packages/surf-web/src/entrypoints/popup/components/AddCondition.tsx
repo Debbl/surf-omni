@@ -50,6 +50,8 @@ export default function AddCondition({
   }, []);
 
   const handleAddCondition = () => {
+    if (!profileName) return;
+
     setSwitchProfile({
       ...switchProfile,
       rules: [
@@ -62,6 +64,7 @@ export default function AddCondition({
     });
     saveToLocal();
     setIsShowAddCondition(false);
+    browser.tabs.reload();
   };
 
   return (

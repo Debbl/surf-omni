@@ -47,6 +47,10 @@ export default function App() {
   >([]);
   const failedResources = useAtomValue(failedResourcesAtom);
 
+  const isSwitchProfile =
+    currentProfile.profileType === "SwitchProfile" &&
+    ["http:", "https:"].includes(activeTabs[0].URL?.protocol || "");
+
   useEffect(() => {
     (async () => {
       const activeTabs = await browser.tabs.query({
@@ -85,7 +89,7 @@ export default function App() {
           icon: PowerOff,
           profileName: "system",
         },
-        ...(failedResources.length
+        ...(failedResources.length && isSwitchProfile
           ? [
               {
                 name: `${failedResources.length}个资源未加载`,
@@ -107,8 +111,7 @@ export default function App() {
         })),
       ],
     },
-    ...(currentProfile.profileType === "SwitchProfile" &&
-    ["http:", "https:"].includes(activeTabs[0].URL?.protocol || "")
+    ...(isSwitchProfile
       ? [
           {
             name: "Condition",
@@ -140,6 +143,8 @@ export default function App() {
     browserProxySettings.set({
       value: getProxyValue(profileName, allProfiles),
     });
+
+    window.close();
   };
 
   if (isLoading) return <Spinner className="h-screen w-full" label="loading" />;
