@@ -25,7 +25,7 @@ export default function AddCondition({
     conditionType: "HostWildcardCondition",
     pattern: "",
   });
-  const [profileName, setProfileName] = useState("");
+  const [profileName, setProfileName] = useState(matchProfileNames[0].value);
 
   useEffect(() => {
     setProfileName(matchProfileNames[0].value);

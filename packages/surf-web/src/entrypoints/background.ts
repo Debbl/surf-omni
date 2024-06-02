@@ -22,7 +22,7 @@ export default defineBackground(() => {
       );
 
       await browser.action.setBadgeText({
-        text: `${newFailedResources.length}`,
+        text: `${newFailedResources.length || ""}`,
       });
 
       await storageFailedResources.set(newFailedResources);

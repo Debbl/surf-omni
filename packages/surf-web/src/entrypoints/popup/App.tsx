@@ -19,7 +19,7 @@ import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { browserProxySettings, getIconByProfileType } from "~/lib";
 import { currentProfileNameAtom } from "~/atoms/currentProfileName";
 import type { IIcon } from "~/icons";
-import { failedResourcesAtom } from "@/atoms/failedResources";
+import { failedResourcesAtom } from "~/atoms/failedResources";
 
 async function handleOpenSetting() {
   const url = `chrome-extension://${browser.runtime.id}/index.html`;
@@ -161,7 +161,6 @@ export default function App() {
     return (
       <FailedResources
         name={currentProfileName}
-        failedResources={failedResources}
         setIsShowFailedResources={setIsShowFailedResources}
       />
     );

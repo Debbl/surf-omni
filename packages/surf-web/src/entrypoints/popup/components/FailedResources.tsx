@@ -7,18 +7,19 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import type { SwitchProfile } from "surf-pac";
-import { useSwitchProfile } from "@/atoms/hooks/useSwitchProfile";
-import { saveToLocal } from "@/lib";
+import { useAtomValue } from "jotai";
+import { useSwitchProfile } from "~/atoms/hooks/useSwitchProfile";
+import { saveToLocal, storageFailedResources } from "~/lib";
+import { failedResourcesAtom } from "~/atoms/failedResources";
 
 export default function FailedResources({
   name,
-  failedResources,
   setIsShowFailedResources,
 }: {
   name: string;
-  failedResources: string[];
   setIsShowFailedResources: (setIsShowFailedResources: boolean) => void;
 }) {
+  const failedResources = useAtomValue(failedResourcesAtom);
   const { switchProfile, setSwitchProfile, matchProfileNames } =
     useSwitchProfile<SwitchProfile>(name);
 
@@ -26,9 +27,9 @@ export default function FailedResources({
   const [conditions, setConditions] = useState<string[]>(
     patternFailedResources,
   );
-  const [profileName, setProfileName] = useState("");
+  const [profileName, setProfileName] = useState(matchProfileNames[0].value);
 
-  const handleAddConditions = () => {
+  const handleAddConditions = async () => {
     if (!profileName) return;
 
     setSwitchProfile({
@@ -44,9 +45,11 @@ export default function FailedResources({
         })),
       ],
     });
-    saveToLocal();
+    await storageFailedResources.set([]);
+    await saveToLocal();
+
     setIsShowFailedResources(false);
-    browser.tabs.reload();
+    await browser.tabs.reload();
   };
 
   return (
