@@ -56,30 +56,30 @@ export function drawCritical(
 
 export function drawSurfOmniIcon(
   innerCircleColor: string,
-  outerCircleColor: string = "#eee",
+  outerCircleColor: string = "#aaa",
+  size: number = 64,
 ) {
-  const canvas = new OffscreenCanvas(16, 16);
+  const canvas = new OffscreenCanvas(size, size);
   const ctx = canvas.getContext("2d")!;
+
+  const center = size / 2;
+  const outerRadius = size / 2;
+  const innerRadius = size / 4;
 
   ctx.globalCompositeOperation = "source-over";
   ctx.fillStyle = outerCircleColor;
   ctx.beginPath();
-  ctx.arc(8, 8, 4, 0, Math.PI * 2, true);
+  ctx.arc(center, center, outerRadius, 0, Math.PI * 2, true);
   ctx.closePath();
   ctx.fill();
 
-  if (innerCircleColor != null) {
-    ctx.fillStyle = innerCircleColor;
-  } else {
-    ctx.globalCompositeOperation = "destination-out";
-  }
-
+  ctx.fillStyle = innerCircleColor;
   ctx.beginPath();
-  ctx.arc(8, 8, 8, 0, Math.PI * 2, true);
+  ctx.arc(center, center, innerRadius, 0, Math.PI * 2, true);
   ctx.closePath();
   ctx.fill();
 
-  return ctx.getImageData(0, 0, 16, 16) as Action.ImageDataType;
+  return ctx.getImageData(0, 0, size, size) as Action.ImageDataType;
 }
 
 export async function getCurrentProfile() {
@@ -99,7 +99,15 @@ export const updateBrowserAction = async (profile: Profile) => {
     title: profile.name,
   });
 
-  const imageData = drawSurfOmniIcon(profile.color || "#0f0");
+  // Generate icons in different sizes
+  const sizes = [16, 32, 48, 64];
+  const imageData: Record<string, Action.ImageDataType> = Object.fromEntries(
+    sizes.map((size) => [
+      size.toString(),
+      drawSurfOmniIcon(profile.color, "#aaa", size),
+    ]) as [string, Action.ImageDataType][],
+  );
+
   await browserActionSetIcon({
     imageData,
   });
