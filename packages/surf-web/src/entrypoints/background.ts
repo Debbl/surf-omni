@@ -1,4 +1,4 @@
-import { storageCurrentProfile, storageFailedResources } from "~/lib/store";
+import { storageFailedResources } from "~/lib/store";
 import {
   browserActionSetBadgeText,
   browserTabs,
@@ -8,7 +8,7 @@ import {
 
 export default defineBackground(() => {
   browserTabs.onActivated.addListener(async () => {
-    const currentProfile = await storageCurrentProfile.get();
+    const currentProfile = await getCurrentProfile();
 
     await storageFailedResources.set([]);
     await browser.action.setBadgeText({

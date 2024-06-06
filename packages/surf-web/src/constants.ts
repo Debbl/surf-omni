@@ -13,7 +13,7 @@ export const builtinProfiles: Record<string, DirectProfile | SystemProfile> = {
   "+direct": {
     name: "direct",
     profileType: "DirectProfile",
-    color: "#1f2937",
+    color: "#d4d4d8",
   },
   "+system": {
     name: "system",

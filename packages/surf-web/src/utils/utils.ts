@@ -1,7 +1,10 @@
 import type { ProfileType } from "surf-pac";
+import { nameAsKey } from "surf-pac";
 import type { Action } from "wxt/browser";
 import { browserDownloads } from "../lib/browser";
 import { AutorenewOutlineRounded, Earth } from "~/icons";
+import { storageCurrentProfileName, storageProfiles } from "~/lib";
+import { builtinProfiles } from "~/constants";
 
 export function getIconByProfileType(type: ProfileType) {
   switch (type) {
@@ -73,4 +76,16 @@ export function drawSurfOmniIcon(
   ctx.fill();
 
   return ctx.getImageData(0, 0, 16, 16) as Action.ImageDataType;
+}
+
+export async function getCurrentProfile() {
+  const currentProfileName = await storageCurrentProfileName.get();
+  const profiles = await storageProfiles.get();
+
+  const allProfiles = {
+    ...builtinProfiles,
+    ...profiles,
+  };
+
+  return allProfiles[nameAsKey(currentProfileName)] ?? {};
 }
