@@ -16,19 +16,19 @@ import {
   TransferFill,
 } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
-import { browserProxySettings, getIconByProfileType } from "~/lib";
+import { browserProxySettings, browserTabs, getIconByProfileType } from "~/lib";
 import { currentProfileNameAtom } from "~/atoms/currentProfileName";
 import type { IIcon } from "~/icons";
 import { failedResourcesAtom } from "~/atoms/failedResources";
 
 async function handleOpenSetting() {
   const url = `chrome-extension://${browser.runtime.id}/index.html`;
-  const tabs = await browser.tabs.query({ url });
+  const tabs = await browserTabs.query({ url });
 
   if (tabs.length !== 0) {
-    await browser.tabs.update(tabs[0].id, { active: true });
+    await browserTabs.update(tabs[0].id, { active: true });
   } else {
-    browser.tabs.create({
+    browserTabs.create({
       url,
     });
   }

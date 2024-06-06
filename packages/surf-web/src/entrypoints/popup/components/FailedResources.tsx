@@ -9,7 +9,7 @@ import { useState } from "react";
 import type { SwitchProfile } from "surf-pac";
 import { useAtomValue } from "jotai";
 import { useSwitchProfile } from "~/atoms/hooks/useSwitchProfile";
-import { saveToLocal, storageFailedResources } from "~/lib";
+import { browserTabs, saveToLocal, storageFailedResources } from "~/lib";
 import { failedResourcesAtom } from "~/atoms/failedResources";
 
 export default function FailedResources({
@@ -49,7 +49,7 @@ export default function FailedResources({
     await saveToLocal();
 
     setIsShowFailedResources(false);
-    await browser.tabs.reload();
+    await browserTabs.reload();
   };
 
   return (

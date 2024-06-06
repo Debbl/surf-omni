@@ -64,7 +64,7 @@ export default function AddCondition({
     });
     saveToLocal();
     setIsShowAddCondition(false);
-    browser.tabs.reload();
+    browserTabs.reload();
   };
 
   return (

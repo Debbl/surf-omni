@@ -1,5 +1,10 @@
 import { storageCurrentProfile, storageFailedResources } from "~/lib/store";
-import { browserTabs, updateBrowserAction } from "~/lib";
+import {
+  browserActionSetBadgeText,
+  browserTabs,
+  browserWebRequestOnErrorOccurred,
+  updateBrowserAction,
+} from "~/lib";
 
 export default defineBackground(() => {
   browserTabs.onActivated.addListener(async () => {
@@ -13,7 +18,7 @@ export default defineBackground(() => {
     updateBrowserAction(currentProfile);
   });
 
-  browser.webRequest.onErrorOccurred.addListener(
+  browserWebRequestOnErrorOccurred.addListener(
     async (details) => {
       const failedResources = await storageFailedResources.get();
       const url = new URL(details.url);
@@ -21,7 +26,7 @@ export default defineBackground(() => {
         new Set([...failedResources, url.host]),
       );
 
-      await browser.action.setBadgeText({
+      await browserActionSetBadgeText({
         text: `${newFailedResources.length || ""}`,
       });
 
