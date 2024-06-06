@@ -1,7 +1,11 @@
-import type { ProfileType } from "surf-pac";
+import type { Profile, ProfileType } from "surf-pac";
 import { nameAsKey } from "surf-pac";
 import type { Action } from "wxt/browser";
-import { browserDownloads } from "../lib/browser";
+import {
+  browserActionSetIcon,
+  browserActionSetTitle,
+  browserDownloads,
+} from "../lib/browser";
 import { AutorenewOutlineRounded, Earth } from "~/icons";
 import { storageCurrentProfileName, storageProfiles } from "~/lib";
 import { builtinProfiles } from "~/constants";
@@ -89,3 +93,14 @@ export async function getCurrentProfile() {
 
   return allProfiles[nameAsKey(currentProfileName)] ?? {};
 }
+
+export const updateBrowserAction = async (profile: Profile) => {
+  await browserActionSetTitle({
+    title: profile.name,
+  });
+
+  const imageData = drawSurfOmniIcon(profile.color || "#0f0");
+  await browserActionSetIcon({
+    imageData,
+  });
+};

@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import { getProxyValue } from "surf-pac";
+import { getProxyValue, nameAsKey } from "surf-pac";
 import { useAtom, useAtomValue } from "jotai";
 import type { ButtonGroupProps } from "@nextui-org/react";
 import { Button, Spinner } from "@nextui-org/react";
@@ -137,12 +137,14 @@ export default function App() {
     },
   ];
 
-  const handleClick = (profileName: string) => {
+  const handleClick = async (profileName: string) => {
     setCurrentProfileName(profileName);
 
-    browserProxySettings.set({
+    await browserProxySettings.set({
       value: getProxyValue(profileName, allProfiles),
     });
+
+    await updateBrowserAction(allProfiles[nameAsKey(profileName)]);
 
     window.close();
   };

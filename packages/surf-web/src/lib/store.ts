@@ -1,11 +1,7 @@
 import { getDefaultStore } from "jotai";
 import { getProxyValue, nameAsKey } from "surf-pac";
 import type { Profile, Profiles } from "surf-pac";
-import {
-  browserProxySettings,
-  browserStorageLocal,
-  updateBrowserAction,
-} from "./browser";
+import { browserProxySettings, browserStorageLocal } from "./browser";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { profilesAtom, profilesStoreKey } from "~/atoms/profiles";
 import {
@@ -106,7 +102,7 @@ export async function saveToLocal() {
       value: getProxyValue(profile.name, profiles),
     });
 
-    updateBrowserAction(profile);
+    await updateBrowserAction(profile);
   }
 }
 

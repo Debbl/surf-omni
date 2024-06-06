@@ -1,4 +1,3 @@
-import type { Profile } from "surf-pac";
 import type { Action } from "wxt/browser";
 import { projectName } from "~/constants";
 
@@ -12,20 +11,11 @@ export const browserWebRequestOnErrorOccurred =
   browser.webRequest.onErrorOccurred;
 export const browserActionSetBadgeText = browser.action.setBadgeText;
 
-export const browserActionSetTitle = (details: Action.SetTitleDetailsType) => {
-  browserAction.setTitle({
+export const browserActionSetTitle = async (
+  details: Action.SetTitleDetailsType,
+) => {
+  await browserAction.setTitle({
     title: `${projectName}::${details.title}`,
     tabId: details.tabId,
-  });
-};
-
-export const updateBrowserAction = (profile: Profile) => {
-  browserActionSetTitle({
-    title: profile.name,
-  });
-
-  const imageData = drawSurfOmniIcon(profile.color || "#0f0");
-  browserActionSetIcon({
-    imageData,
   });
 };
