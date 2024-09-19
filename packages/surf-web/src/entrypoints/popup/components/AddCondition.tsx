@@ -1,10 +1,10 @@
-import type { Condition, SwitchProfile } from "surf-pac";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
-import { getIconByProfileType } from "~/utils";
-import { conditionType } from "~/constants";
+import type { Condition, SwitchProfile } from "surf-pac";
 import { useSwitchProfile } from "~/atoms/hooks/useSwitchProfile";
+import { conditionType } from "~/constants";
 import { browserTabs, saveToLocal } from "~/lib";
+import { getIconByProfileType } from "~/utils";
 
 export default function AddCondition({
   name,

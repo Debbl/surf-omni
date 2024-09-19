@@ -1,16 +1,16 @@
+import { Button } from "@nextui-org/react";
+import { useAtom } from "jotai";
 import { Fragment, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { useAtom } from "jotai";
-import { Button } from "@nextui-org/react";
 import type { ButtonProps } from "@nextui-org/react";
-import { NewProfileModel } from "../components/NewProfileModel";
-import type { OnOk } from "../components/NewProfileModel";
-import { Check, CloseCircleOutlined, Icon, Plus } from "~/icons";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
+import { Check, CloseCircleOutlined, Icon, Plus } from "~/icons";
+import type { IIcon } from "~/icons";
 import { resetFromLocal, saveToLocal } from "~/lib/store";
 import { getIconByProfileType } from "~/utils";
-import type { IIcon } from "~/icons";
+import { NewProfileModel } from "../components/NewProfileModel";
+import type { OnOk } from "../components/NewProfileModel";
 
 export default function Index() {
   const [isOpenModel, setIsOpenModel] = useState(false);

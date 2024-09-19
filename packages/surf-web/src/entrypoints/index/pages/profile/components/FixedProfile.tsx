@@ -1,4 +1,3 @@
-import type { FixedProfile as IFixedProfile, Scheme } from "surf-pac";
 import {
   Input,
   Select,
@@ -12,8 +11,9 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { useCallback, useMemo } from "react";
-import ProfileTop from "./ProfileTop";
+import type { FixedProfile as IFixedProfile, Scheme } from "surf-pac";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
+import ProfileTop from "./ProfileTop";
 
 const SCHEME = [
   {

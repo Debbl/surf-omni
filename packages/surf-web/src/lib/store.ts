@@ -1,9 +1,6 @@
 import { getDefaultStore } from "jotai";
 import { getProxyValue, nameAsKey } from "surf-pac";
 import type { Profile, Profiles } from "surf-pac";
-import { browserProxySettings, browserStorageLocal } from "./browser";
-import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
-import { profilesAtom, profilesStoreKey } from "~/atoms/profiles";
 import {
   currentProfileNameAtom,
   currentProfileNameStoreKey,
@@ -12,6 +9,9 @@ import {
   failedResourcesAtom,
   failedResourcesKey,
 } from "~/atoms/failedResources";
+import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
+import { profilesAtom, profilesStoreKey } from "~/atoms/profiles";
+import { browserProxySettings, browserStorageLocal } from "./browser";
 
 export const store = getDefaultStore();
 

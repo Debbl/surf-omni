@@ -1,9 +1,9 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { useCallback, useState } from "react";
-import Palette from "./Palette";
-import Bar from "./Bar";
 import type { Hsva } from "~/lib/color";
 import { formatInputToHSVA, hsvToRgb, rgbToHex } from "~/lib/color";
+import Bar from "./Bar";
+import Palette from "./Palette";
 
 export default function ColorPicker({
   value,

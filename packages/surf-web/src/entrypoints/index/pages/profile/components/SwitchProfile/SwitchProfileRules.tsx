@@ -1,5 +1,3 @@
-import type { ConditionType, SwitchProfile } from "surf-pac";
-
 import {
   Button,
   Input,
@@ -13,8 +11,9 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import { useMemo } from "react";
-import { Delete, Icon, Plus } from "~/icons";
+import type { ConditionType, SwitchProfile } from "surf-pac";
 import { conditionType } from "~/constants";
+import { Delete, Icon, Plus } from "~/icons";
 
 export function SwitchProfileRules({
   matchProfileNames,

@@ -1,6 +1,6 @@
-import { URL, fileURLToPath } from "node:url";
-import { defineConfig } from "wxt";
+import { fileURLToPath, URL } from "node:url";
 import react from "@vitejs/plugin-react";
+import { defineConfig } from "wxt";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({

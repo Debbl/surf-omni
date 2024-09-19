@@ -1,14 +1,14 @@
-import type { Profile, ProfileType } from "surf-pac";
 import { nameAsKey } from "surf-pac";
+import type { Profile, ProfileType } from "surf-pac";
 import type { Action } from "wxt/browser";
+import { builtinProfiles } from "~/constants";
+import { AutorenewOutlineRounded, Earth } from "~/icons";
+import { storageCurrentProfileName, storageProfiles } from "~/lib";
 import {
   browserActionSetIcon,
   browserActionSetTitle,
   browserDownloads,
 } from "../lib/browser";
-import { AutorenewOutlineRounded, Earth } from "~/icons";
-import { storageCurrentProfileName, storageProfiles } from "~/lib";
-import { builtinProfiles } from "~/constants";
 
 export function getIconByProfileType(type: ProfileType) {
   switch (type) {

@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
 import { astringGenerate } from "surf-ast";
+import { describe, expect, it } from "vitest";
 import { pacGeneratorScript } from "./pacGenerator";
 
 const options = {
@@ -62,6 +62,7 @@ describe("pacGenerator", () => {
   it("should generate pac scripts from options", () => {
     const ast = pacGeneratorScript("auto", options);
     const code = astringGenerate(ast);
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(code).not.to.empty;
 
     // eslint-disable-next-line no-eval

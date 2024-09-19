@@ -1,12 +1,13 @@
+import { Button, Spinner } from "@nextui-org/react";
+import { useAtom, useAtomValue } from "jotai";
 import { Fragment, useEffect, useState } from "react";
 import { getProxyValue, nameAsKey } from "surf-pac";
-import { useAtom, useAtomValue } from "jotai";
 import type { ButtonGroupProps } from "@nextui-org/react";
-import { Button, Spinner } from "@nextui-org/react";
 import type { Tabs } from "wxt/browser";
-import AddCondition from "./components/AddCondition";
-import FailedResources from "./components/FailedResources";
+import { currentProfileNameAtom } from "~/atoms/currentProfileName";
+import { failedResourcesAtom } from "~/atoms/failedResources";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
+import { useProfiles } from "~/atoms/hooks/useProfiles";
 import {
   Icon,
   Plus,
@@ -15,11 +16,10 @@ import {
   Settings,
   TransferFill,
 } from "~/icons";
-import { useProfiles } from "~/atoms/hooks/useProfiles";
-import { browserProxySettings, browserTabs, getIconByProfileType } from "~/lib";
-import { currentProfileNameAtom } from "~/atoms/currentProfileName";
 import type { IIcon } from "~/icons";
-import { failedResourcesAtom } from "~/atoms/failedResources";
+import { browserProxySettings, browserTabs, getIconByProfileType } from "~/lib";
+import AddCondition from "./components/AddCondition";
+import FailedResources from "./components/FailedResources";
 
 async function handleOpenSetting() {
   const url = `chrome-extension://${browser.runtime.id}/index.html`;
@@ -192,7 +192,7 @@ export default function App() {
                     if (i.onClick) {
                       i.onClick();
                     } else {
-                      i.profileName && handleClick(i.profileName);
+                      if (i.profileName) handleClick(i.profileName);
                     }
                   }}
                   startContent={

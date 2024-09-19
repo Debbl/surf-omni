@@ -1,6 +1,7 @@
 import { useMemo } from "react";
-import { type Hsva, hsvToRgb } from "~/lib/color";
 import { useControlBlock } from "~/hooks/useControlBlock";
+import { hsvToRgb } from "~/lib/color";
+import type { Hsva } from "~/lib/color";
 
 export default function Palette({
   color,

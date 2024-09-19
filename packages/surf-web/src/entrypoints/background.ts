@@ -1,10 +1,10 @@
-import { storageFailedResources } from "~/lib/store";
 import {
   browserActionSetBadgeText,
   browserTabs,
   browserWebRequestOnErrorOccurred,
   updateBrowserAction,
 } from "~/lib";
+import { storageFailedResources } from "~/lib/store";
 
 export default defineBackground(() => {
   browserTabs.onActivated.addListener(async () => {

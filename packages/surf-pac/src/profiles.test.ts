@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type { IProxy } from "./utils";
 import { pacResult } from "./utils";
+import type { IProxy } from "./utils";
 
 describe("#profiles", () => {
   it("should return DIRECT for no proxy", () => {

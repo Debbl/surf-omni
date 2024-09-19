@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
+import { useProfile } from "~/atoms/hooks/useProfile";
 import FixedProfile from "./components/FixedProfile";
 import SwitchProfile from "./components/SwitchProfile";
-import { useProfile } from "~/atoms/hooks/useProfile";
 
 export default function ProfileName() {
   const { name = "" } = useParams();

@@ -1,5 +1,5 @@
-import { config } from "@debbl/eslint-config";
+import { defineConfig } from "@debbl/eslint-config";
 
-export default config({
+export default defineConfig({
   typescript: true,
 });

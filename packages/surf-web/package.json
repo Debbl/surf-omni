@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@9.1.4",
+  "packageManager": "pnpm@9.10.0",
   "description": "manifest.json description",
   "scripts": {
     "dev": "wxt",
@@ -19,23 +19,23 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.4.1",
-    "@nextui-org/theme": "^2.2.5",
-    "framer-motion": "^11.2.10",
-    "jotai": "^2.8.2",
+    "@nextui-org/react": "^2.4.8",
+    "@nextui-org/theme": "^2.2.11",
+    "framer-motion": "^11.5.5",
+    "jotai": "^2.9.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.23.1",
+    "react-router-dom": "^6.26.2",
     "surf-pac": "workspace:*",
     "twl": "0.0.0-alpha.5"
   },
   "devDependencies": {
-    "@types/react": "^18.3.3",
+    "@types/react": "^18.3.7",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.0",
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3",
-    "wxt": "^0.18.4"
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.12",
+    "wxt": "^0.19.9"
   }
 }

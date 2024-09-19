@@ -1,7 +1,7 @@
-import { RouterProvider } from "react-router-dom";
 import { Spinner } from "@nextui-org/react";
-import { router } from "./router";
+import { RouterProvider } from "react-router-dom";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
+import { router } from "./router";
 
 function App() {
   const { isLoading } = useLoadFormLocal();
