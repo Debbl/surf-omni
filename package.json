@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
+    "zip": "turbo zip -F surf-web",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "lint": "eslint . && turbo lint"

@@ -15,6 +15,7 @@
       "dependsOn": ["^build"]
     },
     "test": {},
-    "lint": {}
+    "lint": {},
+    "zip": {}
   }
 }
