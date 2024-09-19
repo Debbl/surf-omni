@@ -2,20 +2,19 @@ import {
   browserActionSetBadgeText,
   browserTabs,
   browserWebRequestOnErrorOccurred,
-  updateBrowserAction,
 } from "~/lib";
 import { storageFailedResources } from "~/lib/store";
 
 export default defineBackground(() => {
-  browserTabs.onActivated.addListener(async () => {
-    const currentProfile = await getCurrentProfile();
+  updateBrowserActionByCurrentProfile();
 
+  browserTabs.onActivated.addListener(async () => {
     await storageFailedResources.set([]);
     await browser.action.setBadgeText({
       text: "",
     });
 
-    updateBrowserAction(currentProfile);
+    updateBrowserActionByCurrentProfile();
   });
 
   browserWebRequestOnErrorOccurred.addListener(

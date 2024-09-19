@@ -70,15 +70,17 @@ export const storageFailedResources = {
 let isInit = true;
 export async function loadFromLocal() {
   const profiles = await storageProfiles.get();
-  const currentProfileName = await storageCurrentProfileName.get();
+  const currentProfileName =
+    (await storageCurrentProfileName.get()) ||
+    store.get(currentProfileNameAtom);
+
   const failedResources = await storageFailedResources.get();
 
   store.set(failedResourcesAtom, failedResources);
-
   store.set(profilesAtom, profiles);
-  if (currentProfileName) {
-    store.set(currentProfileNameAtom, currentProfileName);
-  }
+  store.set(currentProfileNameAtom, currentProfileName);
+
+  updateBrowserActionByCurrentProfile();
 
   store.sub(profilesAtom, () => {
     if (!isInit) store.set(isSettingsChangeAtom, true);

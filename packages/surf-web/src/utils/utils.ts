@@ -72,7 +72,7 @@ export function getCurrentProfile() {
   return allProfiles[nameAsKey(currentProfileName)] ?? {};
 }
 
-export const updateBrowserAction = async (profile: Profile) => {
+export async function updateBrowserAction(profile: Profile) {
   await browserActionSetTitle({
     title: profile.name,
   });
@@ -89,4 +89,9 @@ export const updateBrowserAction = async (profile: Profile) => {
   await browserActionSetIcon({
     imageData,
   });
-};
+}
+
+export function updateBrowserActionByCurrentProfile() {
+  const currentProfile = getCurrentProfile();
+  updateBrowserAction(currentProfile);
+}
