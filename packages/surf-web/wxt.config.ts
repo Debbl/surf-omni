@@ -14,7 +14,7 @@ export default defineConfig({
   srcDir: fileURLToPath(new URL("./src", import.meta.url)),
   publicDir: fileURLToPath(new URL("./public", import.meta.url)),
   alias: {
-    "@": fileURLToPath(new URL("./src", import.meta.url)),
+    "~": fileURLToPath(new URL("./src", import.meta.url)),
   },
   vite: () => ({
     plugins: [react()],

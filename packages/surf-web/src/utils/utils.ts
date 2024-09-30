@@ -1,6 +1,6 @@
-import { profilesAtom } from "@/atoms/profiles";
 import { nameAsKey } from "surf-pac";
 import { currentProfileNameAtom } from "~/atoms/currentProfileName";
+import { profilesAtom } from "~/atoms/profiles";
 import { builtinProfiles } from "~/constants";
 import { AutorenewOutlineRounded, Earth } from "~/icons";
 import { store } from "~/lib";
