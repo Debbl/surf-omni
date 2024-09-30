@@ -1,5 +1,5 @@
-import type { Action } from "wxt/browser";
 import { projectName } from "~/constants";
+import type { Action } from "wxt/browser";
 
 export const browserStorageLocal = browser.storage.local;
 export const browserTabs = browser.tabs;

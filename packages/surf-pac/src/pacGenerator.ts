@@ -19,10 +19,10 @@ import {
   variableDeclaration,
   variableDeclarator,
 } from "surf-ast";
-import type { Statement } from "estree";
 import { parserCondition } from "./conditions";
 import { ruleListParser } from "./ruleList";
 import { nameAsKey, pacResult } from "./utils";
+import type { Statement } from "estree";
 import type { Profiles } from "./profiles";
 
 function parserOptions(profiles: Profiles) {

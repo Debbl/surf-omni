@@ -1,14 +1,6 @@
 import { useAtom, useAtomValue } from "jotai";
 import { useMemo } from "react";
 import { nameAsKey } from "surf-pac";
-import type {
-  BasicProfile,
-  FixedProfile,
-  Profile,
-  Profiles,
-  RuleListProfile,
-  SwitchProfile,
-} from "surf-pac";
 import {
   builtinProfiles,
   defaultFixedProfile,
@@ -17,6 +9,14 @@ import {
 } from "~/constants";
 import { currentProfileNameAtom } from "../currentProfileName";
 import { profilesAtom } from "../profiles";
+import type {
+  BasicProfile,
+  FixedProfile,
+  Profile,
+  Profiles,
+  RuleListProfile,
+  SwitchProfile,
+} from "surf-pac";
 
 export type BasicProfileWithoutColor = Omit<BasicProfile, "color">;
 

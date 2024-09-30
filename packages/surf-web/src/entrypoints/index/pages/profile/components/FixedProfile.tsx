@@ -11,9 +11,9 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { useCallback, useMemo } from "react";
-import type { FixedProfile as IFixedProfile, Scheme } from "surf-pac";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import ProfileTop from "./ProfileTop";
+import type { FixedProfile as IFixedProfile, Scheme } from "surf-pac";
 
 const SCHEME = [
   {

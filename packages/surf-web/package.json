@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@9.10.0",
+  "packageManager": "pnpm@9.11.0",
   "description": "manifest.json description",
   "scripts": {
     "dev": "wxt",
@@ -21,8 +21,8 @@
   "dependencies": {
     "@nextui-org/react": "^2.4.8",
     "@nextui-org/theme": "^2.2.11",
-    "framer-motion": "^11.5.5",
-    "jotai": "^2.9.3",
+    "framer-motion": "^11.9.0",
+    "jotai": "^2.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
@@ -30,12 +30,12 @@
     "twl": "0.0.0-alpha.5"
   },
   "devDependencies": {
-    "@types/react": "^18.3.7",
+    "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
+    "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.12",
-    "wxt": "^0.19.9"
+    "tailwindcss": "^3.4.13",
+    "wxt": "^0.19.10"
   }
 }

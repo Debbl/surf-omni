@@ -2,14 +2,14 @@ import { Button } from "@nextui-org/react";
 import { useAtom } from "jotai";
 import { Fragment, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import type { ButtonProps } from "@nextui-org/react";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { Check, CloseCircleOutlined, Icon, Plus } from "~/icons";
-import type { IIcon } from "~/icons";
 import { resetFromLocal, saveToLocal } from "~/lib/store";
 import { getIconByProfileType } from "~/utils";
 import { NewProfileModel } from "../components/NewProfileModel";
+import type { ButtonProps } from "@nextui-org/react";
+import type { IIcon } from "~/icons";
 import type { OnOk } from "../components/NewProfileModel";
 
 export default function Index() {

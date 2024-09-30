@@ -2,8 +2,6 @@ import { Button, Spinner } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { Fragment, useEffect, useState } from "react";
 import { getProxyValue, nameAsKey } from "surf-pac";
-import type { ButtonGroupProps } from "@nextui-org/react";
-import type { Tabs } from "wxt/browser";
 import { currentProfileNameAtom } from "~/atoms/currentProfileName";
 import { failedResourcesAtom } from "~/atoms/failedResources";
 import { useLoadFormLocal } from "~/atoms/hooks/useLoadFormLocal";
@@ -16,10 +14,12 @@ import {
   Settings,
   TransferFill,
 } from "~/icons";
-import type { IIcon } from "~/icons";
 import { browserProxySettings, browserTabs, getIconByProfileType } from "~/lib";
 import AddCondition from "./components/AddCondition";
 import FailedResources from "./components/FailedResources";
+import type { ButtonGroupProps } from "@nextui-org/react";
+import type { Tabs } from "wxt/browser";
+import type { IIcon } from "~/icons";
 
 async function handleOpenSetting() {
   const url = `chrome-extension://${browser.runtime.id}/index.html`;

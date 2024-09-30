@@ -1,7 +1,5 @@
 import { profilesAtom } from "@/atoms/profiles";
 import { nameAsKey } from "surf-pac";
-import type { Profile, ProfileType } from "surf-pac";
-import type { Action } from "wxt/browser";
 import { currentProfileNameAtom } from "~/atoms/currentProfileName";
 import { builtinProfiles } from "~/constants";
 import { AutorenewOutlineRounded, Earth } from "~/icons";
@@ -11,6 +9,8 @@ import {
   browserActionSetTitle,
   browserDownloads,
 } from "../lib/browser";
+import type { Profile, ProfileType } from "surf-pac";
+import type { Action } from "wxt/browser";
 
 export function getIconByProfileType(type: ProfileType) {
   switch (type) {

@@ -7,10 +7,10 @@ import {
 } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
 import { useState } from "react";
-import type { SwitchProfile } from "surf-pac";
 import { failedResourcesAtom } from "~/atoms/failedResources";
 import { useSwitchProfile } from "~/atoms/hooks/useSwitchProfile";
 import { browserTabs, saveToLocal, storageFailedResources } from "~/lib";
+import type { SwitchProfile } from "surf-pac";
 
 export default function FailedResources({
   name,

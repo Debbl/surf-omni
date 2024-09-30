@@ -1,9 +1,9 @@
 import { Button } from "@nextui-org/react";
 import { getProxyValue } from "surf-pac";
-import type { Profiles } from "surf-pac";
 import { ColorPicker } from "~/components/ColorPicker";
 import { Download, Icon } from "~/icons";
 import { downloadFile } from "~/lib";
+import type { Profiles } from "surf-pac";
 
 export default function ProfileTop({
   name,
