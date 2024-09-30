@@ -1,5 +1,5 @@
 import { Button, Spinner } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { Fragment, useEffect, useState } from "react";
 import { getProxyValue, nameAsKey } from "surf-pac";
 import { currentProfileNameAtom } from "~/atoms/currentProfileName";
@@ -45,7 +45,7 @@ export default function App() {
   const [activeTabs, setActiveTabs] = useState<
     (Tabs.Tab & { URL: URL | null })[]
   >([]);
-  const failedResources = useAtomValue(failedResourcesAtom);
+  const [failedResources, setFailedResources] = useAtom(failedResourcesAtom);
 
   const isSwitchProfile =
     currentProfile.profileType === "SwitchProfile" &&
@@ -53,10 +53,11 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-      const activeTabs = await browser.tabs.query({
+      const activeTabs = await browserTabs.query({
         active: true,
         currentWindow: true,
       });
+
       setActiveTabs(
         activeTabs.map((tab) => ({
           ...tab,
@@ -89,7 +90,7 @@ export default function App() {
           icon: PowerOff,
           profileName: "system",
         },
-        ...(failedResources.length && isSwitchProfile
+        ...(failedResources.length
           ? [
               {
                 name: `${failedResources.length}个资源未加载`,
@@ -138,13 +139,16 @@ export default function App() {
   ];
 
   const handleClick = async (profileName: string) => {
-    setCurrentProfileName(profileName);
+    if (currentProfileName === profileName) return;
 
+    setCurrentProfileName(profileName);
     await browserProxySettings.set({
       value: getProxyValue(profileName, allProfiles),
     });
-
     await updateBrowserAction(allProfiles[nameAsKey(profileName)]);
+
+    setFailedResources([]);
+    await browserTabs.reload();
 
     window.close();
   };
@@ -163,6 +167,7 @@ export default function App() {
     return (
       <FailedResources
         name={currentProfileName}
+        isDisabled={!isSwitchProfile}
         setIsShowFailedResources={setIsShowFailedResources}
       />
     );

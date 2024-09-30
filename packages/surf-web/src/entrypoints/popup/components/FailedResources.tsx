@@ -14,9 +14,11 @@ import type { SwitchProfile } from "surf-pac";
 
 export default function FailedResources({
   name,
+  isDisabled,
   setIsShowFailedResources,
 }: {
   name: string;
+  isDisabled: boolean;
   setIsShowFailedResources: (setIsShowFailedResources: boolean) => void;
 }) {
   const failedResources = useAtomValue(failedResourcesAtom);
@@ -64,13 +66,14 @@ export default function FailedResources({
         onChange={setConditions}
       >
         {patternFailedResources.map((r) => (
-          <Checkbox key={r} value={r}>
+          <Checkbox key={r} value={r} isDisabled={isDisabled}>
             {r}
           </Checkbox>
         ))}
       </CheckboxGroup>
 
       <Select
+        isDisabled={isDisabled}
         size="sm"
         label="选择情景模式"
         selectedKeys={[profileName]}
