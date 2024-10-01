@@ -14,7 +14,7 @@ export default defineBackground(() => {
       text: "",
     });
 
-    updateBrowserActionByCurrentProfile();
+    await updateBrowserActionByCurrentProfile();
   });
 
   browserWebRequestOnErrorOccurred.addListener(
