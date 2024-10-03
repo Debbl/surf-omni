@@ -17,13 +17,14 @@ async function test() {
   });
 }
 
-setInterval(async () => {
-  const v = await browser.proxy.settings.get({});
-  console.log("🚀 ~ setInterval ~ v:", v);
-}, 3000);
-
 export default function Test() {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setInterval(async () => {
+      const v = await browser.proxy.settings.get({});
+      console.log("🚀 ~ setInterval ~ v:", v);
+    }, 3000);
+  }, []);
+
   return (
     <div>
       <button onClick={() => test()}>test</button>

@@ -7,6 +7,8 @@ import type {
   SystemProfile,
 } from "surf-pac";
 
+export const isDev = import.meta.env.DEV;
+
 export const projectName = "surf-omni";
 
 export const builtinProfiles: Record<string, DirectProfile | SystemProfile> = {
