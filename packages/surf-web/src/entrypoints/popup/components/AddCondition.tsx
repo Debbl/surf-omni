@@ -27,6 +27,15 @@ export default function AddCondition({
   });
   const [profileName, setProfileName] = useState(matchProfileNames[0].value);
 
+  const isExistRule = useMemo(() => {
+    return switchProfile.rules.some(
+      (rule) =>
+        rule.condition.conditionType === condition.conditionType &&
+        rule.condition.pattern === condition.pattern &&
+        rule.profileName === profileName,
+    );
+  }, [condition, profileName, switchProfile.rules]);
+
   useEffect(() => {
     setProfileName(matchProfileNames[0].value);
   }, [matchProfileNames]);
@@ -121,7 +130,11 @@ export default function AddCondition({
 
       <div className="flex items-center justify-between py-4">
         <Button onClick={() => setIsShowAddCondition(false)}>取消</Button>
-        <Button color="primary" onClick={() => handleAddCondition()}>
+        <Button
+          isDisabled={isExistRule}
+          color="primary"
+          onClick={() => handleAddCondition()}
+        >
           确定
         </Button>
       </div>

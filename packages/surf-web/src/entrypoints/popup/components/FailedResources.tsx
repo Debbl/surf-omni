@@ -26,19 +26,29 @@ export default function FailedResources({
     useSwitchProfile<SwitchProfile>(name);
 
   const patternFailedResources = failedResources.map((r) => `*.${r}`);
-  const [conditions, setConditions] = useState<string[]>(
-    patternFailedResources,
-  );
+  const [patterns, setPatterns] = useState<string[]>(patternFailedResources);
   const [profileName, setProfileName] = useState(matchProfileNames[0].value);
 
   const handleAddConditions = async () => {
     if (!profileName) return;
 
+    const addPatterns = patterns.filter(
+      (pattern) =>
+        !switchProfile.rules
+          .filter(
+            (rule) =>
+              rule.condition.conditionType === "HostWildcardCondition" &&
+              rule.profileName === profileName,
+          )
+          .map((rule) => rule.condition.pattern)
+          .includes(pattern),
+    );
+
     setSwitchProfile({
       ...switchProfile,
       rules: [
         ...switchProfile.rules,
-        ...conditions.map((c) => ({
+        ...addPatterns.map((c) => ({
           condition: {
             conditionType: "HostWildcardCondition" as const,
             pattern: c,
@@ -62,8 +72,8 @@ export default function FailedResources({
 
       <CheckboxGroup
         aria-label="选择网址"
-        value={conditions}
-        onChange={setConditions}
+        value={patterns}
+        onChange={setPatterns}
       >
         {patternFailedResources.map((r) => (
           <Checkbox key={r} value={r} isDisabled={isDisabled}>
