@@ -83,12 +83,12 @@ export default function App() {
         {
           name: "直接连接",
           icon: TransferFill,
-          profileName: "direct",
+          profileName: "[direct]",
         },
         {
           name: "系统代理",
           icon: PowerOff,
-          profileName: "system",
+          profileName: "[system]",
         },
         ...(failedResources.length
           ? [

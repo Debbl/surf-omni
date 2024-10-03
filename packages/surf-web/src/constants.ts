@@ -10,13 +10,13 @@ import type {
 export const projectName = "surf-omni";
 
 export const builtinProfiles: Record<string, DirectProfile | SystemProfile> = {
-  "+direct": {
-    name: "direct",
+  "+[direct]": {
+    name: "[direct]",
     profileType: "DirectProfile",
     color: "#d4d4d8",
   },
-  "+system": {
-    name: "system",
+  "+[system]": {
+    name: "[system]",
     profileType: "SystemProfile",
     color: "#030712",
   },
@@ -42,7 +42,7 @@ export const defaultSwitchProfile: SwitchProfile = {
   name: "",
   color: "#10b981",
   profileType: "SwitchProfile",
-  defaultProfileName: "direct",
+  defaultProfileName: "[direct]",
   rules: [],
 };
 
@@ -54,6 +54,17 @@ export const defaultRuleListProfile: RuleListProfile = {
   defaultProfileName: "direct",
   url: "",
   raw: "",
+};
+
+export const defaultCustomProfiles = {
+  "+proxy": {
+    ...defaultFixedProfile,
+    name: "proxy",
+  },
+  "+auto switch": {
+    ...defaultSwitchProfile,
+    name: "auto switch",
+  },
 };
 
 export const conditionType: {
