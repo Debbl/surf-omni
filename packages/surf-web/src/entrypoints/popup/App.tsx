@@ -51,7 +51,7 @@ export default function App() {
     currentProfile.profileType === "SwitchProfile" &&
     ["http:", "https:"].includes(activeTabs[0].URL?.protocol || "");
 
-  const isWebExtension = activeTabs[0]?.URL?.protocol.includes("extension://");
+  const isWebExtension = activeTabs[0]?.URL?.protocol.includes("extension:");
 
   useEffect(() => {
     (async () => {
