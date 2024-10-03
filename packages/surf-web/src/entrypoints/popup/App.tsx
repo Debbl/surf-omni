@@ -51,6 +51,8 @@ export default function App() {
     currentProfile.profileType === "SwitchProfile" &&
     ["http:", "https:"].includes(activeTabs[0].URL?.protocol || "");
 
+  const isWebExtension = activeTabs[0]?.URL?.protocol.includes("extension://");
+
   useEffect(() => {
     (async () => {
       const activeTabs = await browserTabs.query({
@@ -148,7 +150,7 @@ export default function App() {
     await updateBrowserAction(allProfiles[nameAsKey(profileName)]);
 
     setFailedResources([]);
-    await browserTabs.reload();
+    if (!isWebExtension) await browserTabs.reload();
 
     window.close();
   };
