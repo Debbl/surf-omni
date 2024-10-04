@@ -27,7 +27,7 @@ export default function ProfileTop({
     <div className="flex items-center justify-between py-6">
       <div className="flex items-center gap-x-2">
         <ColorPicker value={color} setValue={setColor} />
-        <div className="text-2xl font-medium">情景模式：{name}</div>
+        <h2 className="text-2xl font-medium">情景模式：{name}</h2>
       </div>
       <div className="px-6">
         <Button

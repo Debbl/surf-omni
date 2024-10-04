@@ -3,6 +3,8 @@ import { isDev } from "~/constants";
 import Index from "../pages/Index";
 import ProfileIndex from "../pages/profile/Index";
 import ProfileName from "../pages/profile/Name";
+import Settings from "../pages/settings/Index";
+import ImportAndExport from "../pages/settings/pages/ImportAndExport";
 import Test from "../pages/Test";
 import type { RouteObject } from "react-router-dom";
 
@@ -18,6 +20,20 @@ const routes: RouteObject[] = [
           {
             path: ":name",
             element: <ProfileName />,
+          },
+        ],
+      },
+      {
+        path: "settings",
+        element: <Settings />,
+        children: [
+          {
+            index: true,
+            element: <ImportAndExport />,
+          },
+          {
+            path: "import-and-export",
+            element: <ImportAndExport />,
           },
         ],
       },

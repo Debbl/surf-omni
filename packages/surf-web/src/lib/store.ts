@@ -10,7 +10,7 @@ import {
 } from "~/atoms/failedResources";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { profilesAtom, profilesStoreKey } from "~/atoms/profiles";
-import { defaultCustomProfiles } from "~/constants";
+import { builtinProfiles, defaultCustomProfiles } from "~/constants";
 import { browserProxySettings, browserStorageLocal } from "./browser";
 import type { Profile, Profiles } from "surf-pac";
 
@@ -96,13 +96,17 @@ export async function saveToLocal() {
 
   store.set(isSettingsChangeAtom, false);
 
+  const allProfiles = {
+    ...builtinProfiles,
+    ...profiles,
+  };
   // update current proxy by updated profiles
   const currentProfileName = store.get(currentProfileNameAtom);
   if (currentProfileName) {
-    const profile = profiles[nameAsKey(currentProfileName)];
+    const profile = allProfiles[nameAsKey(currentProfileName)];
 
     browserProxySettings.set({
-      value: getProxyValue(profile.name, profiles),
+      value: getProxyValue(profile.name, allProfiles),
     });
 
     await updateBrowserAction(profile);

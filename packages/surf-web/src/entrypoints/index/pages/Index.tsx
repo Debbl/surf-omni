@@ -4,7 +4,7 @@ import { Fragment, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
-import { Check, CloseCircleOutlined, Icon, Plus } from "~/icons";
+import { Check, CloseCircleOutlined, Export, Icon, Plus } from "~/icons";
 import { resetFromLocal, saveToLocal } from "~/lib/store";
 import { getIconByProfileType } from "~/utils";
 import { NewProfileModel } from "../components/NewProfileModel";
@@ -39,6 +39,18 @@ export default function Index() {
       onClick?: () => void;
     }[];
   }[] = [
+    {
+      name: "SETTINGS",
+      divider: true,
+      children: [
+        {
+          name: "导入/导出",
+          icon: Export,
+          variant: "light",
+          onClick: () => navigate("/settings/import-and-export"),
+        },
+      ],
+    },
     {
       name: "情景模式",
       children: [
@@ -100,11 +112,13 @@ export default function Index() {
         <aside className="w-60 px-8 py-4">
           <h1 className="text-3xl font-bold">Surf Omni</h1>
 
-          <nav className="pt-3">
+          <nav className="pt-6">
             <ul className="flex flex-col gap-y-1">
-              {Menu.map((item) => (
+              {Menu.map((item, index) => (
                 <Fragment key={item.name}>
-                  {item.divider && <li className="my-2 border-b" />}
+                  {item.divider && index !== 0 && (
+                    <li className="my-2 border-b" />
+                  )}
 
                   <li className="py-2 font-mono text-gray-600">{item.name}</li>
                   {item.children.map((i) => (
