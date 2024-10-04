@@ -28,7 +28,6 @@ export default function ImportAndExport() {
     const profiles = Object.fromEntries(
       Object.entries(content).filter(([key]) => key.startsWith("+")),
     ) as any;
-    console.log("🚀 ~ handleImport ~ profiles:", profiles);
     setProfiles(profiles);
 
     await storageCurrentProfileName.set("[direct]");
