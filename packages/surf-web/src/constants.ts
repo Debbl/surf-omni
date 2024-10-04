@@ -2,6 +2,7 @@ import type {
   ConditionType,
   DirectProfile,
   FixedProfile,
+  Profiles,
   RuleListProfile,
   SwitchProfile,
   SystemProfile,
@@ -58,14 +59,19 @@ export const defaultRuleListProfile: RuleListProfile = {
   raw: "",
 };
 
-export const defaultCustomProfiles = {
+export const defaultCustomProfiles: Profiles = {
   "+proxy": {
     ...defaultFixedProfile,
     name: "proxy",
   },
   "+auto switch": {
     ...defaultSwitchProfile,
+    defaultProfileName: "__ruleListOf_auto switch",
     name: "auto switch",
+  },
+  "+__ruleListOf_auto switch": {
+    ...defaultRuleListProfile,
+    name: "__ruleListOf_auto switch",
   },
 };
 
