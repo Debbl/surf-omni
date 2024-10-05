@@ -1,10 +1,10 @@
 import { createHashRouter } from "react-router-dom";
 import { isDev } from "~/constants";
-import About from "../pages/about/index";
-import Index from "../pages/index";
-import ProfileIndex from "../pages/profile/index";
+import About from "../pages/about/Index";
+import Index from "../pages/Index";
+import ProfileIndex from "../pages/profile/Index";
 import ProfileName from "../pages/profile/Name";
-import Settings from "../pages/settings/index";
+import Settings from "../pages/settings/Index";
 import ImportAndExport from "../pages/settings/pages/ImportAndExport";
 import Test from "../pages/Test";
 import type { RouteObject } from "react-router-dom";
