@@ -1,6 +1,6 @@
 import { version } from "~/constants";
 
-export default function About() {
+export default function Index() {
   return (
     <div>
       <div>
