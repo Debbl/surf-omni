@@ -1,3 +1,5 @@
+import { version } from "../../../../../package.json";
+
 export default function Index() {
   return (
     <div>
@@ -13,6 +15,8 @@ export default function Index() {
         <img className="size-10" src="/icon/128.png" alt="" />
         <h3 className="text-lg">Surf Omni</h3>
       </div>
+
+      <div className="mt-4 text-medium">Version {version}</div>
 
       <div className="mt-4 flex items-center gap-x-2">
         <a
