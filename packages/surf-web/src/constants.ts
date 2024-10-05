@@ -1,3 +1,4 @@
+import { version as packageVersion } from "../package.json";
 import type {
   ConditionType,
   DirectProfile,
@@ -11,6 +12,8 @@ import type {
 export const isDev = import.meta.env.DEV;
 
 export const projectName = "surf-omni";
+
+export const version = packageVersion;
 
 export const builtinProfiles: Record<string, DirectProfile | SystemProfile> = {
   "+[direct]": {
