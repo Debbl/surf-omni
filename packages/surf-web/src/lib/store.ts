@@ -83,9 +83,19 @@ export async function loadFromLocal() {
 
   updateBrowserActionByCurrentProfile();
 
-  store.sub(profilesAtom, () => {
-    if (!isInit) store.set(isSettingsChangeAtom, true);
-    isInit = false;
+  store.sub(profilesAtom, async () => {
+    if (isInit) {
+      isInit = false;
+      return;
+    }
+
+    const profiles = store.get(profilesAtom);
+    const localProfiles = await storageProfiles.get();
+
+    store.set(
+      isSettingsChangeAtom,
+      JSON.stringify(profiles) !== JSON.stringify(localProfiles),
+    );
   });
 }
 
