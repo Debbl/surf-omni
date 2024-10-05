@@ -78,11 +78,11 @@ export default function AddCondition({
 
   return (
     <div className="flex min-w-72 flex-col gap-y-4 px-2">
-      <div className="flex items-center gap-x-2 p-2 text-lg">
+      <div className="flex flex-col gap-x-2 p-2 text-lg">
         <div>添加条件到情景模式</div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-x-2">
           {Icon && <Icon />}
-          {switchProfile.name}
+          <span>{switchProfile.name}</span>
         </div>
       </div>
 
