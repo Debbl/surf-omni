@@ -1,7 +1,7 @@
 import { Button } from "@nextui-org/react";
 import { useAtom } from "jotai";
 import { Fragment, useState } from "react";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { useProfiles } from "~/atoms/hooks/useProfiles";
 import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
 import { Check, CloseCircleOutlined, Export, Icon, Plus } from "~/icons";
@@ -110,7 +110,9 @@ export default function Index() {
 
       <div className="flex h-screen">
         <aside className="w-60 px-8 py-4">
-          <h1 className="text-3xl font-bold">Surf Omni</h1>
+          <Link to="/about">
+            <h1 className="text-3xl font-bold">Surf Omni</h1>
+          </Link>
 
           <nav className="pt-6">
             <ul className="flex flex-col gap-y-1">
