@@ -1,6 +1,6 @@
 import { createHashRouter } from "react-router-dom";
 import { isDev } from "~/constants";
-import About from "../pages/about/Index";
+import About from "../pages/about/About";
 import Index from "../pages/Index";
 import ProfileIndex from "../pages/profile/Index";
 import ProfileName from "../pages/profile/Name";
