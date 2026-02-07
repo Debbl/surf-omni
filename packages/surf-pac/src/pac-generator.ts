@@ -20,7 +20,7 @@ import {
   variableDeclarator,
 } from 'surf-ast'
 import { parserCondition } from './conditions'
-import { ruleListParser } from './ruleList'
+import { ruleListParser } from './rule-list'
 import { nameAsKey, pacResult } from './utils'
 import type { Statement } from 'estree'
 import type { Profiles } from './profiles'

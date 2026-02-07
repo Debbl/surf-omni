@@ -1,5 +1,5 @@
 import { astringGenerate } from 'surf-ast'
-import { pacGeneratorScript } from './pacGenerator'
+import { pacGeneratorScript } from './pac-generator'
 import { nameAsKey } from './utils'
 import type { Condition } from './conditions'
 

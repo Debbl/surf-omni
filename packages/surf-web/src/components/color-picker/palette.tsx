@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useControlBlock } from '~/hooks/useControlBlock'
+import { useControlBlock } from '~/hooks/use-control-block'
 import { hsvToRgb } from '~/lib/color'
 import type { Hsva } from '~/lib/color'
 

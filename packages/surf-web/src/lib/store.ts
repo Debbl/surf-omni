@@ -3,12 +3,12 @@ import { getProxyValue, nameAsKey } from 'surf-pac'
 import {
   currentProfileNameAtom,
   currentProfileNameStoreKey,
-} from '~/atoms/currentProfileName'
+} from '~/atoms/current-profile-name'
 import {
   failedResourcesAtom,
   failedResourcesKey,
-} from '~/atoms/failedResources'
-import { isSettingsChangeAtom } from '~/atoms/isSettingsChange'
+} from '~/atoms/failed-resources'
+import { isSettingsChangeAtom } from '~/atoms/is-settings-change'
 import { profilesAtom, profilesStoreKey } from '~/atoms/profiles'
 import { builtinProfiles, defaultCustomProfiles } from '~/constants'
 import { browserProxySettings, browserStorageLocal } from './browser'
@@ -19,7 +19,8 @@ export const store = getDefaultStore()
 export const storageProfiles = {
   get: async (): Promise<Profiles> => {
     const localProfiles = await browserStorageLocal.get(profilesStoreKey)
-    return localProfiles[profilesStoreKey] ?? defaultCustomProfiles
+    return (localProfiles[profilesStoreKey] ??
+      defaultCustomProfiles) as Profiles
   },
   set: async (profiles: Profiles) => {
     await browserStorageLocal.set({ [profilesStoreKey]: profiles })
@@ -31,7 +32,7 @@ export const storageCurrentProfileName = {
     const localCurrentProfileKey = await browserStorageLocal.get(
       currentProfileNameStoreKey,
     )
-    return localCurrentProfileKey[currentProfileNameStoreKey] ?? ''
+    return (localCurrentProfileKey[currentProfileNameStoreKey] ?? '') as string
   },
   set: async (currentProfileName: string) => {
     await browserStorageLocal.set({
@@ -61,7 +62,7 @@ export const storageFailedResources = {
   get: async (): Promise<string[]> => {
     const localFailedResources =
       await browserStorageLocal.get(failedResourcesKey)
-    return localFailedResources[failedResourcesKey] ?? []
+    return (localFailedResources[failedResourcesKey] ?? []) as string[]
   },
   set: async (failedResources: string[]) => {
     await browserStorageLocal.set({ [failedResourcesKey]: failedResources })

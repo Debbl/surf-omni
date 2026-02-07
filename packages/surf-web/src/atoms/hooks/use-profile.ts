@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { nameAsKey } from 'surf-pac'
-import { useProfiles } from '~/atoms/hooks/useProfiles'
+import { useProfiles } from '~/atoms/hooks/use-profiles'
 import type { Profile } from 'surf-pac'
 
 export function useProfile<T extends Profile>(name: string) {
