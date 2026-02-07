@@ -1,5 +1,5 @@
 import { Button } from '@nextui-org/react'
-import { useProfiles } from '~/atoms/hooks/useProfiles'
+import { useProfiles } from '~/atoms/hooks/use-profiles'
 import { projectName } from '~/constants'
 import { saveToLocal, storageCurrentProfileName } from '~/lib'
 import { downloadFile } from '~/utils'

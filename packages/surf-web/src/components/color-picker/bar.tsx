@@ -1,4 +1,4 @@
-import { useControlBlock } from '~/hooks/useControlBlock'
+import { useControlBlock } from '~/hooks/use-control-block'
 import type { Hsva } from '~/lib/color'
 
 export default function Bar({

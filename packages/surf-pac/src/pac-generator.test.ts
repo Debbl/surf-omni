@@ -1,6 +1,6 @@
 import { astringGenerate } from 'surf-ast'
 import { describe, expect, it } from 'vitest'
-import { pacGeneratorScript } from './pacGenerator'
+import { pacGeneratorScript } from './pac-generator'
 
 const options = {
   '+auto': {

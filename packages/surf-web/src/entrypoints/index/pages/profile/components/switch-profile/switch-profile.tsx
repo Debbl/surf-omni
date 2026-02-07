@@ -1,10 +1,10 @@
 import { Button, Input, Select, SelectItem, Textarea } from '@nextui-org/react'
 import { useCallback, useMemo } from 'react'
 import { preprocess } from 'surf-pac'
-import { useProfile } from '~/atoms/hooks/useProfile'
-import { useSwitchProfile } from '~/atoms/hooks/useSwitchProfile'
-import ProfileTop from '../ProfileTop'
-import { SwitchProfileRules } from './SwitchProfileRules'
+import { useProfile } from '~/atoms/hooks/use-profile'
+import { useSwitchProfile } from '~/atoms/hooks/use-switch-profile'
+import ProfileTop from '../profile-top'
+import { SwitchProfileRules } from './switch-profile-rules'
 import type { SwitchProfile as ISwitchProfile, RuleListProfile } from 'surf-pac'
 
 const handleUpdateSource = async (

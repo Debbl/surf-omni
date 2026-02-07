@@ -7,7 +7,7 @@ import {
   defaultRuleListProfile,
   defaultSwitchProfile,
 } from '~/constants'
-import { currentProfileNameAtom } from '../currentProfileName'
+import { currentProfileNameAtom } from '../current-profile-name'
 import { profilesAtom } from '../profiles'
 import type {
   BasicProfile,

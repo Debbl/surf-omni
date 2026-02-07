@@ -1,6 +1,6 @@
 import { Button, Input, Select, SelectItem } from '@nextui-org/react'
 import { useEffect, useMemo, useState } from 'react'
-import { useSwitchProfile } from '~/atoms/hooks/useSwitchProfile'
+import { useSwitchProfile } from '~/atoms/hooks/use-switch-profile'
 import { conditionType } from '~/constants'
 import { browserTabs, saveToLocal } from '~/lib'
 import { getIconByProfileType } from '~/utils'

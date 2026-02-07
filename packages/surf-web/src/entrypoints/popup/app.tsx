@@ -2,10 +2,10 @@ import { Button, Spinner } from '@nextui-org/react'
 import { useAtom } from 'jotai'
 import { Fragment, useEffect, useState } from 'react'
 import { getProxyValue, nameAsKey } from 'surf-pac'
-import { currentProfileNameAtom } from '~/atoms/currentProfileName'
-import { failedResourcesAtom } from '~/atoms/failedResources'
-import { useLoadFormLocal } from '~/atoms/hooks/useLoadFormLocal'
-import { useProfiles } from '~/atoms/hooks/useProfiles'
+import { currentProfileNameAtom } from '~/atoms/current-profile-name'
+import { failedResourcesAtom } from '~/atoms/failed-resources'
+import { useLoadFormLocal } from '~/atoms/hooks/use-load-form-local'
+import { useProfiles } from '~/atoms/hooks/use-profiles'
 import {
   Icon,
   Plus,
@@ -15,8 +15,8 @@ import {
   TransferFill,
 } from '~/icons'
 import { browserProxySettings, browserTabs, getIconByProfileType } from '~/lib'
-import AddCondition from './components/AddCondition'
-import FailedResources from './components/FailedResources'
+import AddCondition from './components/add-condition'
+import FailedResources from './components/failed-resources'
 import type { ButtonGroupProps } from '@nextui-org/react'
 import type { Tabs } from 'wxt/browser'
 import type { IIcon } from '~/icons'

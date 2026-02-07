@@ -10,7 +10,7 @@ import {
   RadioGroup,
 } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
-import { ProfileIcon } from '~/components/ProfileIcon'
+import { ProfileIcon } from '~/components/profile-icon'
 import type { BuiltinProfileType, ProfileType } from 'surf-pac'
 
 export type OptionProfileType = Exclude<ProfileType, BuiltinProfileType>

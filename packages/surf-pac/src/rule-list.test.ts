@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ruleListParser } from './ruleList'
+import { ruleListParser } from './rule-list'
 
 function test(line: string, result: any) {
   const _result = ruleListParser(line, 'match', 'nomatch')

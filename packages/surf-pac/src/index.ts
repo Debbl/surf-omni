@@ -1,5 +1,5 @@
 export * from './conditions'
-export * from './pacGenerator'
+export * from './pac-generator'
 export * from './profiles'
-export * from './ruleList'
+export * from './rule-list'
 export * from './utils'

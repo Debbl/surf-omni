@@ -7,8 +7,8 @@ import {
 } from '@nextui-org/react'
 import { useAtomValue } from 'jotai'
 import { useState } from 'react'
-import { failedResourcesAtom } from '~/atoms/failedResources'
-import { useSwitchProfile } from '~/atoms/hooks/useSwitchProfile'
+import { failedResourcesAtom } from '~/atoms/failed-resources'
+import { useSwitchProfile } from '~/atoms/hooks/use-switch-profile'
 import { browserTabs, saveToLocal, storageFailedResources } from '~/lib'
 import type { SwitchProfile } from 'surf-pac'
 
