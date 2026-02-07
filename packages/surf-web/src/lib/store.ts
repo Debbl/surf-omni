@@ -19,7 +19,8 @@ export const store = getDefaultStore()
 export const storageProfiles = {
   get: async (): Promise<Profiles> => {
     const localProfiles = await browserStorageLocal.get(profilesStoreKey)
-    return (localProfiles[profilesStoreKey] ?? defaultCustomProfiles) as Profiles
+    return (localProfiles[profilesStoreKey] ??
+      defaultCustomProfiles) as Profiles
   },
   set: async (profiles: Profiles) => {
     await browserStorageLocal.set({ [profilesStoreKey]: profiles })
