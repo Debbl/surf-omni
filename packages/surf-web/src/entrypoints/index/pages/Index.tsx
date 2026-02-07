@@ -1,58 +1,58 @@
-import { Button } from "@nextui-org/react";
-import { useAtom } from "jotai";
-import { Fragment, useState } from "react";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import { useProfiles } from "~/atoms/hooks/useProfiles";
-import { isSettingsChangeAtom } from "~/atoms/isSettingsChange";
-import { Check, CloseCircleOutlined, Export, Icon, Plus } from "~/icons";
-import { resetFromLocal, saveToLocal } from "~/lib/store";
-import { getIconByProfileType } from "~/utils";
-import { NewProfileModel } from "../components/NewProfileModel";
-import type { ButtonProps } from "@nextui-org/react";
-import type { IIcon } from "~/icons";
-import type { OnOk } from "../components/NewProfileModel";
+import { Button } from '@nextui-org/react'
+import { useAtom } from 'jotai'
+import { Fragment, useState } from 'react'
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
+import { useProfiles } from '~/atoms/hooks/useProfiles'
+import { isSettingsChangeAtom } from '~/atoms/isSettingsChange'
+import { Check, CloseCircleOutlined, Export, Icon, Plus } from '~/icons'
+import { resetFromLocal, saveToLocal } from '~/lib/store'
+import { getIconByProfileType } from '~/utils'
+import { NewProfileModel } from '../components/NewProfileModel'
+import type { ButtonProps } from '@nextui-org/react'
+import type { OnOk } from '../components/NewProfileModel'
+import type { IIcon } from '~/icons'
 
 export default function Index() {
-  const [isOpenModel, setIsOpenModel] = useState(false);
-  const { showProfiles, addProfile } = useProfiles();
-  const [isSettingsChange] = useAtom(isSettingsChangeAtom);
+  const [isOpenModel, setIsOpenModel] = useState(false)
+  const { showProfiles, addProfile } = useProfiles()
+  const [isSettingsChange] = useAtom(isSettingsChangeAtom)
 
-  const navigate = useNavigate();
-  const { name } = useParams();
+  const navigate = useNavigate()
+  const { name } = useParams()
 
   const handleOk: OnOk = ({ name, profileType }) => {
-    addProfile({ name, profileType });
-    setIsOpenModel(false);
+    addProfile({ name, profileType })
+    setIsOpenModel(false)
 
-    navigate(`/profile/${name}`);
-  };
+    navigate(`/profile/${name}`)
+  }
 
   const Menu: {
-    name: string;
-    divider?: boolean;
+    name: string
+    divider?: boolean
     children: {
-      name: string;
-      icon?: IIcon;
-      variant?: ButtonProps["variant"];
-      color?: ButtonProps["color"];
-      disabled?: ButtonProps["disabled"];
-      onClick?: () => void;
-    }[];
+      name: string
+      icon?: IIcon
+      variant?: ButtonProps['variant']
+      color?: ButtonProps['color']
+      disabled?: ButtonProps['disabled']
+      onClick?: () => void
+    }[]
   }[] = [
     {
-      name: "SETTINGS",
+      name: 'SETTINGS',
       divider: true,
       children: [
         {
-          name: "导入/导出",
+          name: '导入/导出',
           icon: Export,
-          variant: "light",
-          onClick: () => navigate("/settings/import-and-export"),
+          variant: 'light',
+          onClick: () => navigate('/settings/import-and-export'),
         },
       ],
     },
     {
-      name: "情景模式",
+      name: '情景模式',
       children: [
         ...Object.entries(showProfiles).map(
           ([_key, { name: profileName, profileType }]) => ({
@@ -60,45 +60,45 @@ export default function Index() {
             icon: getIconByProfileType(profileType),
             variant:
               name === profileName
-                ? "solid"
-                : ("light" as ButtonProps["variant"]),
+                ? 'solid'
+                : ('light' as ButtonProps['variant']),
             color: (name === profileName
-              ? "primary"
-              : undefined) as ButtonProps["color"],
+              ? 'primary'
+              : undefined) as ButtonProps['color'],
             onClick: () => navigate(`/profile/${profileName}`),
           }),
         ),
         {
-          name: "新建情景模式",
+          name: '新建情景模式',
           icon: Plus,
-          variant: "light",
+          variant: 'light',
           onClick: () => setIsOpenModel(true),
         },
       ],
     },
     {
-      name: "ACTIONS",
+      name: 'ACTIONS',
       divider: true,
       children: [
         {
-          name: "应用选项",
+          name: '应用选项',
           icon: Check,
-          variant: "flat",
+          variant: 'flat',
           disabled: !isSettingsChange,
-          color: isSettingsChange ? "success" : undefined,
+          color: isSettingsChange ? 'success' : undefined,
           onClick: () => saveToLocal(),
         },
         {
-          name: "撤销更改",
+          name: '撤销更改',
           icon: CloseCircleOutlined,
-          variant: "light",
+          variant: 'light',
           disabled: !isSettingsChange,
-          color: isSettingsChange ? "danger" : undefined,
+          color: isSettingsChange ? 'danger' : undefined,
           onClick: () => resetFromLocal(),
         },
       ],
     },
-  ];
+  ]
 
   return (
     <>
@@ -108,25 +108,25 @@ export default function Index() {
         onOk={handleOk}
       />
 
-      <div className="flex h-screen">
-        <aside className="w-60 px-8 py-4">
-          <Link to="/about">
-            <h1 className="text-3xl font-bold">Surf Omni</h1>
+      <div className='flex h-screen'>
+        <aside className='w-60 px-8 py-4'>
+          <Link to='/about'>
+            <h1 className='text-3xl font-bold'>Surf Omni</h1>
           </Link>
 
-          <nav className="pt-6">
-            <ul className="flex flex-col gap-y-1">
+          <nav className='pt-6'>
+            <ul className='flex flex-col gap-y-1'>
               {Menu.map((item, index) => (
                 <Fragment key={item.name}>
                   {item.divider && index !== 0 && (
-                    <li className="my-2 border-b" />
+                    <li className='my-2 border-b' />
                   )}
 
-                  <li className="py-2 font-mono text-gray-600">{item.name}</li>
+                  <li className='py-2 font-mono text-gray-600'>{item.name}</li>
                   {item.children.map((i) => (
                     <li key={i.name}>
                       <Button
-                        className="w-full justify-start"
+                        className='w-full justify-start'
                         variant={i.variant}
                         onClick={i.onClick}
                         color={i.color}
@@ -143,10 +143,10 @@ export default function Index() {
           </nav>
         </aside>
 
-        <main className="h-full flex-1 overflow-y-scroll">
+        <main className='h-full flex-1 overflow-y-scroll'>
           <Outlet />
         </main>
       </div>
     </>
-  );
+  )
 }

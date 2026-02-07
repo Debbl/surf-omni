@@ -9,20 +9,20 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-} from "@nextui-org/react";
-import { useMemo } from "react";
-import { conditionType } from "~/constants";
-import { Delete, Icon, Plus } from "~/icons";
-import type { ConditionType, SwitchProfile } from "surf-pac";
+} from '@nextui-org/react'
+import { useMemo } from 'react'
+import { conditionType } from '~/constants'
+import { Delete, Icon, Plus } from '~/icons'
+import type { ConditionType, SwitchProfile } from 'surf-pac'
 
 export function SwitchProfileRules({
   matchProfileNames,
   switchProfile,
   setSwitchProfile,
 }: {
-  matchProfileNames: { label: string; value: string }[];
-  switchProfile: SwitchProfile;
-  setSwitchProfile: (profile: SwitchProfile) => void;
+  matchProfileNames: { label: string; value: string }[]
+  switchProfile: SwitchProfile
+  setSwitchProfile: (profile: SwitchProfile) => void
 }) {
   const items = useMemo(
     () =>
@@ -31,7 +31,7 @@ export function SwitchProfileRules({
         index,
       })),
     [switchProfile],
-  );
+  )
 
   const handleAddRule = () => {
     setSwitchProfile({
@@ -40,71 +40,71 @@ export function SwitchProfileRules({
         ...switchProfile.rules,
         {
           condition: {
-            conditionType: "HostWildcardCondition",
-            pattern: "",
+            conditionType: 'HostWildcardCondition',
+            pattern: '',
           },
-          profileName: "direct",
+          profileName: 'direct',
         },
       ],
-    });
-  };
+    })
+  }
 
   const setConditionType = (index: number, value: ConditionType) => {
-    const newRules = [...switchProfile.rules];
-    newRules[index].condition.conditionType = value;
+    const newRules = [...switchProfile.rules]
+    newRules[index].condition.conditionType = value
 
     setSwitchProfile({
       ...switchProfile,
       rules: newRules,
-    });
-  };
+    })
+  }
 
   const setConditionPattern = (index: number, value: string) => {
-    const newRules = [...switchProfile.rules];
-    newRules[index].condition.pattern = value;
+    const newRules = [...switchProfile.rules]
+    newRules[index].condition.pattern = value
 
     setSwitchProfile({
       ...switchProfile,
       rules: newRules,
-    });
-  };
+    })
+  }
 
   const setProfileName = (index: number, value: string) => {
-    const newRules = [...switchProfile.rules];
-    newRules[index].profileName = value;
+    const newRules = [...switchProfile.rules]
+    newRules[index].profileName = value
 
     setSwitchProfile({
       ...switchProfile,
       rules: newRules,
-    });
-  };
+    })
+  }
 
   const handleRemoveRule = (index: number) => {
-    const newRules = [...switchProfile.rules];
-    newRules.splice(index, 1);
+    const newRules = [...switchProfile.rules]
+    newRules.splice(index, 1)
 
     setSwitchProfile({
       ...switchProfile,
       rules: newRules,
-    });
-  };
+    })
+  }
 
   return (
     <div>
-      <div className="flex justify-between pr-4">
-        <div className="font-mono text-2xl">切换规则</div>
-        <Button size="sm" onClick={() => handleAddRule()}>
+      <div className='flex justify-between pr-4'>
+        <div className='font-mono text-2xl'>切换规则</div>
+        <Button size='sm' onClick={() => handleAddRule()}>
           <Icon icon={Plus} />
           添加规则
         </Button>
       </div>
 
       <Table
-        aria-label="切换规则"
+        aria-label='切换规则'
         removeWrapper
         isHeaderSticky
         classNames={{
-          base: "mt-2 max-h-[320px] overflow-scroll px-4",
+          base: 'mt-2 max-h-[320px] overflow-scroll px-4',
         }}
       >
         <TableHeader>
@@ -118,7 +118,7 @@ export function SwitchProfileRules({
             <TableRow key={rule.index}>
               <TableCell>
                 <Select
-                  aria-label="选择条件类型"
+                  aria-label='选择条件类型'
                   selectedKeys={[rule.condition.conditionType]}
                   onChange={(e) =>
                     setConditionType(
@@ -136,14 +136,14 @@ export function SwitchProfileRules({
               </TableCell>
               <TableCell>
                 <Input
-                  aria-label="条件设置"
+                  aria-label='条件设置'
                   value={rule.condition.pattern}
                   onValueChange={(v) => setConditionPattern(rule.index, v)}
                 />
               </TableCell>
               <TableCell>
                 <Select
-                  aria-label="选择情景模式"
+                  aria-label='选择情景模式'
                   selectedKeys={[rule.profileName]}
                   onChange={(e) => setProfileName(rule.index, e.target.value)}
                 >
@@ -157,7 +157,7 @@ export function SwitchProfileRules({
               <TableCell>
                 <Button
                   isIconOnly
-                  color="danger"
+                  color='danger'
                   onClick={() => handleRemoveRule(rule.index)}
                 >
                   <Icon icon={Delete} />
@@ -168,5 +168,5 @@ export function SwitchProfileRules({
         </TableBody>
       </Table>
     </div>
-  );
+  )
 }

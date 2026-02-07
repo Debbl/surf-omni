@@ -29,50 +29,50 @@ import type {
   UnaryExpression,
   VariableDeclaration,
   VariableDeclarator,
-} from "estree";
+} from 'estree'
 
-export { generate as astringGenerate } from "astring";
+export { generate as astringGenerate } from 'astring'
 
 export function property(
-  key: Property["key"],
-  value: Property["value"],
-  kind: Property["kind"],
+  key: Property['key'],
+  value: Property['value'],
+  kind: Property['kind'],
 ): Property {
   return {
-    type: "Property",
+    type: 'Property',
     key,
     value,
     kind,
     computed: false,
     method: false,
     shorthand: false,
-  };
+  }
 }
 
 export function objectExpression(
-  properties: ObjectExpression["properties"],
+  properties: ObjectExpression['properties'],
 ): ObjectExpression {
   return {
-    type: "ObjectExpression",
+    type: 'ObjectExpression',
     properties: properties.flat(),
-  };
+  }
 }
 
 export function regExpLiteral(pattern: string, flags: string): RegExpLiteral {
   return {
-    type: "Literal",
+    type: 'Literal',
     regex: {
       pattern,
       flags,
     },
-  };
+  }
 }
 
 export function literal(value: string | number | boolean): Literal {
   return {
-    type: "Literal",
+    type: 'Literal',
     value,
-  };
+  }
 }
 
 export function newExpression(
@@ -80,44 +80,44 @@ export function newExpression(
   args: Array<Expression | SpreadElement>,
 ): NewExpression {
   return {
-    type: "NewExpression",
+    type: 'NewExpression',
     callee,
     arguments: args,
-  };
+  }
 }
 
 export function unaryExpression(
-  operator: UnaryExpression["operator"],
+  operator: UnaryExpression['operator'],
   argument: Expression,
 ): UnaryExpression {
   return {
-    type: "UnaryExpression",
+    type: 'UnaryExpression',
     operator,
     argument,
     prefix: true,
-  };
+  }
 }
 
 export function assignmentExpression(
-  operator: AssignmentExpression["operator"],
+  operator: AssignmentExpression['operator'],
   left: Identifier,
   right: Expression,
 ): AssignmentExpression {
   return {
-    type: "AssignmentExpression",
+    type: 'AssignmentExpression',
     operator,
     left,
     right,
-  };
+  }
 }
 
 export function expressionStatement(
   expression: Expression,
 ): ExpressionStatement {
   return {
-    type: "ExpressionStatement",
+    type: 'ExpressionStatement',
     expression,
-  };
+  }
 }
 
 export function functionExpression(
@@ -126,11 +126,11 @@ export function functionExpression(
   body: BlockStatement,
 ): FunctionExpression {
   return {
-    type: "FunctionExpression",
+    type: 'FunctionExpression',
     id,
     params,
     body,
-  };
+  }
 }
 
 export function variableDeclarator(
@@ -138,10 +138,10 @@ export function variableDeclarator(
   init?: Expression | null,
 ): VariableDeclarator {
   return {
-    type: "VariableDeclarator",
+    type: 'VariableDeclarator',
     id,
     init,
-  };
+  }
 }
 
 export function ifStatement(
@@ -150,24 +150,24 @@ export function ifStatement(
   alternate?: Statement,
 ): IfStatement {
   return {
-    type: "IfStatement",
+    type: 'IfStatement',
     test,
     consequent,
     alternate,
-  };
+  }
 }
 
 export function logicalExpression(
-  operator: LogicalExpression["operator"],
+  operator: LogicalExpression['operator'],
   left: Expression,
   right: Expression,
 ): LogicalExpression {
   return {
-    type: "LogicalExpression",
+    type: 'LogicalExpression',
     operator,
     left,
     right,
-  };
+  }
 }
 
 export function doWhileStatement(
@@ -175,10 +175,10 @@ export function doWhileStatement(
   test: Expression,
 ): DoWhileStatement {
   return {
-    type: "DoWhileStatement",
+    type: 'DoWhileStatement',
     body,
     test,
-  };
+  }
 }
 
 export function memberExpression(
@@ -188,19 +188,19 @@ export function memberExpression(
   optional: boolean = false,
 ): MemberExpression {
   return {
-    type: "MemberExpression",
+    type: 'MemberExpression',
     object,
     property,
     computed,
     optional,
-  };
+  }
 }
 
 export function expression(expression: Expression): Statement {
   return {
-    type: "ExpressionStatement",
+    type: 'ExpressionStatement',
     expression,
-  };
+  }
 }
 
 export function callExpression(
@@ -208,33 +208,33 @@ export function callExpression(
   args: Array<Expression | SpreadElement>,
 ): CallExpression {
   return {
-    type: "CallExpression",
+    type: 'CallExpression',
     optional: false,
     callee,
     arguments: args,
-  };
+  }
 }
 
 export function directive(value: string): Directive {
   return {
-    type: "ExpressionStatement",
+    type: 'ExpressionStatement',
     expression: {
-      type: "Literal",
+      type: 'Literal',
       value,
     },
     directive: value,
-  };
+  }
 }
 
 export function variableDeclaration(
-  kind: VariableDeclaration["kind"],
-  declarations: VariableDeclaration["declarations"],
+  kind: VariableDeclaration['kind'],
+  declarations: VariableDeclaration['declarations'],
 ): VariableDeclaration {
   return {
-    type: "VariableDeclaration",
+    type: 'VariableDeclaration',
     declarations: declarations.flat(),
     kind,
-  };
+  }
 }
 
 export function functionDeclaration(
@@ -243,32 +243,32 @@ export function functionDeclaration(
   body: BlockStatement,
 ): FunctionDeclaration {
   return {
-    type: "FunctionDeclaration",
+    type: 'FunctionDeclaration',
     id,
     params,
     body,
-  };
+  }
 }
 
 export function identifier(name: string): Identifier {
   return {
-    type: "Identifier",
+    type: 'Identifier',
     name,
-  };
+  }
 }
 
 export function blockStatement(body: Array<Statement>): BlockStatement {
   return {
-    type: "BlockStatement",
+    type: 'BlockStatement',
     body,
-  };
+  }
 }
 
 export function returnStatement(argument?: Expression | null): ReturnStatement {
   return {
-    type: "ReturnStatement",
+    type: 'ReturnStatement',
     argument,
-  };
+  }
 }
 
 export function binaryExpression(
@@ -277,9 +277,9 @@ export function binaryExpression(
   right: Expression,
 ): BinaryExpression {
   return {
-    type: "BinaryExpression",
+    type: 'BinaryExpression',
     operator,
     left,
     right,
-  };
+  }
 }

@@ -1,9 +1,9 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from 'react-router-dom'
 
 export default function ProfileIndex() {
   return (
-    <div className="size-full">
+    <div className='size-full'>
       <Outlet />
     </div>
-  );
+  )
 }

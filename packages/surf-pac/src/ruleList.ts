@@ -1,66 +1,66 @@
-import type { Condition } from "./conditions";
+import type { Condition } from './conditions'
 
 export interface Rule {
-  condition: Condition;
-  profileName: string;
-  source: string;
+  condition: Condition
+  profileName: string
+  source: string
 }
 
-export const magicPrefix = "W0F1dG9Qcm94";
+export const magicPrefix = 'W0F1dG9Qcm94'
 
 export const strStartsWith = (text: string, prefix: string) => {
-  return text.slice(0, prefix.length) === prefix;
-};
+  return text.slice(0, prefix.length) === prefix
+}
 
 export function detect(text: string) {
-  return strStartsWith(text, magicPrefix) || strStartsWith(text, "[AutoProxy");
+  return strStartsWith(text, magicPrefix) || strStartsWith(text, '[AutoProxy')
 }
 
 export function preprocess(text: string) {
-  if (!detect(text)) return;
+  if (!detect(text)) return
 
   if (strStartsWith(text, magicPrefix)) {
-    return atob(text);
+    return atob(text)
   }
-  return text;
+  return text
 }
 
 export function getIsExclusive(text: string) {
-  return strStartsWith(text, "@@");
+  return strStartsWith(text, '@@')
 }
 
 export function getCondition(line: string): Condition {
-  if (line[0] === "/") {
+  if (line[0] === '/') {
     return {
-      conditionType: "UrlRegexCondition",
+      conditionType: 'UrlRegexCondition',
       pattern: line.slice(1, line.length - 1),
-    };
+    }
   }
 
-  if (line[0] === "|") {
-    if (line[1] === "|") {
+  if (line[0] === '|') {
+    if (line[1] === '|') {
       return {
-        conditionType: "HostWildcardCondition",
+        conditionType: 'HostWildcardCondition',
         pattern: `*.${line.slice(2)}`,
-      };
+      }
     }
 
     return {
-      conditionType: "UrlWildcardCondition",
+      conditionType: 'UrlWildcardCondition',
       pattern: `${line.slice(1)}*`,
-    };
+    }
   }
 
-  if (!line.includes("*")) {
+  if (!line.includes('*')) {
     return {
-      conditionType: "KeywordCondition",
+      conditionType: 'KeywordCondition',
       pattern: line,
-    };
+    }
   }
   return {
-    conditionType: "UrlWildcardCondition",
+    conditionType: 'UrlWildcardCondition',
     pattern: `http://*${line}*`,
-  };
+  }
 }
 
 export function ruleListParser(
@@ -68,31 +68,31 @@ export function ruleListParser(
   matchProfileName: string,
   defaultProfileName: string,
 ): Rule[] {
-  const normalRules: Rule[] = [];
-  const exclusiveRules: Rule[] = [];
+  const normalRules: Rule[] = []
+  const exclusiveRules: Rule[] = []
 
   text
     .split(/\n|\r/)
     .map((line) => line.trim())
-    .filter((line) => line.length > 0 && line[0] !== "!" && line[0] !== "[")
+    .filter((line) => line.length > 0 && line[0] !== '!' && line[0] !== '[')
     .forEach((line) => {
-      const isExclusive = getIsExclusive(line);
-      const condition = getCondition(isExclusive ? line.slice(2) : line);
+      const isExclusive = getIsExclusive(line)
+      const condition = getCondition(isExclusive ? line.slice(2) : line)
 
       if (isExclusive) {
         exclusiveRules.push({
           condition,
           profileName: defaultProfileName,
           source: line,
-        });
+        })
       } else {
         normalRules.push({
           condition,
           profileName: matchProfileName,
           source: line,
-        });
+        })
       }
-    });
+    })
 
-  return exclusiveRules.concat(normalRules);
+  return exclusiveRules.concat(normalRules)
 }

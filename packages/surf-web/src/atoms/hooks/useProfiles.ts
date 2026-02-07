@@ -1,14 +1,14 @@
-import { useAtom, useAtomValue } from "jotai";
-import { useMemo } from "react";
-import { nameAsKey } from "surf-pac";
+import { useAtom, useAtomValue } from 'jotai'
+import { useMemo } from 'react'
+import { nameAsKey } from 'surf-pac'
 import {
   builtinProfiles,
   defaultFixedProfile,
   defaultRuleListProfile,
   defaultSwitchProfile,
-} from "~/constants";
-import { currentProfileNameAtom } from "../currentProfileName";
-import { profilesAtom } from "../profiles";
+} from '~/constants'
+import { currentProfileNameAtom } from '../currentProfileName'
+import { profilesAtom } from '../profiles'
 import type {
   BasicProfile,
   FixedProfile,
@@ -16,70 +16,70 @@ import type {
   Profiles,
   RuleListProfile,
   SwitchProfile,
-} from "surf-pac";
+} from 'surf-pac'
 
-export type BasicProfileWithoutColor = Omit<BasicProfile, "color">;
+export type BasicProfileWithoutColor = Omit<BasicProfile, 'color'>
 
 export function useProfiles() {
-  const [profiles, setProfiles] = useAtom(profilesAtom);
-  const currentProfileName = useAtomValue(currentProfileNameAtom);
+  const [profiles, setProfiles] = useAtom(profilesAtom)
+  const currentProfileName = useAtomValue(currentProfileNameAtom)
 
   const allProfiles: Profiles = {
     ...builtinProfiles,
     ...profiles,
-  };
+  }
 
   const addProfile = (basicProfileWithoutColor: BasicProfileWithoutColor) => {
-    const addProfiles: Profiles = {};
+    const addProfiles: Profiles = {}
 
-    if (basicProfileWithoutColor.profileType === "FixedProfile") {
+    if (basicProfileWithoutColor.profileType === 'FixedProfile') {
       addProfiles[nameAsKey(basicProfileWithoutColor.name)] = {
         ...defaultFixedProfile,
         ...basicProfileWithoutColor,
-      } as FixedProfile;
+      } as FixedProfile
     }
 
-    if (basicProfileWithoutColor.profileType === "SwitchProfile") {
+    if (basicProfileWithoutColor.profileType === 'SwitchProfile') {
       addProfiles[nameAsKey(`__ruleListOf_${basicProfileWithoutColor.name}`)] =
         {
           ...defaultRuleListProfile,
           name: `__ruleListOf_${basicProfileWithoutColor.name}`,
-        } as RuleListProfile;
+        } as RuleListProfile
 
       addProfiles[nameAsKey(basicProfileWithoutColor.name)] = {
         ...defaultSwitchProfile,
         ...basicProfileWithoutColor,
         defaultProfileName: `__ruleListOf_${basicProfileWithoutColor.name}`,
-      } as SwitchProfile;
+      } as SwitchProfile
     }
 
     if (addProfiles) {
       setProfiles({
         ...profiles,
         ...addProfiles,
-      });
+      })
     }
-  };
+  }
 
   const updateProfile = (profile: Profile) => {
     setProfiles({
       ...profiles,
       [nameAsKey(profile.name)]: profile,
-    });
-  };
+    })
+  }
 
   const showProfiles = useMemo(() => {
     return Object.fromEntries(
       Object.entries(profiles).filter(([_key, profile]) =>
-        ["FixedProfile", "SwitchProfile"].includes(profile.profileType),
+        ['FixedProfile', 'SwitchProfile'].includes(profile.profileType),
       ),
-    );
-  }, [profiles]) as Record<string, FixedProfile | SwitchProfile>;
+    )
+  }, [profiles]) as Record<string, FixedProfile | SwitchProfile>
 
   const currentProfile = useMemo(
     () => allProfiles[nameAsKey(currentProfileName)],
     [allProfiles],
-  );
+  )
 
   return {
     profiles,
@@ -90,5 +90,5 @@ export function useProfiles() {
     setProfiles,
     addProfile,
     updateProfile,
-  };
+  }
 }

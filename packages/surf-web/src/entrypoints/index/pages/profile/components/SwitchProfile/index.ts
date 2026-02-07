@@ -1,3 +1,3 @@
-import SwitchProfile from "./SwitchProfile";
+import SwitchProfile from './SwitchProfile'
 
-export default SwitchProfile;
+export default SwitchProfile

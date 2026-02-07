@@ -1,8 +1,8 @@
-import { defineConfig } from "@debbl/eslint-config";
+import { defineConfig } from '@debbl/eslint-config'
 
 export default defineConfig({
   ignores: {
-    files: ["packages/"],
+    files: ['packages/'],
   },
   typescript: true,
-});
+})

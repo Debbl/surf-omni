@@ -1,58 +1,58 @@
-import { astringGenerate } from "surf-ast";
-import { pacGeneratorScript } from "./pacGenerator";
-import { nameAsKey } from "./utils";
-import type { Condition } from "./conditions";
+import { astringGenerate } from 'surf-ast'
+import { pacGeneratorScript } from './pacGenerator'
+import { nameAsKey } from './utils'
+import type { Condition } from './conditions'
 
-export type BuiltinProfileType = "DirectProfile" | "SystemProfile";
+export type BuiltinProfileType = 'DirectProfile' | 'SystemProfile'
 
 export type ProfileType =
   | BuiltinProfileType
-  | "FixedProfile"
-  | "SwitchProfile"
-  | "RuleListProfile";
+  | 'FixedProfile'
+  | 'SwitchProfile'
+  | 'RuleListProfile'
 
-export type OptionProfileType = Exclude<ProfileType, BuiltinProfileType>;
+export type OptionProfileType = Exclude<ProfileType, BuiltinProfileType>
 
 export interface BasicProfile {
-  name: string;
-  profileType: ProfileType;
-  color: string;
+  name: string
+  profileType: ProfileType
+  color: string
 }
 
-export type Scheme = "http" | "https" | "socks4" | "socks5";
+export type Scheme = 'http' | 'https' | 'socks4' | 'socks5'
 
 export interface DirectProfile extends BasicProfile {
-  profileType: "DirectProfile";
+  profileType: 'DirectProfile'
 }
 export interface SystemProfile extends BasicProfile {
-  profileType: "SystemProfile";
+  profileType: 'SystemProfile'
 }
 
 export interface FixedProfile extends BasicProfile {
-  profileType: "FixedProfile";
+  profileType: 'FixedProfile'
   singleProxy: {
-    scheme: Scheme;
-    host: string;
-    port: number;
-  };
-  bypassList: Condition[];
+    scheme: Scheme
+    host: string
+    port: number
+  }
+  bypassList: Condition[]
 }
 
 export interface SwitchProfile extends BasicProfile {
-  profileType: "SwitchProfile";
-  defaultProfileName: string;
+  profileType: 'SwitchProfile'
+  defaultProfileName: string
   rules: {
-    condition: Condition;
-    profileName: string;
-  }[];
+    condition: Condition
+    profileName: string
+  }[]
 }
 
 export interface RuleListProfile extends BasicProfile {
-  profileType: "RuleListProfile";
-  matchProfileName: string;
-  defaultProfileName: string;
-  url: string;
-  raw: string;
+  profileType: 'RuleListProfile'
+  matchProfileName: string
+  defaultProfileName: string
+  url: string
+  raw: string
 }
 
 export type Profile =
@@ -60,42 +60,42 @@ export type Profile =
   | SystemProfile
   | FixedProfile
   | SwitchProfile
-  | RuleListProfile;
+  | RuleListProfile
 
-export type Profiles = Record<string, Profile>;
+export type Profiles = Record<string, Profile>
 
 export function getProxyValue(currentProfileName: string, profiles: Profiles) {
-  const profile = profiles[nameAsKey(currentProfileName)];
+  const profile = profiles[nameAsKey(currentProfileName)]
 
   switch (profile.profileType) {
-    case "DirectProfile":
+    case 'DirectProfile':
       return {
-        mode: "direct",
-      };
-    case "SystemProfile":
+        mode: 'direct',
+      }
+    case 'SystemProfile':
       return {
-        mode: "system",
-      };
-    case "FixedProfile":
+        mode: 'system',
+      }
+    case 'FixedProfile':
       return {
-        mode: "fixed_servers",
+        mode: 'fixed_servers',
         rules: {
           singleProxy: profile.singleProxy,
           bypassList: profile.bypassList.map((item) => item.pattern),
         },
-      };
-    case "SwitchProfile":
+      }
+    case 'SwitchProfile':
       return {
-        mode: "pac_script",
+        mode: 'pac_script',
         pacScript: {
           data: astringGenerate(
             pacGeneratorScript(currentProfileName, profiles),
           ),
         },
-      };
+      }
   }
 
   return {
-    mode: "direct",
-  };
+    mode: 'direct',
+  }
 }

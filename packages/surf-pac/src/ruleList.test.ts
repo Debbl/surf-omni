@@ -1,22 +1,22 @@
-import { describe, expect, it } from "vitest";
-import { ruleListParser } from "./ruleList";
+import { describe, expect, it } from 'vitest'
+import { ruleListParser } from './ruleList'
 
 function test(line: string, result: any) {
-  const _result = ruleListParser(line, "match", "nomatch");
-  expect(_result[0]).toEqual(result);
+  const _result = ruleListParser(line, 'match', 'nomatch')
+  expect(_result[0]).toEqual(result)
 }
 
-describe("ruleList", () => {
-  describe("autoProxy", () => {
-    it("should parse keyword conditions", () => {
-      test("example.com", {
+describe('ruleList', () => {
+  describe('autoProxy', () => {
+    it('should parse keyword conditions', () => {
+      test('example.com', {
         condition: {
-          conditionType: "KeywordCondition",
-          pattern: "example.com",
+          conditionType: 'KeywordCondition',
+          pattern: 'example.com',
         },
-        profileName: "match",
-        source: "example.com",
-      });
-    });
-  });
-});
+        profileName: 'match',
+        source: 'example.com',
+      })
+    })
+  })
+})

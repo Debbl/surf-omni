@@ -1,9 +1,9 @@
-import { Button } from "@nextui-org/react";
-import { getProxyValue } from "surf-pac";
-import { ColorPicker } from "~/components/ColorPicker";
-import { Download, Icon } from "~/icons";
-import { downloadFile } from "~/lib";
-import type { Profiles } from "surf-pac";
+import { Button } from '@nextui-org/react'
+import { getProxyValue } from 'surf-pac'
+import { ColorPicker } from '~/components/ColorPicker'
+import { Download, Icon } from '~/icons'
+import { downloadFile } from '~/lib'
+import type { Profiles } from 'surf-pac'
 
 export default function ProfileTop({
   name,
@@ -11,27 +11,27 @@ export default function ProfileTop({
   color,
   setColor,
 }: {
-  name: string;
-  profiles: Profiles;
-  color: string;
-  setColor: (color: string) => void;
+  name: string
+  profiles: Profiles
+  color: string
+  setColor: (color: string) => void
 }) {
   const exportPacScript = () => {
-    const script = getProxyValue(name, profiles);
-    const data = script.pacScript?.data || "";
+    const script = getProxyValue(name, profiles)
+    const data = script.pacScript?.data || ''
 
-    downloadFile(data, `${name}.pac`);
-  };
+    downloadFile(data, `${name}.pac`)
+  }
 
   return (
-    <div className="flex items-center justify-between py-6">
-      <div className="flex items-center gap-x-2">
+    <div className='flex items-center justify-between py-6'>
+      <div className='flex items-center gap-x-2'>
         <ColorPicker value={color} setValue={setColor} />
-        <h2 className="text-2xl font-medium">情景模式：{name}</h2>
+        <h2 className='text-2xl font-medium'>情景模式：{name}</h2>
       </div>
-      <div className="px-6">
+      <div className='px-6'>
         <Button
-          size="sm"
+          size='sm'
           startContent={<Icon icon={Download} />}
           onClick={() => exportPacScript()}
         >
@@ -39,5 +39,5 @@ export default function ProfileTop({
         </Button>
       </div>
     </div>
-  );
+  )
 }
