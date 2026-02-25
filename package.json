@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@9.15.9",
+  "packageManager": "pnpm@10.30.2",
   "description": "surf-omni",
   "scripts": {
     "dev": "turbo dev",
@@ -19,8 +19,8 @@
   },
   "devDependencies": {
     "@debbl/eslint-config": "^3.15.2",
-    "eslint": "^9.39.2",
-    "turbo": "^2.8.3",
+    "eslint": "9.39.2",
+    "turbo": "^2.8.10",
     "typescript": "^5.9.3"
   }
 }
