@@ -1,6 +1,6 @@
-import type { SVGProps } from 'react'
+import type { ReactElement, SVGProps } from 'react'
 
-export type IIcon = (props: SVGProps<SVGSVGElement>) => JSX.Element
+export type IIcon = (props: SVGProps<SVGSVGElement>) => ReactElement
 
 // MingcuteTransferFill
 export function TransferFill(props: SVGProps<SVGSVGElement>) {

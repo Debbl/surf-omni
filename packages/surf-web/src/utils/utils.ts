@@ -8,7 +8,6 @@ import {
   browserDownloads,
 } from '../lib/browser'
 import type { Profile, ProfileType } from 'surf-pac'
-import type { Action } from 'wxt/browser'
 
 export function getIconByProfileType(type: ProfileType) {
   switch (type) {
@@ -55,7 +54,7 @@ export function drawSurfOmniIcon(
   ctx.closePath()
   ctx.fill()
 
-  return ctx.getImageData(0, 0, size, size) as Action.ImageDataType
+  return ctx.getImageData(0, 0, size, size)
 }
 
 export async function getCurrentProfile() {
@@ -77,11 +76,8 @@ export async function updateBrowserAction(profile: Profile) {
 
   // Generate icons in different sizes
   const sizes = [16, 32, 48, 64]
-  const imageData: Record<string, Action.ImageDataType> = Object.fromEntries(
-    sizes.map((size) => [
-      size.toString(),
-      drawSurfOmniIcon(profile.color, '#aaa', size),
-    ]) as [string, Action.ImageDataType][],
+  const imageData: Record<number, ImageData> = Object.fromEntries(
+    sizes.map((size) => [size, drawSurfOmniIcon(profile.color, '#aaa', size)]),
   )
 
   await browserActionSetIcon({

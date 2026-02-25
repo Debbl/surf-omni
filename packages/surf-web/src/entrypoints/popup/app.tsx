@@ -18,7 +18,7 @@ import { browserProxySettings, browserTabs, getIconByProfileType } from '~/lib'
 import AddCondition from './components/add-condition'
 import FailedResources from './components/failed-resources'
 import type { ButtonGroupProps } from '@heroui/react'
-import type { Tabs } from 'wxt/browser'
+import type { Browser } from 'wxt/browser'
 import type { IIcon } from '~/icons'
 
 async function handleOpenSetting() {
@@ -43,7 +43,7 @@ export default function App() {
   const [isShowAddCondition, setIsShowAddCondition] = useState(false)
   const [isShowFailedResources, setIsShowFailedResources] = useState(false)
   const [activeTabs, setActiveTabs] = useState<
-    (Tabs.Tab & { URL: URL | null })[]
+    (Browser.tabs.Tab & { URL: URL | null })[]
   >([])
   const [failedResources, setFailedResources] = useAtom(failedResourcesAtom)
 

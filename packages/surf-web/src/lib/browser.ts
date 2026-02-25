@@ -1,5 +1,5 @@
 import { projectName } from '~/constants'
-import type { Action } from 'wxt/browser'
+import type { Browser } from 'wxt/browser'
 
 export const browserStorageLocal = browser.storage.local
 export const browserTabs = browser.tabs
@@ -12,7 +12,7 @@ export const browserWebRequestOnErrorOccurred =
 export const browserActionSetBadgeText = browser.action.setBadgeText
 
 export const browserActionSetTitle = async (
-  details: Action.SetTitleDetailsType,
+  details: Browser.action.TitleDetails,
 ) => {
   await browserAction.setTitle({
     title: `${projectName}::${details.title}`,

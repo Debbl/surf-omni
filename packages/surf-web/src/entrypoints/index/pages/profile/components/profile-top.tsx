@@ -18,7 +18,9 @@ export default function ProfileTop({
 }) {
   const exportPacScript = () => {
     const script = getProxyValue(name, profiles)
-    const data = script.pacScript?.data || ''
+
+    const data =
+      script.mode === 'pac_script' ? (script.pacScript?.data ?? '') : ''
 
     downloadFile(data, `${name}.pac`)
   }

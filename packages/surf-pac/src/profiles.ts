@@ -64,7 +64,27 @@ export type Profile =
 
 export type Profiles = Record<string, Profile>
 
-export function getProxyValue(currentProfileName: string, profiles: Profiles) {
+export type ProxyValue =
+  | { mode: 'direct' }
+  | { mode: 'system' }
+  | {
+      mode: 'fixed_servers'
+      rules: {
+        singleProxy: FixedProfile['singleProxy']
+        bypassList: string[]
+      }
+    }
+  | {
+      mode: 'pac_script'
+      pacScript: {
+        data: string
+      }
+    }
+
+export function getProxyValue(
+  currentProfileName: string,
+  profiles: Profiles,
+): ProxyValue {
   const profile = profiles[nameAsKey(currentProfileName)]
 
   switch (profile.profileType) {
@@ -81,7 +101,9 @@ export function getProxyValue(currentProfileName: string, profiles: Profiles) {
         mode: 'fixed_servers',
         rules: {
           singleProxy: profile.singleProxy,
-          bypassList: profile.bypassList.map((item) => item.pattern),
+          bypassList: profile.bypassList
+            .map((item) => item.pattern)
+            .filter((pattern): pattern is string => pattern != null),
         },
       }
     case 'SwitchProfile':
