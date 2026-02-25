@@ -1,4 +1,4 @@
-import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react'
+import { Popover, PopoverContent, PopoverTrigger } from '@heroui/react'
 import { useCallback, useState } from 'react'
 import { formatInputToHSVA, hsvToRgb, rgbToHex } from '~/lib/color'
 import Bar from './bar'

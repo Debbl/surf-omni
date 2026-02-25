@@ -8,7 +8,7 @@ import {
   ModalHeader,
   Radio,
   RadioGroup,
-} from '@nextui-org/react'
+} from '@heroui/react'
 import { useEffect, useState } from 'react'
 import { ProfileIcon } from '~/components/profile-icon'
 import type { BuiltinProfileType, ProfileType } from 'surf-pac'

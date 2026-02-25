@@ -4,7 +4,7 @@ import {
   CheckboxGroup,
   Select,
   SelectItem,
-} from '@nextui-org/react'
+} from '@heroui/react'
 import { useAtomValue } from 'jotai'
 import { useState } from 'react'
 import { failedResourcesAtom } from '~/atoms/failed-resources'
@@ -90,9 +90,7 @@ export default function FailedResources({
         onChange={(e) => setProfileName(e.target.value)}
       >
         {matchProfileNames.map(({ label, value }) => (
-          <SelectItem key={value} value={value}>
-            {label}
-          </SelectItem>
+          <SelectItem key={value}>{label}</SelectItem>
         ))}
       </Select>
 

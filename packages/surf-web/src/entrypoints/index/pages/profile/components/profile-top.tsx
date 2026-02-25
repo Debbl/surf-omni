@@ -1,4 +1,4 @@
-import { Button } from '@nextui-org/react'
+import { Button } from '@heroui/react'
 import { getProxyValue } from 'surf-pac'
 import { ColorPicker } from '~/components/color-picker'
 import { Download, Icon } from '~/icons'

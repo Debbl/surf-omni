@@ -9,7 +9,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-} from '@nextui-org/react'
+} from '@heroui/react'
 import { useMemo } from 'react'
 import { conditionType } from '~/constants'
 import { Delete, Icon, Plus } from '~/icons'
@@ -128,9 +128,7 @@ export function SwitchProfileRules({
                   }
                 >
                   {conditionType.map(({ label, value }) => (
-                    <SelectItem key={value} value={value}>
-                      {label}
-                    </SelectItem>
+                    <SelectItem key={value}>{label}</SelectItem>
                   ))}
                 </Select>
               </TableCell>
@@ -148,9 +146,7 @@ export function SwitchProfileRules({
                   onChange={(e) => setProfileName(rule.index, e.target.value)}
                 >
                   {matchProfileNames.map(({ label, value }) => (
-                    <SelectItem key={value} value={value}>
-                      {label}
-                    </SelectItem>
+                    <SelectItem key={value}>{label}</SelectItem>
                   ))}
                 </Select>
               </TableCell>

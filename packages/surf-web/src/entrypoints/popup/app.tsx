@@ -1,4 +1,4 @@
-import { Button, Spinner } from '@nextui-org/react'
+import { Button, Spinner } from '@heroui/react'
 import { useAtom } from 'jotai'
 import { Fragment, useEffect, useState } from 'react'
 import { getProxyValue, nameAsKey } from 'surf-pac'
@@ -17,7 +17,7 @@ import {
 import { browserProxySettings, browserTabs, getIconByProfileType } from '~/lib'
 import AddCondition from './components/add-condition'
 import FailedResources from './components/failed-resources'
-import type { ButtonGroupProps } from '@nextui-org/react'
+import type { ButtonGroupProps } from '@heroui/react'
 import type { Tabs } from 'wxt/browser'
 import type { IIcon } from '~/icons'
 
@@ -180,7 +180,7 @@ export default function App() {
         {menu.map((item, index) => (
           <Fragment key={item.name}>
             {item.children.length !== 0 && index !== 0 && (
-              <li className='border-b' />
+              <li className='border-b border-gray-200' />
             )}
             {item.children.map((i) => (
               <li key={i.name}>
@@ -195,7 +195,7 @@ export default function App() {
                       ? 'primary'
                       : 'default')
                   }
-                  onClick={() => {
+                  onPress={() => {
                     if (i.onClick) {
                       i.onClick()
                     } else {

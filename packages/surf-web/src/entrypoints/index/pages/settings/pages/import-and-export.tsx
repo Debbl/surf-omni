@@ -1,4 +1,4 @@
-import { Button } from '@nextui-org/react'
+import { Button } from '@heroui/react'
 import { useProfiles } from '~/atoms/hooks/use-profiles'
 import { projectName } from '~/constants'
 import { saveToLocal, storageCurrentProfileName } from '~/lib'

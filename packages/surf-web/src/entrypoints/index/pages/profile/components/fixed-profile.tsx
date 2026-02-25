@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
   Textarea,
-} from '@nextui-org/react'
+} from '@heroui/react'
 import { useCallback, useMemo } from 'react'
 import { useProfiles } from '~/atoms/hooks/use-profiles'
 import ProfileTop from './profile-top'
@@ -85,9 +85,7 @@ export default function FixedProfile({
                     }}
                   >
                     {SCHEME.map((item) => (
-                      <SelectItem key={item.value} value={item.value}>
-                        {item.label}
-                      </SelectItem>
+                      <SelectItem key={item.value}>{item.label}</SelectItem>
                     ))}
                   </Select>
                 </TableCell>

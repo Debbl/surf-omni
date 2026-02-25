@@ -1,4 +1,4 @@
-import { Button, Input, Select, SelectItem, Textarea } from '@nextui-org/react'
+import { Button, Input, Select, SelectItem, Textarea } from '@heroui/react'
 import { useCallback, useMemo } from 'react'
 import { preprocess } from 'surf-pac'
 import { useProfile } from '~/atoms/hooks/use-profile'
@@ -57,7 +57,7 @@ export default function SwitchProfile({
         </div>
 
         <div>
-          <div className='mb-2 mt-6 text-2xl'>规则列表设置</div>
+          <div className='mt-6 mb-2 text-2xl'>规则列表设置</div>
           <div className='mt-6 flex w-full items-center gap-x-2 text-sm'>
             <div>
               <Input
@@ -102,9 +102,7 @@ export default function SwitchProfile({
             }}
           >
             {matchProfileNames.map(({ label, value }) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
+              <SelectItem key={value}>{label}</SelectItem>
             ))}
           </Select>
         </div>

@@ -1,4 +1,4 @@
-import { Spinner } from '@nextui-org/react'
+import { Spinner } from '@heroui/react'
 import { RouterProvider } from 'react-router-dom'
 import { useLoadFormLocal } from '~/atoms/hooks/use-load-form-local'
 import { router } from './router'

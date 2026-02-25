@@ -5,5 +5,5 @@
       "pattern": "./packages/*"
     }
   ],
-  "cSpell.words": ["nextui", "omni"]
+  "cSpell.words": ["heroui", "nextui", "omni"]
 }

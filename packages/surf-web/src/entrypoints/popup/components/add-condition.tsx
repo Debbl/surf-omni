@@ -1,4 +1,4 @@
-import { Button, Input, Select, SelectItem } from '@nextui-org/react'
+import { Button, Input, Select, SelectItem } from '@heroui/react'
 import { useEffect, useMemo, useState } from 'react'
 import { useSwitchProfile } from '~/atoms/hooks/use-switch-profile'
 import { conditionType } from '~/constants'
@@ -100,9 +100,7 @@ export default function AddCondition({
           }
         >
           {conditionType.map(({ label, value }) => (
-            <SelectItem key={value} value={value}>
-              {label}
-            </SelectItem>
+            <SelectItem key={value}>{label}</SelectItem>
           ))}
         </Select>
 
@@ -122,9 +120,7 @@ export default function AddCondition({
           onChange={(e) => setProfileName(e.target.value)}
         >
           {matchProfileNames.map(({ label, value }) => (
-            <SelectItem key={value} value={value}>
-              {label}
-            </SelectItem>
+            <SelectItem key={value}>{label}</SelectItem>
           ))}
         </Select>
       </div>
