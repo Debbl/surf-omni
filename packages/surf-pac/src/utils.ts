@@ -4,6 +4,8 @@ export interface IProxy {
   scheme: Scheme
   host: string
   port: number
+  username?: string
+  password?: string
 }
 
 export const pacProtocols = {

@@ -1,5 +1,11 @@
 import {
+  Button,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Select,
   SelectItem,
   Table,
@@ -10,7 +16,7 @@ import {
   TableRow,
   Textarea,
 } from '@heroui/react'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useProfiles } from '~/atoms/hooks/use-profiles'
 import ProfileTop from './profile-top'
 import type { FixedProfile as IFixedProfile, Scheme } from 'surf-pac'
@@ -49,6 +55,30 @@ export default function FixedProfile({
     [profile, setProfile],
   )
 
+  const [authOpen, setAuthOpen] = useState(false)
+  const [draftUsername, setDraftUsername] = useState('')
+  const [draftPassword, setDraftPassword] = useState('')
+
+  const hasAuth = !!profile.singleProxy.username
+
+  const openAuthModal = () => {
+    setDraftUsername(profile.singleProxy.username ?? '')
+    setDraftPassword(profile.singleProxy.password ?? '')
+    setAuthOpen(true)
+  }
+
+  const handleAuthOk = () => {
+    setProfile({
+      ...profile,
+      singleProxy: {
+        ...profile.singleProxy,
+        username: draftUsername || undefined,
+        password: draftPassword || undefined,
+      },
+    })
+    setAuthOpen(false)
+  }
+
   return (
     <div>
       <ProfileTop
@@ -67,6 +97,7 @@ export default function FixedProfile({
               <TableColumn width={160}>代理协议</TableColumn>
               <TableColumn>代理服务器</TableColumn>
               <TableColumn width={130}>代理端口</TableColumn>
+              <TableColumn width={130}>身份认证</TableColumn>
             </TableHeader>
             <TableBody>
               <TableRow>
@@ -121,6 +152,16 @@ export default function FixedProfile({
                     }}
                   />
                 </TableCell>
+                <TableCell>
+                  <Button
+                    size='md'
+                    variant={hasAuth ? 'solid' : 'flat'}
+                    color={hasAuth ? 'primary' : 'default'}
+                    onPress={openAuthModal}
+                  >
+                    {hasAuth ? '已设置' : '设置认证'}
+                  </Button>
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -145,6 +186,34 @@ export default function FixedProfile({
           />
         </div>
       </div>
+
+      <Modal isOpen={authOpen} onOpenChange={setAuthOpen}>
+        <ModalContent>
+          <ModalHeader>代理身份认证</ModalHeader>
+          <ModalBody className='gap-y-4'>
+            <Input
+              label='用户名'
+              type='text'
+              value={draftUsername}
+              onValueChange={setDraftUsername}
+            />
+            <Input
+              label='密码'
+              type='password'
+              value={draftPassword}
+              onValueChange={setDraftPassword}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button variant='flat' onPress={() => setAuthOpen(false)}>
+              取消
+            </Button>
+            <Button color='primary' onPress={handleAuthOk}>
+              确定
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   )
 }

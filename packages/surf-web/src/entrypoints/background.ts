@@ -3,10 +3,44 @@ import {
   browserTabs,
   browserWebRequestOnErrorOccurred,
 } from '~/lib'
-import { storageFailedResources } from '~/lib/store'
+import { storageCurrentProfile, storageFailedResources } from '~/lib/store'
+import type { FixedProfile } from 'surf-pac'
 
 export default defineBackground(() => {
   updateBrowserActionByCurrentProfile()
+
+  browser.webRequest.onAuthRequired.addListener(
+    (details, callback) => {
+      if (!details.isProxy) {
+        callback?.({})
+        return undefined
+      }
+
+      storageCurrentProfile
+        .get()
+        .then((profile) => {
+          if (
+            profile.profileType === 'FixedProfile' &&
+            (profile as FixedProfile).singleProxy.username
+          ) {
+            const { username, password } = (profile as FixedProfile).singleProxy
+            callback?.({
+              authCredentials: {
+                username: username!,
+                password: password ?? '',
+              },
+            })
+          } else {
+            callback?.({})
+          }
+        })
+        .catch(() => {
+          callback?.({})
+        })
+    },
+    { urls: ['<all_urls>'] },
+    ['asyncBlocking'],
+  )
 
   browserTabs.onActivated.addListener(async () => {
     await storageFailedResources.set([])

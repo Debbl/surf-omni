@@ -4,6 +4,7 @@ import { pacGeneratorScript } from './pac-generator'
 import { ruleListParser } from './rule-list'
 import { nameAsKey } from './utils'
 import type { Condition } from './conditions'
+import type { IProxy } from './utils'
 
 export type BuiltinProfileType = 'DirectProfile' | 'SystemProfile'
 
@@ -32,11 +33,7 @@ export interface SystemProfile extends BasicProfile {
 
 export interface FixedProfile extends BasicProfile {
   profileType: 'FixedProfile'
-  singleProxy: {
-    scheme: Scheme
-    host: string
-    port: number
-  }
+  singleProxy: IProxy
   bypassList: Condition[]
 }
 
