@@ -9,7 +9,7 @@ import {
   regExpLiteral,
   returnStatement,
 } from 'surf-ast'
-import type { Expression } from 'estree'
+import type { Expression, IfStatement } from 'estree'
 
 export type ConditionType =
   | 'TrueCondition'
@@ -140,7 +140,7 @@ export function matchCondition(
   }
 }
 
-export function parserCondition(condition: Condition, match: string) {
+export function parserCondition(condition: Condition, match: string): IfStatement {
   // this has three identical host, url and scheme
   const { conditionType, pattern = '' } = condition
 
