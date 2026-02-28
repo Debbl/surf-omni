@@ -1,5 +1,7 @@
 import { astringGenerate } from 'surf-ast'
+import { formatURL, matchCondition } from './conditions'
 import { pacGeneratorScript } from './pac-generator'
+import { ruleListParser } from './rule-list'
 import { nameAsKey } from './utils'
 import type { Condition } from './conditions'
 
@@ -120,4 +122,52 @@ export function getProxyValue(
   return {
     mode: 'direct',
   }
+}
+
+export function resolveProfileForUrl(
+  url: string,
+  profileName: string,
+  profiles: Profiles,
+): string {
+  if (!profileName || profileName === 'direct' || profileName === 'DIRECT') {
+    return profileName
+  }
+
+  const key = nameAsKey(profileName)
+  const profile = profiles[key]
+  if (!profile) return profileName
+
+  const { host } = formatURL(url)
+
+  switch (profile.profileType) {
+    case 'DirectProfile':
+    case 'SystemProfile':
+    case 'FixedProfile':
+      return profileName
+
+    case 'SwitchProfile': {
+      for (const rule of profile.rules) {
+        if (matchCondition(rule.condition, url, host)) {
+          return resolveProfileForUrl(url, rule.profileName, profiles)
+        }
+      }
+      return resolveProfileForUrl(url, profile.defaultProfileName, profiles)
+    }
+
+    case 'RuleListProfile': {
+      const rules = ruleListParser(
+        profile.raw,
+        profile.matchProfileName,
+        profile.defaultProfileName,
+      )
+      for (const rule of rules) {
+        if (matchCondition(rule.condition, url, host)) {
+          return resolveProfileForUrl(url, rule.profileName, profiles)
+        }
+      }
+      return resolveProfileForUrl(url, profile.defaultProfileName, profiles)
+    }
+  }
+
+  return profileName
 }

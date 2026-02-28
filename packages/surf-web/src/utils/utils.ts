@@ -1,4 +1,4 @@
-import { nameAsKey } from 'surf-pac'
+import { nameAsKey, resolveProfileForUrl } from 'surf-pac'
 import { builtinProfiles } from '~/constants'
 import { AutorenewOutlineRounded, Earth } from '~/icons'
 import { storageCurrentProfileName, storageProfiles } from '~/lib'
@@ -87,5 +87,38 @@ export async function updateBrowserAction(profile: Profile) {
 
 export async function updateBrowserActionByCurrentProfile() {
   const currentProfile = await getCurrentProfile()
-  updateBrowserAction(currentProfile)
+
+  if (currentProfile.profileType === 'SwitchProfile') {
+    try {
+      const tabs = await browser.tabs.query({
+        active: true,
+        currentWindow: true,
+      })
+      const tab = tabs[0]
+
+      if (
+        tab?.url &&
+        !tab.url.startsWith('chrome://') &&
+        !tab.url.startsWith('about:')
+      ) {
+        const profiles = await storageProfiles.get()
+        const allProfiles = { ...builtinProfiles, ...profiles }
+        const resolvedName = resolveProfileForUrl(
+          tab.url,
+          currentProfile.name,
+          allProfiles,
+        )
+        const resolvedProfile = allProfiles[nameAsKey(resolvedName)]
+
+        if (resolvedProfile) {
+          await updateBrowserAction(resolvedProfile)
+          return
+        }
+      }
+    } catch {
+      // fall through to default behavior
+    }
+  }
+
+  await updateBrowserAction(currentProfile)
 }
