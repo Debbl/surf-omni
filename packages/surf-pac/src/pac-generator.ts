@@ -94,7 +94,10 @@ function parserOptions(profiles: Profiles) {
   return objectExpression(properties)
 }
 
-export function pacGeneratorScript(init: string, profiles: Profiles): VariableDeclaration {
+export function pacGeneratorScript(
+  init: string,
+  profiles: Profiles,
+): VariableDeclaration {
   const doWhile = doWhileStatement(
     blockStatement([
       expressionStatement(

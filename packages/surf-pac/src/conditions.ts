@@ -140,7 +140,10 @@ export function matchCondition(
   }
 }
 
-export function parserCondition(condition: Condition, match: string): IfStatement {
+export function parserCondition(
+  condition: Condition,
+  match: string,
+): IfStatement {
   // this has three identical host, url and scheme
   const { conditionType, pattern = '' } = condition
 
