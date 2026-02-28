@@ -22,7 +22,7 @@ import {
 import { parserCondition } from './conditions'
 import { ruleListParser } from './rule-list'
 import { nameAsKey, pacResult } from './utils'
-import type { Statement } from 'estree'
+import type { Statement, VariableDeclaration } from 'estree'
 import type { Profiles } from './profiles'
 
 function parserOptions(profiles: Profiles) {
@@ -94,7 +94,10 @@ function parserOptions(profiles: Profiles) {
   return objectExpression(properties)
 }
 
-export function pacGeneratorScript(init: string, profiles: Profiles) {
+export function pacGeneratorScript(
+  init: string,
+  profiles: Profiles,
+): VariableDeclaration {
   const doWhile = doWhileStatement(
     blockStatement([
       expressionStatement(

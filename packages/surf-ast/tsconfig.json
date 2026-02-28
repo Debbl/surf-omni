@@ -6,5 +6,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src", "rollup.config.ts"]
+  "include": ["src"]
 }
