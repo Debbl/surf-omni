@@ -17,6 +17,12 @@ export default defineBackground(() => {
     await updateBrowserActionByCurrentProfile()
   })
 
+  browserTabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+    if (changeInfo.url && tab.active) {
+      await updateBrowserActionByCurrentProfile()
+    }
+  })
+
   browserWebRequestOnErrorOccurred.addListener(
     async (details) => {
       const failedResources = await storageFailedResources.get()

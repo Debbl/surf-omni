@@ -105,6 +105,41 @@ export function keywordConditionPattern(pattern: string) {
   return `^http:\\/\\/\.*${pattern.replace(/[.+^${}()|[\]\\/]/g, '\\$&')}.*`
 }
 
+export function matchCondition(
+  condition: Condition,
+  url: string,
+  host: string,
+): boolean {
+  const { conditionType, pattern = '' } = condition
+
+  switch (conditionType) {
+    case 'TrueCondition':
+      return true
+    case 'FalseCondition':
+      return false
+    case 'UrlRegexCondition':
+      return new RegExp(urlRegexConditionPattern(pattern)).test(url)
+    case 'UrlWildcardCondition': {
+      if (pattern.includes('|')) {
+        return pattern
+          .split('|')
+          .some((p) => new RegExp(urlWildcardConditionPattern(p)).test(url))
+      }
+      return new RegExp(urlWildcardConditionPattern(pattern)).test(url)
+    }
+    case 'HostRegexCondition':
+      return new RegExp(hostRegexConditionPattern(pattern)).test(host)
+    case 'HostWildcardCondition':
+      return new RegExp(hostWildcardConditionPattern(pattern)).test(host)
+    case 'BypassCondition':
+      return new RegExp(bypassConditionPattern(pattern)).test(url)
+    case 'KeywordCondition':
+      return new RegExp(keywordConditionPattern(pattern)).test(url)
+    default:
+      return true
+  }
+}
+
 export function parserCondition(condition: Condition, match: string) {
   // this has three identical host, url and scheme
   const { conditionType, pattern = '' } = condition
