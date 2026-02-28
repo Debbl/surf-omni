@@ -58,6 +58,29 @@ export const storageCurrentProfile = {
   },
 }
 
+export const settingsStoreKey = 'settings'
+
+export interface Settings {
+  downloadInterval: number // minutes; 0 = disabled
+}
+
+export const defaultSettings: Settings = {
+  downloadInterval: 0,
+}
+
+export const storageSettings = {
+  get: async (): Promise<Settings> => {
+    const local = await browserStorageLocal.get(settingsStoreKey)
+    return {
+      ...defaultSettings,
+      ...(local[settingsStoreKey] as Partial<Settings>),
+    }
+  },
+  set: async (settings: Settings) => {
+    await browserStorageLocal.set({ [settingsStoreKey]: settings })
+  },
+}
+
 export const storageFailedResources = {
   get: async (): Promise<string[]> => {
     const localFailedResources =

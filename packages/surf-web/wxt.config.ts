@@ -14,6 +14,7 @@ export default defineConfig({
       'downloads',
       'webRequest',
       'webRequestAuthProvider',
+      'alarms',
     ],
     host_permissions: ['<all_urls>'],
   },

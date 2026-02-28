@@ -1,5 +1,6 @@
 import { Button } from '@heroui/react'
 import { useAtom } from 'jotai'
+import { SlidersHorizontal } from 'lucide-react'
 import { Fragment, useState } from 'react'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useProfiles } from '~/atoms/hooks/use-profiles'
@@ -43,6 +44,12 @@ export default function Index() {
       name: 'SETTINGS',
       divider: true,
       children: [
+        {
+          name: '常规设置',
+          icon: SlidersHorizontal,
+          variant: 'light',
+          onClick: () => navigate('/settings/general'),
+        },
         {
           name: '导入/导出',
           icon: Export,

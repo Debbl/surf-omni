@@ -2,6 +2,7 @@ import { Button } from '@heroui/react'
 import { useProfiles } from '~/atoms/hooks/use-profiles'
 import { projectName } from '~/constants'
 import { saveToLocal, storageCurrentProfileName } from '~/lib'
+import { settingsStoreKey, storageSettings } from '~/lib/store'
 import { downloadFile } from '~/utils'
 
 function triggerSelectFile() {
@@ -25,17 +26,25 @@ export default function ImportAndExport() {
     if (!backFile) return
 
     const content = JSON.parse(await backFile.text())
-    const profiles = Object.fromEntries(
+    const importedProfiles = Object.fromEntries(
       Object.entries(content).filter(([key]) => key.startsWith('+')),
     ) as any
-    setProfiles(profiles)
+    setProfiles(importedProfiles)
+
+    if (content[settingsStoreKey]) {
+      await storageSettings.set(content[settingsStoreKey])
+    }
 
     await storageCurrentProfileName.set('[direct]')
     await saveToLocal()
   }
 
-  const handleExport = () => {
-    downloadFile(JSON.stringify(profiles), `${projectName}.bak`)
+  const handleExport = async () => {
+    const settings = await storageSettings.get()
+    downloadFile(
+      JSON.stringify({ ...profiles, [settingsStoreKey]: settings }),
+      `${projectName}.bak`,
+    )
   }
 
   return (

@@ -5,6 +5,7 @@ import Index from '../pages/index'
 import ProfileIndex from '../pages/profile/index'
 import ProfileName from '../pages/profile/name'
 import Settings from '../pages/settings/index'
+import General from '../pages/settings/pages/general'
 import ImportAndExport from '../pages/settings/pages/import-and-export'
 import Test from '../pages/test'
 import type { RouteObject } from 'react-router-dom'
@@ -38,7 +39,11 @@ const routes: RouteObject[] = [
         children: [
           {
             index: true,
-            element: <ImportAndExport />,
+            element: <General />,
+          },
+          {
+            path: 'general',
+            element: <General />,
           },
           {
             path: 'import-and-export',
