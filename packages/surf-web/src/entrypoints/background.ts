@@ -10,25 +10,34 @@ export default defineBackground(() => {
   updateBrowserActionByCurrentProfile()
 
   browser.webRequest.onAuthRequired.addListener(
-    ((details: any, callback: (response: any) => void) => {
+    (details, callback) => {
       if (!details.isProxy) {
-        callback({})
-        return
+        callback?.({})
+        return undefined
       }
-      storageCurrentProfile.get().then((profile) => {
-        if (
-          profile.profileType === 'FixedProfile' &&
-          (profile as FixedProfile).singleProxy.username
-        ) {
-          const { username, password } = (profile as FixedProfile).singleProxy
-          callback({
-            authCredentials: { username: username!, password: password ?? '' },
-          })
-        } else {
-          callback({})
-        }
-      })
-    }) as any,
+
+      storageCurrentProfile
+        .get()
+        .then((profile) => {
+          if (
+            profile.profileType === 'FixedProfile' &&
+            (profile as FixedProfile).singleProxy.username
+          ) {
+            const { username, password } = (profile as FixedProfile).singleProxy
+            callback?.({
+              authCredentials: {
+                username: username!,
+                password: password ?? '',
+              },
+            })
+          } else {
+            callback?.({})
+          }
+        })
+        .catch(() => {
+          callback?.({})
+        })
+    },
     { urls: ['<all_urls>'] },
     ['asyncBlocking'],
   )
