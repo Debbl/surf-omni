@@ -7,7 +7,14 @@ export default defineConfig({
   manifest: {
     name: 'surf-omni',
     description: 'surf-omni',
-    permissions: ['proxy', 'storage', 'tabs', 'downloads', 'webRequest'],
+    permissions: [
+      'proxy',
+      'storage',
+      'tabs',
+      'downloads',
+      'webRequest',
+      'webRequestAuthProvider',
+    ],
     host_permissions: ['<all_urls>'],
   },
 
