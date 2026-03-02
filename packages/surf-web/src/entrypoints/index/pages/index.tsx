@@ -4,7 +4,14 @@ import { Fragment, useState } from 'react'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useProfiles } from '~/atoms/hooks/use-profiles'
 import { isSettingsChangeAtom } from '~/atoms/is-settings-change'
-import { Check, CloseCircleOutlined, Export, Icon, Plus } from '~/icons'
+import {
+  Check,
+  CloseCircleOutlined,
+  Export,
+  Icon,
+  Plus,
+  SlidersHorizontal,
+} from '~/icons'
 import { resetFromLocal, saveToLocal } from '~/lib/store'
 import { getIconByProfileType } from '~/utils'
 import { NewProfileModel } from '../components/new-profile-model'
@@ -43,6 +50,12 @@ export default function Index() {
       name: 'SETTINGS',
       divider: true,
       children: [
+        {
+          name: '常规设置',
+          icon: SlidersHorizontal,
+          variant: 'light',
+          onClick: () => navigate('/settings/general'),
+        },
         {
           name: '导入/导出',
           icon: Export,
